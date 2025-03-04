@@ -1,3 +1,4 @@
-audio-articles
-draft*
-GIS*
+.venv
+*.pdf
+*.csv
+*.ipynb
