@@ -7,7 +7,7 @@ CREATE TABLE kibocheRTData(
     timestamp DATETIME NOT NULL,
     location_long FLOAT NOT NULL,
     location_lat FLOAT NOT NULL,
-    individual_local_identifier VARCHAR(20) NOT NULL, -- i don't think if this column data is important.
+    individual_local_identifier VARCHAR(20) NOT NULL, -- i don't think this column data is important.
     time_interval_hours FLOAT NOT NULL
 );
 
