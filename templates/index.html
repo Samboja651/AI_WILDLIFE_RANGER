@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wildlife Conservation</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row bg-light p-3">
+            <div class="col">
+                <h1 class="h3">Wildlife Conservation </h1>
+            </div>
+            <div class="col text-end">
+                <a href="/display-map"><button class="btn btn-primary">View Map</button></a>
+                <a href="/reports"><button class="btn btn-secondary">View Reports</button></a>
+                
+            </div>
+        </div>
+        
+        <div class="map-container">
+            <p>Map showing real-time animal location, predicted location, and geo fence</p>
+        </div>
+        
+        <div class="footer">
+            <div class="col d-flex justify-content-between">
+                <span>CC</span>
+                <span>Contact</span>
+            </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
