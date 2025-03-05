@@ -1,0 +1,10 @@
+mysql-connector-python
+python-dotenv
+numpy
+matplotlib
+pandas
+scipy
+seaborn
+joblib
+scikit-learn
+tensorflow
