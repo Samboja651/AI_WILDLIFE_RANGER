@@ -1,5 +1,2 @@
-matplotlib
-numpy
-scipy
-pandas
-tensorflow
+mysql-connector-python
+python-dotenv

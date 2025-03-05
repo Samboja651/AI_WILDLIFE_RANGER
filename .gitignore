@@ -2,3 +2,5 @@
 *.pdf
 *.csv
 *.ipynb
+__pycache__
+.env
