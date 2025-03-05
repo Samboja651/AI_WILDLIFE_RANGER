@@ -5,9 +5,19 @@
 [link to Kiboche 'real-time' data](https://drive.google.com/uc?id=1N9gEm56eMsf8qcRi3JwQzn2n4cxiuDsA&export=download)
 
 ## Setup the environment
-To install dependencies, run `pip install -r requirements.txt`.\
-Download and add kiboche data to root directory.
-Open mysql, copy, paste and run the schema.sql. **Note- I made changes to the schema.**
+Download and add kiboche data to root directory.\
+Open mysql, copy, paste and run the schema.sql. **Note- I made changes to the schema.**\
+
+### Install dependencies,
+Create virtual environment.
+1. On windows run \
+   `python3 -m venv .venv` \
+   `.venv\Scripts\activate`
+2. On Linux run \
+   `python3 -m venv .venv` \
+   `.venv\bin\activate`
+
+Run `pip install -r requirements.txt`.
 
 ## Running the code
 Run the `main.py` file. or terminal run `python3 main.py`
