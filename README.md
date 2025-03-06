@@ -22,18 +22,42 @@ Run `pip install -r requirements.txt`.
 ## Running the code
 Run the `main.py` file. or terminal run `python3 main.py`
 
+
+## Operation
+`prediction.py` - use the trained model to make predictions.
+
+## Troubleshooting tips
+First ensure you have installed all dependencies in `requirements.txt` file. Do this in a virtual environment.
+
 ## Directory structure
 ```
-Animal_Movement_Prediction_Sys/
-├── .venv
-├── .env
-├── .gitignore
-├── db_operation.py
+Animal_Movement_Prediction_Sys
+├── app.py
+├── db_operations.py
+├── gps_collar_data.csv
 ├── Kiboche_last_500_rows_data.csv
 ├── main.py
+├── models
+│   ├── gps_data_scaler.pkl
+│   ├── gps_location_prediction_model.h5
+│   └── gps_location_prediction_model.keras
+├── prediction.py
+├── project-guideline.pdf
+├── __pycache__
+│   ├── db_operations.cpython-312.pyc
+│   ├── main.cpython-312.pyc
+│   └── server.cpython-312.pyc
 ├── README.md
 ├── requirements.txt
 ├── schema.sql
-└── server.py
+├── server.py
+├── static
+│   └── css
+│       └── main.css
+├── templates
+│   └── index.html
+├── Tsavo Lion Study.csv
+└── Tsavo_Lion_Study.ipynb
+
 
 ```
