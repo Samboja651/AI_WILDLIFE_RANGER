@@ -8,3 +8,6 @@ seaborn
 joblib
 scikit-learn
 tensorflow
+jupyterlab
+notebook
+Flask
