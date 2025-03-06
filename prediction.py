@@ -48,7 +48,9 @@ def predict_location(current_location, time_interval, model):
 model = load_model('models/gps_location_prediction_model.keras')
 
 # use the prediction function
-current_location = (38.836177, -3.995757) # coordinates
+# ONLY EDIT THIS VARIABLE THEN RUN
+current_location = (38.836177, -3.995757) # replace this part with your coordinates, ofcourse from db.
+
 TIME_INTERVAL = 2 # hours
 
 predicted_location = predict_location(current_location, TIME_INTERVAL, model)
