@@ -18,7 +18,7 @@ def predict_location(current_location, time_interval, model):
     """
 
     # load the scaler
-    scaler = joblib.load('gps_data_scaler.pkl')
+    scaler = joblib.load('models/gps_data_scaler.pkl')
     # create input sequence
     input_sequence = np.array([current_location + (time_interval,)])
 
