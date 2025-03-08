@@ -20,7 +20,11 @@ Create virtual environment.
 Run `pip install -r requirements.txt`.
 
 ## Running the code
-Run the `main.py` file. or terminal run `python3 main.py`
+Adding the portion of the real_time data to the database 
+- Run the `main.py` file. or on terminal run `python3 main.py`
+
+Displaying the UI
+- Run the `app.py` file, or on terminal run `python3 app.py`
 
 
 ## Operation
