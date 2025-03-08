@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wildlife Conservation</title>
+    <title>{% block title%}Wildlife Conservation{% endblock%}</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -13,18 +13,22 @@
     <div class="container-fluid">
         <div class="row bg-light p-3">
             <div class="col">
-                <h1 class="h3">Wildlife Conservation </h1>
+                <h1 class="h3">{% block subtitle%}Wildlife Conservation {% endblock%}</h1>
             </div>
             <div class="col text-end">
                 <a href="/display-map"><button class="btn btn-primary">View Map</button></a>
-                <a href="/reports"><button class="btn btn-secondary">View Reports</button></a>
+                <a href="/model-report"><button class="btn btn-secondary">View Reports</button></a>
                 
             </div>
         </div>
         
         <div class="map-container">
-            <p>Tsavo map and its environs...</p>
+            {% block container%}
+            <p>Tsavo park map and its environs...</p>
+            {% endblock%}
         </div>
+        
+        
         
         <div class="footer">
             <div class="col d-flex justify-content-between">

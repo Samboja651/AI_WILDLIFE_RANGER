@@ -23,6 +23,35 @@ body {
     font-size: 18px;
 }
 
+    /* Style for the report table */
+
+    .table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+        font-size: 1.2em; /* Make text bigger */
+    }
+    
+    .table th, .table td {
+        padding: 20px; /* Add more padding */
+        text-align: center;
+        border: 2px solid #dee2e6;
+    }
+    
+    .table th {
+        background-color: #007bff;
+        color: #fff;
+        font-weight: bold;
+    }
+    
+    .table tbody tr:nth-child(odd) {
+        background-color: #f8f9fa;
+    }
+    
+    .table tbody tr:nth-child(even) {
+        background-color: #e9ecef;
+    }
+
 /* Footer styling */
 .footer {
     display: flex;
@@ -31,4 +60,5 @@ body {
     background-color: #eeeeee;
     font-size: 14px;
     color: #666666;
+    bottom: 3em;
 }
