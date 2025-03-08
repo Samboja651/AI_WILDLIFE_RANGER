@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wildlife Conservation</title>
+    <title>{% block title%}Wildlife Conservation{% endblock%}</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -13,11 +13,11 @@
     <header class="container-fluid">
         <div class="row bg-light p-3">
             <div class="col">
-                <h1 class="h3">Wildlife Conservation </h1>
+                <h1 class="h3">{% block subtitle%}Wildlife Conservation {% endblock%}</h1>
             </div>
             <div class="col text-end">
                 <a href="/display-map"><button class="btn btn-primary">View Map</button></a>
-                <a href="/reports"><button class="btn btn-secondary">View Reports</button></a>
+                <a href="/model-report"><button class="btn btn-secondary">View Reports</button></a>
                 
             </div>
         </div>
@@ -25,8 +25,10 @@
 
     <main class="container-fluid">
         <div class="map-container">
-            <p>Map showing real-time animal location, predicted location, and geo fence</p>
+            {% block container%}
+            <p>Tsavo park map and its environs...</p>
             <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d2039813.8993473188!2d38.15549608974779!3d-3.091591631671243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sTsavo%20National%20Park!5e0!3m2!1sen!2ske!4v1741419209055!5m2!1sen!2ske" width="60%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            {% endblock%}
         </div>
     </main>
 
@@ -38,5 +40,6 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

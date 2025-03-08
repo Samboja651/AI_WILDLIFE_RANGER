@@ -1,0 +1,36 @@
+{% extends "index.html" %}
+
+{% block title %}Model Report - Wildlife Conservation{% endblock %}
+
+{% block subtitle %}Prediction Report{% endblock %}
+
+{% block container %}
+<div class="container mt-4">
+    
+
+    <div class="row mt-4">
+        <div class="col">
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Predictions made</th>
+                        <th>Correct predictions</th>
+                        <th>Failed predictions</th>
+                        <th>Success Rate %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ predictions_made }}</td>
+                        <td>{{ correct_predictions }}</td>
+                        <td>{{ failed_predictions }}</td>
+                        <td>{{ success_rate }}%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
