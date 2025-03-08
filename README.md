@@ -59,7 +59,8 @@ Animal_Movement_Prediction_Sys
 │   └── css
 │       └── main.css
 ├── templates
-│   └── index.html
+│   ├── index.html
+│   └── report.html
 ├── Tsavo Lion Study.csv
 └── Tsavo_Lion_Study.ipynb
 
