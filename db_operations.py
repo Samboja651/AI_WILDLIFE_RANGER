@@ -48,3 +48,32 @@ def seed_db():
     except mysql.connector.Error as e:
         print(f"Seeding failed, Error! {e}")
         return
+ 
+def fetch_gps_coordinates(id):
+    """
+    fetch the gps coordinates (long, lat) from db.
+    Args:
+        id: id of the coordinate in the db.
+
+    Returns:
+        Tuple (long, lat) representing real animal location
+    """
+
+    # connect db
+    conn = connect_db()
+    cursor = conn.cursor()
+    try:
+        query = "SELECT location_long, location_lat FROM kibocheRTData WHERE id = %s"
+
+        cursor.execute(query, [id])
+        coordinates = cursor.fetchone()
+
+        # close connection
+        cursor.close()
+        conn.close()
+        return coordinates
+    except mysql.connector.Error as e:
+        print(f"Error! {e}")
+        return
+
+# print(fetch_gps_coordinates(2))

@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
-    <div class="container-fluid">
+    <header class="container-fluid">
         <div class="row bg-light p-3">
             <div class="col">
                 <h1 class="h3">Wildlife Conservation </h1>
@@ -21,17 +21,21 @@
                 
             </div>
         </div>
-        
+    </header>
+
+    <main class="container-fluid">
         <div class="map-container">
             <p>Map showing real-time animal location, predicted location, and geo fence</p>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d2039813.8993473188!2d38.15549608974779!3d-3.091591631671243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sTsavo%20National%20Park!5e0!3m2!1sen!2ske!4v1741419209055!5m2!1sen!2ske" width="60%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
-        
-        <div class="footer">
-            <div class="col d-flex justify-content-between">
-                <span>CC</span>
-                <span>Contact</span>
-            </div>
-    </div>
+    </main>
+
+    <footer class="footer">
+        <div class="col d-flex justify-content-between">
+            <span>CC</span>
+            <span>Contact</span>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
