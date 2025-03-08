@@ -1,5 +1,5 @@
 """running the app"""
-from db_operations import seed_db
+from server import seed_db
 
 
 # run seed db
