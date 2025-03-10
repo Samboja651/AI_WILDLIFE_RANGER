@@ -17,6 +17,9 @@ Create virtual environment.
    `python3 -m venv .venv` \
    `.venv\bin\activate`
 
+upgrade pip:
+- linux `python -m pip install --upgrade pip`
+- windows `py -m pip install --upgrade pip`
 Run `pip install -r requirements.txt`.
 
 ## Running the code
