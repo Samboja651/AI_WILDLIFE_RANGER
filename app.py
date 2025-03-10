@@ -1,8 +1,8 @@
 """"application"""
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, jsonify
 from server import fetch_gps_coordinates
 from prediction import predict_location
-from tensorflow.keras.models import load_model
+from tensorflow.keras.models import load_model # ignore error, for now
 
 app = Flask(__name__)
 
@@ -11,49 +11,47 @@ def main():
     """view func for home"""
     return render_template('index.html')
 
-
 @app.get('/model-report')
 def model_report():
     """function for model reports"""
     return render_template('report.html')
 
-# untested
-@app.get("/real-time-location/<id>")
-def get_realtime_coordinates(id):
+@app.get("/real-time-location/<int:coordinate_id>")
+def get_realtime_coordinates(coordinate_id):
     """
     api path to fetch realtime coordinate
     Args:
         id: int(id) of the coordinate in db
     Returns:
-        Tuple: (long, lat)
+        Tuple: (long, lat) in json format
     """
     try:
-        coordinates = fetch_gps_coordinates(int(id))
-        return coordinates
+        coordinates = fetch_gps_coordinates(coordinate_id)
+        return jsonify({"co-ordinates": coordinates})
     except TypeError as e:
-        return f"Error! {e}"
-    
-# untested
-@app.route("/predict-location/<time_interval>", methods=["GET, POST"])
-def get_predicted_location(time_interval):
+        return jsonify({"Error": e})
+
+@app.get("/predict/location/<int:coordinate_id>/time/<int:time_interval>")
+def get_predicted_location(coordinate_id, time_interval):
     """
     Get the predicted location of the animal based on current location.
     Args: 
-        int: time_interval to get next animal location. 
+        int: time_interval to get next animal location.
+        int: coordinate_id for current animal location 
     Returns:
-        Tuple: coordinates (long, lat)
+        Tuple(str): coordinates (long, lat) in json format
     """
-    if request.method == "POST":
-        try:
-            model = load_model('models/gps_location_prediction_model.keras')
-            current_location = redirect(url_for(get_realtime_coordinates))
+    try:
+        model = load_model('models/gps_location_prediction_model.keras')
+        long, lat = fetch_gps_coordinates(coordinate_id)
 
-            predicted_location = predict_location(current_location, int(time_interval), model)
-            return predicted_location
-        except FileNotFoundError as e:
-            return f"Error! {e}"
-        except Exception as e:
-            return f"Error! {e}"
+        predicted_location = predict_location((float(long), float(lat)), time_interval, model)
+        predicted_location = tuple(predicted_location.strip('[]').split())
+        return jsonify({"predicted-location": predicted_location})
+    except FileNotFoundError as e:
+        return jsonify({"Error!": e})
+    except TypeError as e:
+        return jsonify({"Error!": e})
     
 if __name__ == '__main__':
     app.run(debug=True, port=3000)

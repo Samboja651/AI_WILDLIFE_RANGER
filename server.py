@@ -28,6 +28,35 @@ def connect_db():
         print(f"Connection failed! Error: {e}")
         return
 
+def read_gps_collar_data(file):
+    """
+    reads gps collar data from file.
+    returns data in keys(columns) and list(val(tuples))
+    """
+    try:
+        with open(file, "r", encoding="utf-8") as f:
+            data = f.readlines()
+
+        # get the column names
+        # keys = data[:1][0].strip().split(",")
+        values = []
+        for val in data[1:]:
+            val = val.strip().split(',')
+            values.append(tuple(val))
+        return values
+
+    except FileExistsError as e:
+        print(f"Error! {e}")
+        return
+    except FileNotFoundError as e:
+        print(f"Error! {e}")
+        return
+    except IndexError as e:
+        print(f"Error! {e}")
+        return
+
+# read_gps_collar_data("Kiboche_last_500_rows_data.csv")
+
 def seed_db():
     """"populate database with simulated realtime data"""
     # establish connection to db
@@ -35,10 +64,13 @@ def seed_db():
     cursor = db.cursor()
 
     # get the gps data
-    key, values = read_gps_collar_data(GPS_COLLAR_DATA)
+    values = read_gps_collar_data(GPS_COLLAR_DATA)
     try:
         # insert query
-        query = "INSERT INTO kibocheRTData(timestamp, location_long, location_lat, local_identifier, time_interval_hours)VALUES(%s, %s, %s, %s, %s)"
+        query = """
+        INSERT INTO kibocheRTData(
+        timestamp, location_long, location_lat, local_identifier, time_interval_hours)
+        VALUES(%s, %s, %s, %s, %s)"""
 
         # execute query
         cursor.executemany(query, values)
@@ -50,6 +82,7 @@ def seed_db():
     except mysql.connector.Error as e:
         print(f"Seeding failed, Error! {e}")
         return
+# seed_db()
 
 def fetch_gps_collar_data(url):
     """
@@ -69,36 +102,8 @@ def fetch_gps_collar_data(url):
 
 # fetch_gps_collar_data(URL2)
 
-def read_gps_collar_data(file):
-    """
-    reads gps collar data from file.
-    returns data in keys(columns) and list(val(tuples))
-    """
-    try:
-        with open(file, "r", encoding="utf-8") as f:
-            data = f.readlines()
 
-        # get the column names
-        keys = data[:1][0].strip().split(",")
-        values = []
-        for val in data[1:]:
-            val = val.strip().split(',')
-            values.append(tuple(val))
-        return keys, values
-
-    except FileExistsError as e:
-        print(f"Error! {e}")
-        return
-    except FileNotFoundError as e:
-        print(f"Error! {e}")
-        return
-    except IndexError as e:
-        print(f"Error! {e}")
-        return
-
-# read_gps_collar_data("Kiboche_last_500_rows_data.csv")
-
-def fetch_gps_coordinates(id):
+def fetch_gps_coordinates(coordinate_id):
     """
     fetch the gps coordinates (long, lat) from db.
     Args:
@@ -114,7 +119,7 @@ def fetch_gps_coordinates(id):
     try:
         query = "SELECT location_long, location_lat FROM kibocheRTData WHERE id = %s"
 
-        cursor.execute(query, [id])
+        cursor.execute(query, [int(coordinate_id)])
         coordinates = cursor.fetchone()
 
         # close connection

@@ -33,6 +33,13 @@ Displaying the UI
 ## Operation
 `prediction.py` - use the trained model to make predictions.
 
+## Tested API calls
+`GET` - `/` returns home page.\
+`GET` - `/model-report` returns model report page.\
+`GET` - `/real-time-location/<int:coordinate_id>` returns current location of animal.\
+`GET` - `/predict/location/<int:coordinate_id>/time/<int:time_interval>` returns the predicted location of animal.\
+**replace the part `<...>` with a value e.g `/predict/location/1/time/2"`**.
+
 ## Troubleshooting tips
 First ensure you have installed all dependencies in `requirements.txt` file. Do this in a virtual environment.
 
