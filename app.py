@@ -11,14 +11,17 @@ def main():
     """view func for home"""
     return render_template('index.html')
 
+
 @app.get('/model-report')
 def model_report():
     """function for model reports"""
     return render_template('report.html')
 
+
 @app.route('/display-map')
 def display_map():
     return redirect(url_for('main'))
+
 
 @app.get("/real-time-location/<int:coordinate_id>")
 def get_realtime_coordinates(coordinate_id):
@@ -34,6 +37,7 @@ def get_realtime_coordinates(coordinate_id):
         return jsonify({"co-ordinates": coordinates})
     except TypeError as e:
         return jsonify({"Error": e})
+
 
 @app.get("/predict/location/<int:coordinate_id>/time/<int:time_interval>")
 def get_predicted_location(coordinate_id, time_interval):
@@ -56,6 +60,7 @@ def get_predicted_location(coordinate_id, time_interval):
         return jsonify({"Error!": e})
     except TypeError as e:
         return jsonify({"Error!": e})
+  
     
 if __name__ == '__main__':
     app.run(debug=True, port=3000)
