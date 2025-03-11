@@ -1,5 +1,5 @@
 """"application"""
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, redirect, url_for
 from server import fetch_gps_coordinates
 from prediction import predict_location
 from tensorflow.keras.models import load_model # ignore error, for now
@@ -15,6 +15,10 @@ def main():
 def model_report():
     """function for model reports"""
     return render_template('report.html')
+
+@app.route('/display-map')
+def display_map():
+    return redirect(url_for('main'))
 
 @app.get("/real-time-location/<int:coordinate_id>")
 def get_realtime_coordinates(coordinate_id):

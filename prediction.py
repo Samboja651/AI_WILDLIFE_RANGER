@@ -1,7 +1,7 @@
 """create prediction function"""
 import joblib
 import numpy as np
-# from tensorflow.keras.models import load_model
+from tensorflow.keras.models import load_model
 
 def predict_location(current_location, time_interval, model):
 
@@ -16,8 +16,8 @@ def predict_location(current_location, time_interval, model):
     Returns:
         Tuple (longitude, latitude) representing the predicted location.
     """
-
-    # load the scaler
+    
+    # load the scaler 
     scaler = joblib.load('models/gps_data_scaler.pkl')
     # create input sequence
     input_sequence = np.array([current_location + (time_interval,)])
@@ -45,13 +45,13 @@ def predict_location(current_location, time_interval, model):
 
 
 # load the trained model
-# model = load_model('models/gps_location_prediction_model.keras')
+model = load_model('models/gps_location_prediction_model.keras')
 
-# # # use the prediction function
-# # # ONLY EDIT THIS VARIABLE THEN RUN
-# current_location = (38.836177, -3.995757) # replace this part with your coordinates, ofcourse from db.
+# # use the prediction function
+# # ONLY EDIT THIS VARIABLE THEN RUN
+current_location = (38.821479415384616, -3.9803051000000003) # replace this part with your coordinates, ofcourse from db.
 
-# TIME_INTERVAL = 2 # hours
+TIME_INTERVAL = 2 # hours
 
-# predicted_location = predict_location(current_location, TIME_INTERVAL, model).strip('[]').split()
-# print(f"Predicted location: {tuple(predicted_location)}")
+predicted_location = predict_location(current_location, TIME_INTERVAL, model).strip('[]').split()
+print(f"Predicted location: {tuple(predicted_location)}")

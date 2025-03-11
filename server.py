@@ -130,4 +130,4 @@ def fetch_gps_coordinates(coordinate_id):
         print(f"Error! {e}")
         return
 
-# print(fetch_gps_coordinates(2))
+print(fetch_gps_coordinates(2))
