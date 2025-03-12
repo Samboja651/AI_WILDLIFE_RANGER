@@ -6,4 +6,5 @@ __pycache__
 .env
 archives
 .myenv
+.env_2
 .learn

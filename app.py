@@ -18,8 +18,9 @@ def model_report():
     return render_template('report.html')
 
 
-@app.route('/display-map')
+@app.get('/display-map')
 def display_map():
+    """Display Tsavo map"""
     return redirect(url_for('main'))
 
 
@@ -43,9 +44,9 @@ def get_realtime_coordinates(coordinate_id):
 def get_predicted_location(coordinate_id, time_interval):
     """
     Get the predicted location of the animal based on current location.
-    Args: 
+    Args:
         int: time_interval to get next animal location.
-        int: coordinate_id for current animal location 
+        int: coordinate_id for current animal location
     Returns:
         Tuple(str): coordinates (long, lat) in json format
     """
@@ -60,7 +61,7 @@ def get_predicted_location(coordinate_id, time_interval):
         return jsonify({"Error!": e})
     except TypeError as e:
         return jsonify({"Error!": e})
-  
-    
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=3000)
