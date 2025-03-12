@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 
 # load variables from .env file
-load_dotenv(".env")
+load_dotenv(".env_2")
 
 USER = os.environ.get('USER')
 PASSWORD = os.environ.get('PASSWORD')
