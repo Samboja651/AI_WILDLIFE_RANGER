@@ -22,13 +22,13 @@ upgrade pip:
 - windows `py -m pip install --upgrade pip`
 Run `pip install -r requirements.txt`.
 
-## Running the code
+### setup db
+Paste the content of `schema.sql` into your mysql and execute.
 Adding the portion of the real_time data to the database 
 - Run the `main.py` file. or on terminal run `python3 main.py`
 
 Displaying the UI
-- Run the `app.py` file, or on terminal run `python3 app.py`
-
+- On the terminal run `flask run --debug` file, or run `python3 app.py`
 
 ## Operation
 `prediction.py` - use the trained model to make predictions.
@@ -36,43 +36,38 @@ Displaying the UI
 ## Tested API calls
 `GET` - `/` returns home page.\
 `GET` - `/model-report` returns model report page.\
+`GET` - `/display-map`\ returns to home page
 `GET` - `/real-time-location/<int:coordinate_id>` returns current location of animal.\
 `GET` - `/predict/location/<int:coordinate_id>/time/<int:time_interval>` returns the predicted location of animal.\
 **replace the part `<...>` with a value e.g `/predict/location/1/time/2"`**.
 
 ## Troubleshooting tips
 First ensure you have installed all dependencies in `requirements.txt` file. Do this in a virtual environment.
+...
+
+# New updates
+Rename `.env_2` to `.env` or create a new `.env` file in root folder.\
+Add the following environmen variables along with their values into .env file.
+```
+USER = "wdf_conservatist"
+PASSWORD = "YOUR_USER_PASSWORD"
+HOST = "localhost"
+DATABASE = "WDF_conservation"
+GPS_COLLAR_DATA = "download of lion kiboche last 500 rows data"
+API_KEY = "YOUR GCP MAPS JAVASCRIPT API KEY"
+```
+
+### how the map is displayed
+- fetch real time location of lion from the inbuilt api.
+- fetch predicted location of lion from the inbuilt api.
+- usi maps javascrip api to load Tsavo park map.
+- add markers on map to show current and predicted location of lion.
+- run the app to see map.
+- hover on the markers for more desription.
+
+**TODO**
+ * currenlty the api urls put in `script.js` need to be dynamic. Figure out how to dynamically change the variables named `time, coordinate_id & time_interval` on the urls to change dynamicall.
+ * Placing the boundaries that animal should not cross, otherwise raise alert.
+  
 
 ## Directory structure
-```
-Animal_Movement_Prediction_Sys
-├── app.py
-├── db_operations.py
-├── gps_collar_data.csv
-├── Kiboche_last_500_rows_data.csv
-├── main.py
-├── models
-│   ├── gps_data_scaler.pkl
-│   ├── gps_location_prediction_model.h5
-│   └── gps_location_prediction_model.keras
-├── prediction.py
-├── project-guideline.pdf
-├── __pycache__
-│   ├── db_operations.cpython-312.pyc
-│   ├── main.cpython-312.pyc
-│   └── server.cpython-312.pyc
-├── README.md
-├── requirements.txt
-├── schema.sql
-├── server.py
-├── static
-│   └── css
-│       └── main.css
-├── templates
-│   ├── index.html
-│   └── report.html
-├── Tsavo Lion Study.csv
-└── Tsavo_Lion_Study.ipynb
-
-
-```

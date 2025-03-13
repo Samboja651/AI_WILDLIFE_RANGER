@@ -8,3 +8,4 @@ archives
 .myenv
 .env_2
 .learn
+.ipynb*

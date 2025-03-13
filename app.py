@@ -1,15 +1,22 @@
 """"application"""
+import os
 from flask import Flask, render_template, jsonify, redirect, url_for
 from server import fetch_gps_coordinates
 from prediction import predict_location
+from dotenv import load_dotenv
 from tensorflow.keras.models import load_model # ignore error, for now
+
+# load variables from .env file
+load_dotenv(".env")
+
+API_KEY = os.environ.get('API_KEY')
 
 app = Flask(__name__)
 
 @app.get('/')
 def main():
     """view func for home"""
-    return render_template('index.html')
+    return render_template('index.html', API_KEY = API_KEY)
 
 
 @app.get('/model-report')
@@ -35,7 +42,8 @@ def get_realtime_coordinates(coordinate_id):
     """
     try:
         coordinates = fetch_gps_coordinates(coordinate_id)
-        return jsonify({"co-ordinates": coordinates})
+        longitude, latitude = coordinates
+        return jsonify({"coordinates": {"longitude": longitude, "latitude": latitude}})
     except TypeError as e:
         return jsonify({"Error": e})
 
@@ -56,7 +64,8 @@ def get_predicted_location(coordinate_id, time_interval):
 
         predicted_location = predict_location((float(long), float(lat)), time_interval, model)
         predicted_location = tuple(predicted_location.strip('[]').split())
-        return jsonify({"predicted-location": predicted_location})
+        longitude, latitude = predicted_location
+        return jsonify({"coordinates": {"longitude": longitude, "latitude": latitude}})
     except FileNotFoundError as e:
         return jsonify({"Error!": e})
     except TypeError as e:

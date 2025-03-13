@@ -11,6 +11,7 @@ body {
     justify-content: center;
     align-items: center;
     height: calc(100vh - 70px);
+    width: 100%;
     padding: 20px;
     background-color: #ffffff;
     border: 1px solid #cccccc;
