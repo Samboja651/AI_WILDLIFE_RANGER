@@ -57,13 +57,17 @@ GPS_COLLAR_DATA = "download of lion kiboche last 500 rows data"
 API_KEY = "YOUR GCP MAPS JAVASCRIPT API KEY"
 ```
 
-### how the map is displayed
+### How the map is displayed
 - fetch real time location of lion from the inbuilt api.
 - fetch predicted location of lion from the inbuilt api.
 - usi maps javascrip api to load Tsavo park map.
 - add markers on map to show current and predicted location of lion.
 - run the app to see map.
 - hover on the markers for more desription.
+
+### Checking whether the predicted location is within the park(Taita taveta county)
+- Try different real time location that we have.
+- While changing the real time data check the message being displayed in the console.
 
 **TODO**
  * currenlty the api urls put in `script.js` need to be dynamic. Figure out how to dynamically change the variables named `time, coordinate_id & time_interval` on the urls to change dynamicall.

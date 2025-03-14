@@ -26,7 +26,7 @@ async function initMap() {
 
     // show current location of lion
     // request coordinates from api
-    const apiUrlRealTime = "http://127.0.0.1:5000/real-time-location/1";
+    const apiUrlRealTime = "http://127.0.0.1:5000/real-time-location/10";
     fetch(apiUrlRealTime)
     .then(response => {
         if (!response.ok) {
@@ -44,7 +44,7 @@ async function initMap() {
             position: {lat: latitude, lng: longitude},
             title: "Lion Kiboche current location",
             content: pinText.element,
-        });
+        });         
     })
     .catch(error => {
         console.error(`Error: `, error);
@@ -52,7 +52,7 @@ async function initMap() {
 
     // show predicted location of lion
     // request coordinates from api
-    const apiUrlPredictedLocation = "http://127.0.0.1:5000/predict/location/1/time/1";
+    const apiUrlPredictedLocation = "http://127.0.0.1:5000/predict/location/10/time/2";
     fetch(apiUrlPredictedLocation)
     .then(response => {
         if (!response.ok) {
@@ -72,6 +72,18 @@ async function initMap() {
             content: pinBackground.element,
         });
 
+        getCountyWithOpenCage(latitude, longitude).then(county => {
+            if(county == 'Kwale'){
+                //send alert
+                console.log("Predicted location is in",county,"county. Raise an alert!!!");
+                //raiseAlert()
+                
+            } else{
+                console.log("Predicted location is in",county,"county.");
+            }
+
+        });
+
     })
     .catch(error => {
         console.error(`Error: `, error);
@@ -79,3 +91,24 @@ async function initMap() {
 };
 initMap();
 // end of map code
+
+
+async function getCountyWithOpenCage(lat, lng) {
+    const apiKey = '74f4de96570e4dc7b582da96329848d7';
+    const url = `https://api.opencagedata.com/geocode/v1/json?q=${lat}%2C+${lng}&key=${apiKey}`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.results.length > 0) {
+            const components = data.results[0].components;
+            return components.state || "County not found";
+        }
+
+        return "County not found";
+    } catch (error) {
+        console.error("Error:", error);
+        return "Error fetching data";
+    }
+}
