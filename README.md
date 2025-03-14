@@ -43,6 +43,7 @@ Displaying the UI
 
 ## Troubleshooting tips
 First ensure you have installed all dependencies in `requirements.txt` file. Do this in a virtual environment.
+Try loading on different browser if app crashes.
 ...
 
 # New updates
