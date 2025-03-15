@@ -70,8 +70,8 @@ API_KEY = "YOUR GCP MAPS JAVASCRIPT API KEY"
 - While changing the real time data we get a predicted location for that real time coodinate. so check message being displayed in the console.
 
 ### Send Email alert to park authority if predicted location is outside the park(Kwale county)
-- first run `pip install Flask-Mail` to install flask_mail
-- 
+- first run `pip install Flask-Mail` to install flask_mail lib.
+- when the predicted loc coordinate is outside the park, an email sent to park authority informing then so as to take a proactive measure in mitigating HWC.
 
 **TODO**
  * currenlty the api urls put in `script.js` need to be dynamic. Figure out how to dynamically change the variables named `time, coordinate_id & time_interval` on the urls to change dynamicall.
