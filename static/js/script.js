@@ -52,7 +52,7 @@ async function initMap() {
 
     // show predicted location of lion
     // request coordinates from api
-    const apiUrlPredictedLocation = "http://127.0.0.1:5000/predict/location/100/time/1";
+    const apiUrlPredictedLocation = "http://127.0.0.1:5000/predict/location/100/time/2";
     fetch(apiUrlPredictedLocation)
     .then(response => {
         if (!response.ok) {
@@ -73,10 +73,10 @@ async function initMap() {
         });
 
         getCountyWithOpenCage(latitude, longitude).then(county => {
-            if(county == 'Kwale'){
+            if(county.toLowerCase() === 'kwale'){
                 //send alert
                 console.log("Predicted location is in",county,"county. Raise an alert!!!");
-                //raiseAlert()
+                sendAlertEmail()
                 
             } else{
                 console.log("Predicted location is in",county,"county.");
@@ -126,5 +126,16 @@ async function getCountyWithOpenCage(lat, lng) {
     } catch (error) {
         console.error("Error fetching county data:", error);
         return "Error fetching data";
+    }
+}
+
+// Function to request the backend to send an email
+async function sendAlertEmail() {
+    try {
+        const response = await fetch('/send-alert', { method: 'POST' });
+        const result = await response.json();
+        console.log(result.message);
+    } catch (error) {
+        console.error("Error sending alert email:", error);
     }
 }

@@ -1,5 +1,6 @@
 """"application"""
 import os
+from flask_mail import Message, Mail
 from dotenv import load_dotenv
 from flask import Flask, render_template, jsonify, redirect, url_for
 from server import fetch_gps_coordinates
@@ -9,10 +10,21 @@ from tensorflow.keras.models import load_model # ignore error, for now
 # load variables from .env file
 load_dotenv(".env")
 
+app = Flask(__name__)
+
+# Flask-Mail Configuration
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Use Gmail SMTP
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.environ.get("SENDER_MAIL")  
+app.config['MAIL_PASSWORD'] = os.environ.get("SENDER_PASS") 
+app.config['MAIL_DEFAULT_SENDER'] = os.environ.get("SENDER_MAIL")
+recipient_mail = os.environ.get("RECIP_MAIL")
+
 API_KEY = os.environ.get('API_KEY')
 OPENCAGE_API_KEY = os.environ.get('OPENCAGE_API_KEY')
 
-app = Flask(__name__)
+mail = Mail(app)
 
 @app.route('/config')
 def get_config():
@@ -77,6 +89,18 @@ def get_predicted_location(coordinate_id, time_interval):
         return jsonify({"Error!": e})
     except TypeError as e:
         return jsonify({"Error!": e})
+    
+# Endpoint to send alert email
+@app.route('/send-alert', methods=['POST'])
+def send_alert():
+    """Send email to park authority"""
+    try:
+        msg = Message("Alert!!", recipients=[recipient_mail])
+        msg.body = "Model predict that 2hrs from now, lion Kiboche would have gone out of the park. Take proactive measure to reduce the chance of Human-Wildlife conflict from occuring!!"
+        mail.send(msg)
+        return jsonify({"message": "Alert email sent successfully!"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == '__main__':
