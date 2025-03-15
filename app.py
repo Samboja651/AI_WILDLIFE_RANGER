@@ -1,17 +1,24 @@
 """"application"""
 import os
+from dotenv import load_dotenv
 from flask import Flask, render_template, jsonify, redirect, url_for
 from server import fetch_gps_coordinates
 from prediction import predict_location
-from dotenv import load_dotenv
 from tensorflow.keras.models import load_model # ignore error, for now
 
 # load variables from .env file
 load_dotenv(".env")
 
 API_KEY = os.environ.get('API_KEY')
+OPENCAGE_API_KEY = os.environ.get('OPENCAGE_API_KEY')
 
 app = Flask(__name__)
+
+@app.route('/config')
+def get_config():
+    """sends opencage API to the frontend"""
+    return jsonify({"opencage_apiKey": os.environ.get("OPENCAGE_API_KEY")})
+
 
 @app.get('/')
 def main():

@@ -26,7 +26,7 @@ async function initMap() {
 
     // show current location of lion
     // request coordinates from api
-    const apiUrlRealTime = "http://127.0.0.1:5000/real-time-location/10";
+    const apiUrlRealTime = "http://127.0.0.1:5000/real-time-location/100";
     fetch(apiUrlRealTime)
     .then(response => {
         if (!response.ok) {
@@ -52,7 +52,7 @@ async function initMap() {
 
     // show predicted location of lion
     // request coordinates from api
-    const apiUrlPredictedLocation = "http://127.0.0.1:5000/predict/location/10/time/2";
+    const apiUrlPredictedLocation = "http://127.0.0.1:5000/predict/location/100/time/1";
     fetch(apiUrlPredictedLocation)
     .then(response => {
         if (!response.ok) {
@@ -94,21 +94,37 @@ initMap();
 
 
 async function getCountyWithOpenCage(lat, lng) {
-    const apiKey = '74f4de96570e4dc7b582da96329848d7';
-    const url = `https://api.opencagedata.com/geocode/v1/json?q=${lat}%2C+${lng}&key=${apiKey}`;
-
     try {
+        // Fetch API key from backend
+        const configResponse = await fetch('/config');
+        const configData = await configResponse.json();
+        const apiKey = configData.opencage_apiKey;
+
+        if (!apiKey) {
+            throw new Error("API Key not found in backend response.");
+        }
+
+        // Construct the OpenCage API URL
+        const url = `https://api.opencagedata.com/geocode/v1/json?q=${lat}%2C+${lng}&key=${apiKey}`;
+
+        // Fetch data from OpenCage API
         const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`OpenCage API error: ${response.status} - ${response.statusText}`);
+        }
+
         const data = await response.json();
 
-        if (data.results.length > 0) {
+        if (data.results && data.results.length > 0) {
             const components = data.results[0].components;
-            return components.state || "County not found";
+            const county = components.state || "County not found";
+            return county;
         }
 
         return "County not found";
     } catch (error) {
-        console.error("Error:", error);
+        console.error("Error fetching county data:", error);
         return "Error fetching data";
     }
 }
