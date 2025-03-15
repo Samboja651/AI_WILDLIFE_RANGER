@@ -67,7 +67,7 @@ API_KEY = "YOUR GCP MAPS JAVASCRIPT API KEY"
 
 ### Checking whether the predicted location is within the park(Taita taveta county)
 - Try different real time location that we have.
-- While changing the real time data check the message being displayed in the console.
+- While changing the real time data we get a predicted location for that real time coodinate. so check message being displayed in the console.
 
 **TODO**
  * currenlty the api urls put in `script.js` need to be dynamic. Figure out how to dynamically change the variables named `time, coordinate_id & time_interval` on the urls to change dynamicall.
