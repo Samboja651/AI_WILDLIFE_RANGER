@@ -26,7 +26,7 @@ async function initMap() {
 
     // show current location of lion
     // request coordinates from api
-    const apiUrlRealTime = "http://127.0.0.1:5000/real-time-location/1";
+    const apiUrlRealTime = "/real-time-location/150";
     fetch(apiUrlRealTime)
     .then(response => {
         if (!response.ok) {
@@ -52,7 +52,7 @@ async function initMap() {
 
     // show predicted location of lion
     // request coordinates from api
-    const apiUrlPredictedLocation = "http://127.0.0.1:5000/predict/location/1/time/2";
+    const apiUrlPredictedLocation = "/predict/location/150/time/2";
     fetch(apiUrlPredictedLocation)
     .then(response => {
         if (!response.ok) {
@@ -71,19 +71,17 @@ async function initMap() {
             title: "Lion Kiboche predicted location",
             content: pinBackground.element,
         });
-
+        // check if lion has crossed its boundary
         getCountyWithOpenCage(latitude, longitude).then(county => {
             if(county.toLowerCase() === 'kwale'){
-                //send alert
-                console.log("Predicted location is in",county,"county. Raise an alert!!!");
-                sendAlertEmail()
+                //send email alert
+                console.log("Predicted lion location is in",county," county. Raise an alert!");
+                sendAlertEmail();
                 
             } else{
-                console.log("Predicted location is in",county,"county.");
+                console.log("Predicted lion location is in",county," county.");
             }
-
         });
-
     })
     .catch(error => {
         console.error(`Error: `, error);
@@ -135,6 +133,7 @@ async function sendAlertEmail() {
         const response = await fetch('/send-alert', { method: 'POST' });
         const result = await response.json();
         console.log(result.message);
+        return "Message sent."
     } catch (error) {
         console.error("Error sending alert email:", error);
     }

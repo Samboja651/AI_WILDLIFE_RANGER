@@ -1,6 +1,7 @@
 """"application"""
 import os
 from flask_mail import Message, Mail
+import smtplib
 from dotenv import load_dotenv
 from flask import Flask, render_template, jsonify, redirect, url_for
 from server import fetch_gps_coordinates
@@ -16,8 +17,8 @@ app = Flask(__name__)
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Use Gmail SMTP
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.environ.get("SENDER_MAIL")  
-app.config['MAIL_PASSWORD'] = os.environ.get("SENDER_PASS") 
+app.config['MAIL_USERNAME'] = os.environ.get("SENDER_MAIL")
+app.config['MAIL_PASSWORD'] = os.environ.get("SENDER_PASS")
 app.config['MAIL_DEFAULT_SENDER'] = os.environ.get("SENDER_MAIL")
 recipient_mail = os.environ.get("RECIP_MAIL")
 
@@ -89,17 +90,19 @@ def get_predicted_location(coordinate_id, time_interval):
         return jsonify({"Error!": e})
     except TypeError as e:
         return jsonify({"Error!": e})
-    
+
 # Endpoint to send alert email
 @app.route('/send-alert', methods=['POST'])
 def send_alert():
     """Send email to park authority"""
     try:
-        msg = Message("Alert!!", recipients=[recipient_mail])
-        msg.body = "Model predict that 2hrs from now, lion Kiboche would have gone out of the park. Take proactive measure to reduce the chance of Human-Wildlife conflict from occuring!!"
+        msg = Message("Alert!", recipients=[recipient_mail])
+        msg.body = """
+        Model predicts that 2hrs from now, lion Kiboche would have gone out of the park.\n
+        Take proactive measure to reduce the chance of Human-Wildlife conflict from occuring!"""
         mail.send(msg)
         return jsonify({"message": "Alert email sent successfully!"})
-    except Exception as e:
+    except (ConnectionError, smtplib.SMTPException) as e:
         return jsonify({"error": str(e)}), 500
 
 
