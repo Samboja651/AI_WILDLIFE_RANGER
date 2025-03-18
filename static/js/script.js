@@ -51,7 +51,7 @@ async function initMap() {
     });
 
     // show predicted location of lion
-    // request coordinates from api
+    // request coordinates from api 
     const apiUrlPredictedLocation = "/predict/location/1/time/2";
     fetch(apiUrlPredictedLocation)
     .then(response => {
