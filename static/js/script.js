@@ -1,92 +1,90 @@
-// initialize and add the map
+document.getElementById("tryThisButton").addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent form submission default behavior
+
+    // Get rowId from input field
+    const rowId = document.getElementById("rowId").value || 1;
+
+    // Reload the page with rowId as a URL parameter
+    window.location.href = `${window.location.pathname}?rowId=${rowId}`;
+});
+
+// Function to get the value of rowId from the URL
+function getRowIdFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get("rowId") || 1; // Default to 1 if not found
+}
+
+// Set the input field to match the rowId from the URL
+document.getElementById("rowId").value = getRowIdFromUrl();
+
 let map;
 
+// Fetch and initialize the map using the rowId from the URL
 async function initMap() {
-    // request needed libraries
     const { Map } = await google.maps.importLibrary("maps");
     const { PinElement, AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
-    // show the map, centered at Tsavo national park
     map = new Map(document.getElementById("map"), {
-        zoom: 9, // zoom level 1 - 20
-        // center the map to show Tsavo park, below are the coordinates 
-        center: {lat: -2.8271449279400915, lng: 37.892994380941374},
+        zoom: 9,
+        center: { lat: -2.8271449279400915, lng: 37.892994380941374 },
         mapId: "TSAVO_PARK",
     });
 
-    // change marker background color
     const pinBackground = new PinElement({
         background: "#FBBC04",
-        glyph: "PL", // add text to marker
+        glyph: "PL",
     });
+
     const pinText = new PinElement({
         glyph: "CL",
         background: "#90ee90",
     });
 
-    // show current location of lion
-    // request coordinates from api
-    const apiUrlRealTime = "/real-time-location/1";
+    // Get rowId from URL
+    const rowId = getRowIdFromUrl();
+
+    // Construct API URLs dynamically
+    const apiUrlRealTime = `/real-time-location/${rowId}`;
+    const apiUrlPredictedLocation = `/predict/location/${rowId}/time/2`;
+
+    // Fetch real-time location
     fetch(apiUrlRealTime)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Failed to fetch data, status code: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-        const latitude = Number(data.coordinates.latitude);
-        const longitude = Number(data.coordinates.longitude);
+        .then(response => response.ok ? response.json() : Promise.reject(`Error ${response.status}`))
+        .then(data => {
+            new AdvancedMarkerElement({
+                map: map,
+                position: { lat: Number(data.coordinates.latitude), lng: Number(data.coordinates.longitude) },
+                title: "Lion Kiboche current location",
+                content: pinText.element,
+            });
+        })
+        .catch(error => console.error("Error:", error));
 
-        // DISPLAY ON MAP
-        const markerCurrentLocation = new AdvancedMarkerElement({
-            map: map,
-            position: {lat: latitude, lng: longitude},
-            title: "Lion Kiboche current location",
-            content: pinText.element,
-        });         
-    })
-    .catch(error => {
-        console.error(`Error: `, error);
-    });
-
-    // show predicted location of lion
-    // request coordinates from api 
-    const apiUrlPredictedLocation = "/predict/location/1/time/2";
+    // Fetch predicted location
     fetch(apiUrlPredictedLocation)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Failed to fetch data, status code: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-        const latitude = Number(data.coordinates.latitude);
-        const longitude = Number(data.coordinates.longitude);
+        .then(response => response.ok ? response.json() : Promise.reject(`Error ${response.status}`))
+        .then(data => {
+            new AdvancedMarkerElement({
+                map: map,
+                position: { lat: Number(data.coordinates.latitude), lng: Number(data.coordinates.longitude) },
+                title: "Lion Kiboche predicted location",
+                content: pinBackground.element,
+            });
 
-        // DISPLAY ON MAP
-        const markerPredictedLocation = new AdvancedMarkerElement({
-            map: map,
-            position: {lat: latitude, lng: longitude},
-            title: "Lion Kiboche predicted location",
-            content: pinBackground.element,
-        });
-        // check if lion has crossed its boundary
-        getCountyWithOpenCage(latitude, longitude).then(county => {
-            if(county.toLowerCase() === 'kwale'){
-                //send email alert
-                console.log("Predicted lion location is in",county," county. Raise an alert!");
-                sendAlertEmail();
-                
-            } else{
-                console.log("Predicted lion location is in",county," county.");
-            }
-        });
-    })
-    .catch(error => {
-        console.error(`Error: `, error);
-    });
-};
+            // Check if lion has crossed boundaries
+            getCountyWithOpenCage(Number(data.coordinates.latitude), Number(data.coordinates.longitude)).then(county => {
+                if (county.toLowerCase() === "kwale") {
+                    console.log(`Predicted lion location is in ${county} county. Raise an alert!`);
+                    sendAlertEmail();
+                } else {
+                    console.log(`Predicted lion location is in ${county} county.`);
+                }
+            });
+
+        })
+        .catch(error => console.error("Error:", error));
+}
+
 initMap();
 // end of map code
 
