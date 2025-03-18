@@ -26,7 +26,7 @@ async function initMap() {
 
     // show current location of lion
     // request coordinates from api
-    const apiUrlRealTime = "/real-time-location/150";
+    const apiUrlRealTime = "/real-time-location/1";
     fetch(apiUrlRealTime)
     .then(response => {
         if (!response.ok) {
@@ -52,7 +52,7 @@ async function initMap() {
 
     // show predicted location of lion
     // request coordinates from api
-    const apiUrlPredictedLocation = "/predict/location/150/time/2";
+    const apiUrlPredictedLocation = "/predict/location/1/time/2";
     fetch(apiUrlPredictedLocation)
     .then(response => {
         if (!response.ok) {
