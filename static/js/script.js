@@ -81,6 +81,8 @@ async function initMap() {
                 }
             });
 
+            document.getElementById("rowId").value = "";
+
         })
         .catch(error => console.error("Error:", error));
 }
