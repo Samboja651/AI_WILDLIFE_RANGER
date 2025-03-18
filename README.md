@@ -73,6 +73,11 @@ API_KEY = "YOUR GCP MAPS JAVASCRIPT API KEY"
 - first run `pip install Flask-Mail` to install flask_mail lib.
 - when the predicted loc coordinate is outside the park, an email sent to park authority informing then so as to take a proactive measure in mitigating HWC.
 
+### Dynamic change of our real-time data while fetching reponse from server
+- Added an input tag in the `index.html` file for accepting row ids from 1 through 500.
+- When `try this` button is clicked, the given row id value will be used during fetch from a server endpoint.
+- By default if no value is given, we just use row id 1.
+
 **TODO**
  * currenlty the api urls put in `script.js` need to be dynamic. Figure out how to dynamically change the variables named `time, coordinate_id & time_interval` on the urls to change dynamicall.
  * Placing the boundaries that animal should not cross, otherwise raise alert.
