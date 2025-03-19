@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS kibocheRTData(
 );
 CREATE TABLE IF NOT EXISTS reportData(
     id INT PRIMARY KEY AUTO_INCREMENT,
-    predictions_made INT NOT NULL,
+    predictions_made INT NOT NULL, -- I don't think this is necessary, should remove
     correct_predictions INT NOT NULL,
     failed_predictions INT NOT NULL,
     success_rate FLOAT NOT NULL
