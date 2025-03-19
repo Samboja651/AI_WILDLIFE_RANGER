@@ -6,7 +6,8 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, jsonify, redirect, url_for
 from tensorflow.keras.models import load_model # ignore error, for now
 from prediction import predict_location
-from server import fetch_gps_coordinates, store_predicted_locations, is_check_rtid_in_db, count_rows
+from server import fetch_gps_coordinates, store_predicted_locations, is_check_rtid_in_db, count_rows, calculate_correct_or_failed_predictions, \
+    get_correct_pred_value, get_failed_pred_value
 
 # load variables from .env file
 load_dotenv(".env")
@@ -42,7 +43,7 @@ def main():
 @app.get('/model-report')
 def model_report():
     """function for model reports"""
-    return render_template('report.html', predictions_made = count_rows())
+    return render_template('report.html', predictions_made = count_rows(), correct_predictions = get_correct_pred_value(), failed_predictions = get_failed_pred_value())
 
 
 @app.get('/display-map')
@@ -85,9 +86,11 @@ def get_predicted_location(coordinate_id, time_interval):
         predicted_location = predict_location((float(long), float(lat)), time_interval, model)
         predicted_location = tuple(predicted_location.strip('[]').split())
         longitude, latitude = predicted_location
+
         # storing predition to the database
         if is_check_rtid_in_db(int(coordinate_id)) is False:
             store_predicted_locations(longitude, latitude, int(coordinate_id))
+            calculate_correct_or_failed_predictions(longitude, latitude, int(coordinate_id))
         return jsonify({"coordinates": {"longitude": longitude, "latitude": latitude}})
     except FileNotFoundError as e:
         return jsonify({"Error!": e})

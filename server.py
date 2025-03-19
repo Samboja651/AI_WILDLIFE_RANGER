@@ -214,3 +214,102 @@ def count_rows():
         print(f"Error! {e}")
         return e
 # print(count_rows())
+
+
+def calculate_correct_or_failed_predictions(pred_long, pred_lat, rowId):
+    """
+    pass
+    """
+
+    # Connect to the database
+    conn = connect_db()
+    try:
+        cursor = conn.cursor()
+        
+        query1 = "SELECT location_long, location_lat FROM kibocheRTData WHERE id = %s"
+
+        cursor.execute(query1, [int(rowId)])
+        rtl_long_lat = cursor.fetchone()
+
+
+        # Check prediction accuracy
+        if abs(float(pred_long) - float(rtl_long_lat[0])) <= 0.001 and \
+            abs(float(pred_lat) - float(rtl_long_lat[1])) <= 0.001:
+
+            query2 = "SELECT correct_predictions FROM reportData WHERE id = 1"
+            
+            cursor.execute(query2)
+            correct_pred_val = cursor.fetchone()
+            
+            new_correct_pred_val = int(correct_pred_val[0]) + 1
+
+            query3 = "UPDATE reportData SET correct_predictions = %s WHERE id = 1"
+
+            cursor.execute(query3, [int(new_correct_pred_val)])
+            conn.commit()
+            print("This is a correct pred and we have updated report table.")
+
+        else:
+            query4 = "SELECT failed_predictions FROM reportData WHERE id = 1"
+            
+            cursor.execute(query4)
+            correct_pred_val = cursor.fetchone()
+            
+            new_failed_pred_val = int(correct_pred_val[0]) + 1
+
+            query5 = "UPDATE reportData SET failed_predictions = %s WHERE id = 1"
+
+            cursor.execute(query5, [int(new_failed_pred_val)])
+            conn.commit()
+            print("This is a failed pred and we have updated report table.")
+    finally:
+        # Ensure the connection is closed
+        cursor.close()
+        conn.close()
+
+# print(calculate_correct_or_failed_predictions(38.799088 ,-3.8896475 ,1))
+
+def get_correct_pred_value():
+    """
+    pass
+    """
+
+    # connect db
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    try:
+        query = "SELECT correct_predictions FROM reportData WHERE id = 1"
+        cursor.execute(query)
+        correct_pred_val = cursor.fetchone()
+
+        # close conn
+        cursor.close()
+        conn.close()
+        return correct_pred_val[0]
+    except mysql.connector.Error as e:
+        print(f"Error! {e}")
+        return e
+    
+
+def get_failed_pred_value():
+    """
+    pass
+    """
+
+    # connect db
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    try:
+        query = "SELECT failed_predictions FROM reportData WHERE id = 1"
+        cursor.execute(query)
+        failed_pred_val = cursor.fetchone()
+
+        # close conn
+        cursor.close()
+        conn.close()
+        return failed_pred_val[0]
+    except mysql.connector.Error as e:
+        print(f"Error! {e}")
+        return e
