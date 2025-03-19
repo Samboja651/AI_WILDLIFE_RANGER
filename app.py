@@ -1,12 +1,12 @@
 """"application"""
 import os
-from flask_mail import Message, Mail
 import smtplib
+from flask_mail import Message, Mail
 from dotenv import load_dotenv
 from flask import Flask, render_template, jsonify, redirect, url_for
-from server import fetch_gps_coordinates
-from prediction import predict_location
 from tensorflow.keras.models import load_model # ignore error, for now
+from prediction import predict_location
+from server import fetch_gps_coordinates, store_predicted_locations, is_check_rtid_in_db, count_rows
 
 # load variables from .env file
 load_dotenv(".env")
@@ -42,7 +42,7 @@ def main():
 @app.get('/model-report')
 def model_report():
     """function for model reports"""
-    return render_template('report.html')
+    return render_template('report.html', predictions_made = count_rows())
 
 
 @app.get('/display-map')
@@ -85,6 +85,9 @@ def get_predicted_location(coordinate_id, time_interval):
         predicted_location = predict_location((float(long), float(lat)), time_interval, model)
         predicted_location = tuple(predicted_location.strip('[]').split())
         longitude, latitude = predicted_location
+        # storing predition to the database
+        if is_check_rtid_in_db(int(coordinate_id)) is False:
+            store_predicted_locations(longitude, latitude, int(coordinate_id))
         return jsonify({"coordinates": {"longitude": longitude, "latitude": latitude}})
     except FileNotFoundError as e:
         return jsonify({"Error!": e})

@@ -2,7 +2,11 @@ document.getElementById("tryThisButton").addEventListener("click", function (eve
     event.preventDefault(); // Prevent form submission default behavior
 
     // Get rowId from input field
-    const rowId = document.getElementById("rowId").value || 1;
+    let rowId = document.getElementById("rowId").value || 1;
+    if (Number(rowId) < 1 || Number(rowId) > 500) {
+        alert(`${rowId} not within the range 1-500. Defaulting to 1.`)
+        rowId = 1;
+    }
 
     // Reload the page with rowId as a URL parameter
     window.location.href = `${window.location.pathname}?rowId=${rowId}`;
@@ -25,8 +29,8 @@ async function initMap() {
     const { PinElement, AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
     map = new Map(document.getElementById("map"), {
-        zoom: 9,
-        center: { lat: -2.8271449279400915, lng: 37.892994380941374 },
+        zoom: 10,
+        center: { lat: -3.7510485752976925, lng: 38.64665170514073 },
         mapId: "TSAVO_PARK",
     });
 

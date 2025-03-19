@@ -21,12 +21,13 @@ def connect_db():
     :returns connection string
     """
     try:
-        connection = mysql.connector.connect(user = USER, password = PASSWORD, host = HOST, database = DATABASE)
+        connection = mysql.connector.connect(
+            user = USER, password = PASSWORD, host = HOST, database = DATABASE)
         print("db connected")
         return connection
     except mysql.connector.Error as e:
         print(f"Connection failed! Error: {e}")
-        return
+        return e
 
 def read_gps_collar_data(file):
     """
@@ -36,7 +37,6 @@ def read_gps_collar_data(file):
     try:
         with open(file, "r", encoding="utf-8") as f:
             data = f.readlines()
-
         # get the column names
         # keys = data[:1][0].strip().split(",")
         values = []
@@ -44,17 +44,15 @@ def read_gps_collar_data(file):
             val = val.strip().split(',')
             values.append(tuple(val))
         return values
-
     except FileExistsError as e:
         print(f"Error! {e}")
-        return
+        return e
     except FileNotFoundError as e:
         print(f"Error! {e}")
-        return
+        return e
     except IndexError as e:
         print(f"Error! {e}")
-        return
-
+        return e
 # read_gps_collar_data("Kiboche_last_500_rows_data.csv")
 
 def seed_db():
@@ -62,7 +60,6 @@ def seed_db():
     # establish connection to db
     db = connect_db()
     cursor = db.cursor()
-
     # get the gps data
     values = read_gps_collar_data(GPS_COLLAR_DATA)
     try:
@@ -71,17 +68,16 @@ def seed_db():
         INSERT INTO kibocheRTData(
         timestamp, location_long, location_lat, local_identifier, time_interval_hours)
         VALUES(%s, %s, %s, %s, %s)"""
-
         # execute query
         cursor.executemany(query, values)
         cursor.close()
         db.commit()
         db.close()
         print("seeding was successful")
-        return
+        return "seeding was successful"
     except mysql.connector.Error as e:
         print(f"Seeding failed, Error! {e}")
-        return
+        return e
 # seed_db()
 
 def fetch_gps_collar_data(url):
@@ -95,11 +91,10 @@ def fetch_gps_collar_data(url):
         with open('gps_collar_data.csv', 'w', encoding='utf-8') as f:
             f.write(data)
         print("data downloaded successfully")
-        return
+        return "data downloaded successfully"
     except urllib.error.URLError as e:
         print(f"Error! : {e}")
-        return
-
+        return e
 # fetch_gps_collar_data(URL2)
 
 
@@ -112,22 +107,110 @@ def fetch_gps_coordinates(coordinate_id):
     Returns:
         Tuple (long, lat) representing real animal location
     """
-
     # connect db
     conn = connect_db()
     cursor = conn.cursor()
     try:
         query = "SELECT location_long, location_lat FROM kibocheRTData WHERE id = %s"
-
         cursor.execute(query, [int(coordinate_id)])
         coordinates = cursor.fetchone()
-
         # close connection
         cursor.close()
         conn.close()
         return coordinates
     except mysql.connector.Error as e:
         print(f"Error! {e}")
-        return
-
+        return e
 # print(fetch_gps_coordinates(2))
+
+def store_predicted_locations(long:str, lat:str, curr_loc_id:int):
+    """
+    stores predicted location to the database.
+    Args:
+        long: predicted longitude
+        lat: predicted latitude
+        curr_loc_id: current real-time location id
+
+    Returns: 
+        None
+    """
+    # connect db
+    conn = connect_db()
+    cursor = conn.cursor()
+    try:
+        query = "INSERT INTO predictionData(rt_id, location_long, location_lat) VALUES(%s,%s,%s)"
+        cursor.execute(query, [int(curr_loc_id), long, lat])
+        conn.commit()
+
+        #close connection
+        cursor.close()
+        conn.close()
+        print("Predictions saved to Db")
+        return "Predictions saved to Db"
+    except mysql.connector.Error as e:
+        print(f"Error! {e}")
+        return e
+
+
+def fetch_rtid_from_predicton_data():
+    """
+    fetch current real-time locaion id from prediction table
+    Returns:
+        List of tuples: [(),()]
+    """
+    # connect db
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    try:
+        query = "SELECT rt_id FROM predictionData"
+        cursor.execute(query)
+        rt_ids = cursor.fetchall()
+
+        #close connection
+        cursor.close()
+        conn.close()
+        return rt_ids
+    except mysql.connector.Error as e:
+        print(f"Error! {e}")
+        return e
+# print(fetch_rtid_from_predicton_data())
+
+def is_check_rtid_in_db(rt_id):
+    """
+    Returns: 
+        bool
+    """
+    ids = fetch_rtid_from_predicton_data()
+    numbers = []
+    for val in ids:
+        numbers.append(val[0])
+
+    if rt_id in numbers:
+        return True
+    else:
+        return False
+# print(is_check_rtid_in_db(1))
+
+def count_rows():
+    """
+    count number of rows in prediction db -> rep unique predictions.
+    Returns:
+        str: number of rows in db
+    """
+    # connect db
+    conn = connect_db()
+    cursor = conn.cursor()
+    try:
+        query = "SELECT COUNT(pd_id) FROM predictionData"
+        cursor.execute(query)
+        count = cursor.fetchall()
+
+        # close conn
+        cursor.close()
+        conn.close()
+        return count[0][0]
+    except mysql.connector.Error as e:
+        print(f"Error! {e}")
+        return e
+# print(count_rows())

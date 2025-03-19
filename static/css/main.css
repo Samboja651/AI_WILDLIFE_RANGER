@@ -3,8 +3,6 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
 }
-
-
 /* Styling the map container */
 .map-container, #map {
     display: flex;
@@ -17,42 +15,34 @@ body {
     border: 1px solid #cccccc;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
-
 .map-container p {
     text-align: center;
     color: #333333;
     font-size: 18px;
 }
-
-    /* Style for the report table */
-
-    .table {
-        width: 100%;
-        margin-top: 20px;
-        border-collapse: collapse;
-        font-size: 1.2em; /* Make text bigger */
-    }
-    
-    .table th, .table td {
-        padding: 20px; /* Add more padding */
-        text-align: center;
-        border: 2px solid #dee2e6;
-    }
-    
-    .table th {
-        background-color: #007bff;
-        color: #fff;
-        font-weight: bold;
-    }
-    
-    .table tbody tr:nth-child(odd) {
-        background-color: #f8f9fa;
-    }
-    
-    .table tbody tr:nth-child(even) {
-        background-color: #e9ecef;
-    }
-
+/* Style for the report table */
+.table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    font-size: 1.2em; /* Make text bigger */
+}
+.table th, .table td {
+    padding: 20px; /* Add more padding */
+    text-align: center;
+    border: 2px solid #dee2e6;
+}
+.table th {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+}
+.table tbody tr:nth-child(odd) {
+    background-color: #f8f9fa;
+}
+.table tbody tr:nth-child(even) {
+    background-color: #e9ecef;
+}
 /* Footer styling */
 .footer {
     display: flex;
@@ -62,4 +52,15 @@ body {
     font-size: 14px;
     color: #666666;
     bottom: 3em;
+}
+form input{
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+/* navbar */
+div .text-end{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    justify-content: flex-end;
 }

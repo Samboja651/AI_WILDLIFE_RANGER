@@ -18,6 +18,13 @@ CREATE TABLE IF NOT EXISTS reportData(
     failed_predictions INT NOT NULL,
     success_rate FLOAT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS predictionData(
+    pd_id INT PRIMARY KEY AUTO_INCREMENT,
+    rt_id  INT UNIQUE NOT NULL,
+    location_long VARCHAR(30) NOT NULL,
+    location_lat VARCHAR(30) NOT NULL,
+    FOREIGN KEY (rt_id) REFERENCES kibocheRTData(id)
+);
 CREATE USER IF NOT EXISTS 'wdf_conservatist'@'localhost' IDENTIFIED BY '@WildlifeTech2025'; -- create another user instead of root operations.
 GRANT ALL PRIVILEGES ON WDF_conservation.* TO 'wdf_conservatist'@'localhost';
 -- end
