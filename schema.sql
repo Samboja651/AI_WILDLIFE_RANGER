@@ -13,16 +13,21 @@ CREATE TABLE IF NOT EXISTS kibocheRTData(
 );
 CREATE TABLE IF NOT EXISTS reportData(
     id INT PRIMARY KEY AUTO_INCREMENT,
-    predictions_made INT NOT NULL, -- I don't think this is necessary, should remove
     correct_predictions INT NOT NULL,
-    failed_predictions INT NOT NULL,
-    success_rate FLOAT NOT NULL
+    failed_predictions INT NOT NULL
 );
+INSERT INTO reportData(correct_predictions, failed_predictions) VALUES(0, 0);
 CREATE TABLE IF NOT EXISTS predictionData(
     pd_id INT PRIMARY KEY AUTO_INCREMENT,
     rt_id  INT UNIQUE NOT NULL,
     location_long VARCHAR(30) NOT NULL,
     location_lat VARCHAR(30) NOT NULL,
+    FOREIGN KEY (rt_id) REFERENCES kibocheRTData(id)
+);
+CREATE TABLE IF NOT EXISTS distance_record(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    rt_id INT UNIQUE NOT NULL,
+    distance FLOAT,
     FOREIGN KEY (rt_id) REFERENCES kibocheRTData(id)
 );
 CREATE USER IF NOT EXISTS 'wdf_conservatist'@'localhost' IDENTIFIED BY '@WildlifeTech2025'; -- create another user instead of root operations.

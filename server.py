@@ -4,7 +4,7 @@ import urllib.error
 import urllib.request
 import mysql.connector
 from dotenv import load_dotenv
-
+from geopy.distance import geodesic
 
 # load variables from .env file
 load_dotenv(".env")
@@ -216,73 +216,64 @@ def count_rows():
 # print(count_rows())
 
 
-def calculate_correct_or_failed_predictions(pred_long, pred_lat, rowId):
+def calculate_correct_or_failed_predictions(pred_long, pred_lat, row_id):
     """
-    pass
+    calculate correct and failed predictions based on coordinate displacement value
     """
 
     # Connect to the database
     conn = connect_db()
+    cursor = conn.cursor()      
     try:
-        cursor = conn.cursor()
-        
         query1 = "SELECT location_long, location_lat FROM kibocheRTData WHERE id = %s"
-
-        cursor.execute(query1, [int(rowId)])
+        cursor.execute(query1, [int(row_id)])
         rtl_long_lat = cursor.fetchone()
 
+        # convert to tuple
+        predicted_tuple = (pred_lat, pred_long)
+        realtime_tuple = (float(rtl_long_lat[1]), float(rtl_long_lat[0]))
 
+        # calculate differential distance between predicted and actual location in meters
+        distance = geodesic(predicted_tuple, realtime_tuple).meters
+       
+        # store distance in db
+        query_2 = "INSERT INTO distance_record(rt_id, distance) VALUES(%s, %s)"
+        cursor.execute(query_2, [row_id, float(distance)]) 
+        conn.commit()
+        
         # Check prediction accuracy
-        if abs(float(pred_long) - float(rtl_long_lat[0])) <= 0.001 and \
-            abs(float(pred_lat) - float(rtl_long_lat[1])) <= 0.001:
-
-            query2 = "SELECT correct_predictions FROM reportData WHERE id = 1"
-            
-            cursor.execute(query2)
-            correct_pred_val = cursor.fetchone()
-            
-            new_correct_pred_val = int(correct_pred_val[0]) + 1
-
-            query3 = "UPDATE reportData SET correct_predictions = %s WHERE id = 1"
-
-            cursor.execute(query3, [int(new_correct_pred_val)])
+        if distance < 100:
+            query = "UPDATE reportData SET correct_predictions = (correct_predictions + 1) WHERE id = 1"
+            cursor.execute(query)
             conn.commit()
             print("This is a correct pred and we have updated report table.")
-
+            return None
         else:
-            query4 = "SELECT failed_predictions FROM reportData WHERE id = 1"
-            
-            cursor.execute(query4)
-            correct_pred_val = cursor.fetchone()
-            
-            new_failed_pred_val = int(correct_pred_val[0]) + 1
-
-            query5 = "UPDATE reportData SET failed_predictions = %s WHERE id = 1"
-
-            cursor.execute(query5, [int(new_failed_pred_val)])
+            query = "UPDATE reportData SET failed_predictions = (failed_predictions + 1) WHERE id = 1"
+            cursor.execute(query)
             conn.commit()
             print("This is a failed pred and we have updated report table.")
+            return None
+    except mysql.connector.Error as e:
+        print(f"Error, {e}")
+        return e
     finally:
         # Ensure the connection is closed
         cursor.close()
         conn.close()
-
 # print(calculate_correct_or_failed_predictions(38.799088 ,-3.8896475 ,1))
 
 def get_correct_pred_value():
     """
-    pass
+    fetch the correct prediction value from db
     """
-
     # connect db
     conn = connect_db()
     cursor = conn.cursor()
-
     try:
         query = "SELECT correct_predictions FROM reportData WHERE id = 1"
         cursor.execute(query)
         correct_pred_val = cursor.fetchone()
-
         # close conn
         cursor.close()
         conn.close()
@@ -290,17 +281,15 @@ def get_correct_pred_value():
     except mysql.connector.Error as e:
         print(f"Error! {e}")
         return e
-    
+
 
 def get_failed_pred_value():
     """
-    pass
+    fetch the failed prediction value from db
     """
-
     # connect db
     conn = connect_db()
     cursor = conn.cursor()
-
     try:
         query = "SELECT failed_predictions FROM reportData WHERE id = 1"
         cursor.execute(query)

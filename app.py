@@ -43,7 +43,15 @@ def main():
 @app.get('/model-report')
 def model_report():
     """function for model reports"""
-    return render_template('report.html', predictions_made = count_rows(), correct_predictions = get_correct_pred_value(), failed_predictions = get_failed_pred_value())
+    predictions_made = count_rows()
+    correct_predictions = get_correct_pred_value()
+    failed_predictions = get_failed_pred_value()
+
+    # calculate success rate in percentage
+    success_rate = ((int(correct_predictions) / int(predictions_made)) * 100)
+    success_rate = round(success_rate, 2)
+    return render_template('report.html', predictions_made = predictions_made, correct_predictions = correct_predictions, \
+                           failed_predictions = failed_predictions, success_rate = success_rate)
 
 
 @app.get('/display-map')
