@@ -79,8 +79,9 @@ API_KEY = "YOUR GCP MAPS JAVASCRIPT API KEY"
 - By default if no value is given, we just use row id 1.
 
 **TODO**
- * currenlty the api urls put in `script.js` need to be dynamic. Figure out how to dynamically change the variables named `time, coordinate_id & time_interval` on the urls to change dynamicall.
- * Placing the boundaries that animal should not cross, otherwise raise alert.
+document about the following.\
+- geopy function
+- how each feature in the app works
   
 
 ## Directory structure
