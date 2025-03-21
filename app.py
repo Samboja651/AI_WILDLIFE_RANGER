@@ -112,7 +112,7 @@ def send_alert():
     try:
         msg = Message("Alert!", recipients=[recipient_mail])
         msg.body = """
-        Model predicts that 2hrs from now, lion Kiboche would have gone out of the park.\n
+        Model predicts that 2hrs from now, lion Kiboche would have gone out of the park.
         Take proactive measure to reduce the chance of Human-Wildlife conflict from occuring!"""
         mail.send(msg)
         return jsonify({"message": "Alert email sent successfully!"})
@@ -121,4 +121,4 @@ def send_alert():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=3000)
+    app.run(debug=True)
