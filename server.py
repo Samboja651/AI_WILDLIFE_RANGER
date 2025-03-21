@@ -225,8 +225,9 @@ def calculate_correct_or_failed_predictions(pred_long, pred_lat, row_id):
     conn = connect_db()
     cursor = conn.cursor()      
     try:
+        # fetch the next real-time location from db
         query1 = "SELECT location_long, location_lat FROM kibocheRTData WHERE id = %s"
-        cursor.execute(query1, [int(row_id)])
+        cursor.execute(query1, [int(row_id) + 1])
         rtl_long_lat = cursor.fetchone()
 
         # convert to tuple
