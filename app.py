@@ -34,6 +34,11 @@ def get_config():
     return jsonify({"opencage_apiKey": os.environ.get("OPENCAGE_API_KEY")})
 
 
+@app.route('/register')
+def register():
+    """register a ranger"""
+    return render_template('register.html')
+
 @app.get('/')
 def main():
     """view func for home"""
