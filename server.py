@@ -27,11 +27,14 @@ def connect_db():
         return connection
     except mysql.connector.Error as e:
         print(f"Connection failed! Error: {e}")
-        return e
-
+        return f"Connection failed! Error: {e}"
+# print(connect_db())
 def read_gps_collar_data(file):
     """
     reads gps collar data from file.
+    
+    Args: 
+        file: contains gps collar data
     returns data in keys(columns) and list(val(tuples))
     """
     try:
@@ -43,6 +46,8 @@ def read_gps_collar_data(file):
         for val in data[1:]:
             val = val.strip().split(',')
             values.append(tuple(val))
+        if len(values) == 0:
+            return "Error! Empty file."
         return values
     except FileExistsError as e:
         print(f"Error! {e}")
@@ -53,7 +58,7 @@ def read_gps_collar_data(file):
     except IndexError as e:
         print(f"Error! {e}")
         return e
-# read_gps_collar_data("Kiboche_last_500_rows_data.csv")
+# print(read_gps_collar_data("archives/Kiboche_last_500_rows_data.csv"))
 
 def seed_db():
     """"populate database with simulated realtime data"""
@@ -82,20 +87,23 @@ def seed_db():
 
 def fetch_gps_collar_data(url):
     """
-    fetches gps collar data of an animal
-    returns data_file
+    downloads gps collar data of the lions.
+    Args:
+        url: gps collar data
+    returns: 
+        file: csv
     """
     try:
         with urllib.request.urlopen(url) as f:
             data = f.read().decode('utf-8')
-        with open('gps_collar_data.csv', 'w', encoding='utf-8') as f:
+        with open('Kiboche_last_500_rows_data.csv', 'w', encoding='utf-8') as f:
             f.write(data)
         print("data downloaded successfully")
         return "data downloaded successfully"
     except urllib.error.URLError as e:
         print(f"Error! : {e}")
         return e
-# fetch_gps_collar_data(URL2)
+# fetch_gps_collar_data("url")
 
 
 def fetch_gps_coordinates(coordinate_id):
@@ -121,7 +129,7 @@ def fetch_gps_coordinates(coordinate_id):
     except mysql.connector.Error as e:
         print(f"Error! {e}")
         return e
-# print(fetch_gps_coordinates(2))
+# print(fetch_gps_coordinates(2.9))
 
 def store_predicted_locations(long:str, lat:str, curr_loc_id:int):
     """
@@ -181,15 +189,23 @@ def is_check_rtid_in_db(rt_id):
     Returns: 
         bool
     """
-    ids = fetch_rtid_from_predicton_data()
-    numbers = []
-    for val in ids:
-        numbers.append(val[0])
+    try:
+        ids = fetch_rtid_from_predicton_data()
+        numbers = []
+        for val in ids:
+            numbers.append(val[0])
 
-    if rt_id in numbers:
-        return True
-    else:
-        return False
+        if rt_id in numbers:
+            return True
+        else:
+            return False
+    except TypeError as e:
+        print(f"Error! {e}")
+        return "Type Error! id must be integer"
+    # if rt_id is not passed raise error
+    except ValueError as e:
+        print(f"Error! {e}")
+        return "Value Error! need to pass id"
 # print(is_check_rtid_in_db(1))
 
 def count_rows():
