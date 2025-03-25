@@ -51,6 +51,11 @@ def model_report():
     predictions_made = count_rows()
     correct_predictions = get_correct_pred_value()
     failed_predictions = get_failed_pred_value()
+    
+    # escape zerodivison error
+    if int(correct_predictions) == 0:
+        return render_template('report.html', predictions_made = predictions_made, correct_predictions = correct_predictions, \
+                           failed_predictions = failed_predictions, success_rate = 0)
 
     # calculate success rate in percentage
     success_rate = ((int(correct_predictions) / int(predictions_made)) * 100)

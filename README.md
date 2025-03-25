@@ -97,8 +97,9 @@ API_KEY = "YOUR GCP MAPS JAVASCRIPT API KEY"
 **TODO**
 document about the following.\
 
-- geopy function
 - how each feature in the app works
+- the api code block needs review and exceptions safely captured.
+- How can we automate the testing of the predictios, instead of going through each row to view status on report page.
 
 setting up git for to remove the name `unknown` in commits.
 

@@ -9,3 +9,4 @@ archives
 .env_2
 .learn
 .ipynb*
+*.log

@@ -243,7 +243,7 @@ def calculate_correct_or_failed_predictions(pred_long, pred_lat, row_id):
         conn.commit()
         
         # Check prediction accuracy
-        if distance < 100:
+        if distance < 500:
             query = "UPDATE reportData SET correct_predictions = (correct_predictions + 1) WHERE id = 1"
             cursor.execute(query)
             conn.commit()
