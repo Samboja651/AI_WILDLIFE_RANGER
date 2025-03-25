@@ -99,9 +99,12 @@ document about the following.\
 
 - how each feature in the app works
 - the api code block needs review and exceptions safely captured.
-- How can we automate the testing of the predictios, instead of going through each row to view status on report page.
+- documentation of results into project proposal
+- documentation of the system
+- powerpoint slides to show case system
 
-setting up git for to remove the name `unknown` in commits.
+> I think we should ignore the authentication mechanism. Reason - out of time.
+setting up git for YOU to remove the name `unknown` in commits.
 
 ```git Bash
 git config --global user.name "Your Name"
