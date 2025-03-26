@@ -53,7 +53,7 @@ Unit testing with `pytest`.
 | TC_3 | file path - `archives/Kiboche_last_500_rows_data.csv` | list of rows - `[(), ()]` | conversion of csv data to a list |
 | TC_4 | Incorrect file path | `Error! FileExistError` | file path |
 | TC_5 | Incorrect file path | `Error! FileNotFoundError`| file exists |
-| TC_6 | empty file | `Error! Empty file.` | no data in the file.
+| TC_6 | empty file | `Error! Empty file.` | no data in the file. |
 
 ```server.seed_db```
 

@@ -85,7 +85,8 @@ def seed_db():
         return e
 # seed_db()
 
-def fetch_gps_collar_data(url):
+DEFAULT_URL = "https://drive.google.com/uc?id=1N9gEm56eMsf8qcRi3JwQzn2n4cxiuDsA&export=download"
+def fetch_gps_collar_data(url = DEFAULT_URL):
     """
     downloads gps collar data of the lions.
     Args:
