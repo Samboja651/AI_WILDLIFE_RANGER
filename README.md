@@ -69,7 +69,7 @@ pip install requirements.txt
 ### Setup Database
 
 Paste the content of `schema.sql` into your mysql and execute.\
-Add the portion of the real_time data to the database.\
+Add the portion of the real_time data to the database by the running command below.\
 Run the `main.py` file or `python3 main.py` to seed the database.
 
 ## Environment Setup
@@ -158,3 +158,7 @@ Ensure you have installed all dependencies in `requirements.txt` file. Do this i
 ## Description of workflow
 
 ## Directory structure
+
+## Help
+
+If you need to try the system with our development external apis or env data. Send an email to <tumaini736@gmail.com>
