@@ -25,31 +25,22 @@
                         </svg>
                     </div>
                     <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="/view-map">View Map</a></li>
-                        <li><a href="/model-report">View Report</a></li>
-                        <li><a href="/feedback">Feedback</a></li>
-                        <li><a href="">Logout</a></li>
+                        <li><a href="{{ url_for('main') }}">Home</a></li>
+                        {% if session.ranger_id %}
+                            <li><a href="{{ url_for('model_report') }}">View Reports</a></li>
+                            <li><a href="{{ url_for('display_location') }}">View Location</a></li>
+                            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                            <h3 class="navbar-end">Ranger {{ session.ranger_id }}</h3>
+                        {% else %}
+                            <li><a href="{{ url_for('register') }}">Register</a></li>
+                            <li><a href="{{ url_for('login') }}">Login</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
             <div class="navbar-center">
                 <a class="btn btn-ghost text-xl">HWC</a>
             </div>
-            <nav class="">
-                <ul>
-                    <li><a href="{{ url_for('main') }}">Home</a></li>
-                    {% if session.ranger_id %}
-                        <li><a href="{{ url_for('model_report') }}">View Reports</a></li>
-                        <li><a href="{{ url_for('display_location') }}">View Location</a></li>
-                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
-                        <h3 class="navbar-end">Ranger {{ session.ranger_id }}</h3>
-                    {% else %}
-                        <li><a href="{{ url_for('register') }}">Register</a></li>
-                        <li><a href="{{ url_for('login') }}">Login</a></li>
-                    {% endif %}
-                </ul>
-            </nav>
         </div>
     </div>
 

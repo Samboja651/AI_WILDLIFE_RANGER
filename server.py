@@ -323,7 +323,9 @@ def get_failed_pred_value():
         return e
 
 # validating user registration data
-def validate_auth_inputs(ranger_id: str=None, email: str=None, password: str=None, confirm_password: str=None)->str:
+def validate_auth_inputs(ranger_id: str=None, email: str=None, 
+                         password: str=None, confirm_password: str=None
+                         )->str:
     """Validate registration and login inputs."""
     message = None
     try:
