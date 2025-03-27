@@ -5,13 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title%}Wildlife Conservation{% endblock%}</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
     <script type="module" src="{{ url_for('static', filename='js/script.js') }}"></script> 
     {% block script %} {% endblock %}
+    <style>
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24;         
+        }
+        .visibility-password {
+            position: relative;
+        }
+        #visibility-icon {
+            position: absolute;
+            left: calc(100% - 35px);
+            top: 0rem;
+        }
+
+    </style>
     
 </head>
 <body class="bg-light">
@@ -63,7 +82,23 @@
           // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
           // Add other bootstrap parameters as needed, using camel case.
         });
-      </script>
+    </script>
+    <script>
+        // toggle password
+        const passwordInput = document.getElementById('password');
+        const visibilityIcon = document.querySelector('span#visibility-icon');
 
+
+        function togglePassword() {
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                visibilityIcon.textContent = 'visibility_off';
+            } else {
+                passwordInput.type = 'password';
+                visibilityIcon.textContent = 'visibility';
+            }
+        }   
+    </script>
 </body>
 </html>
