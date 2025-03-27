@@ -11,10 +11,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
     <script type="module" src="{{ url_for('static', filename='js/script.js') }}"></script> 
-    <!-- <script type="module" src="/static/js/script.js"></script> -->
+    {% block script %} {% endblock %}
     
 </head>
-<body>
+<body class="bg-light">
     <div class="nav">
         <div class="navbar bg-base-100 shadow-sm">
             <div class="navbar-start">
@@ -24,18 +24,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /> 
                         </svg>
                     </div>
-                    <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                        <li><a href="{{ url_for('main') }}">Home</a></li>
-                        {% if session.ranger_id %}
-                            <li><a href="{{ url_for('model_report') }}">View Reports</a></li>
-                            <li><a href="{{ url_for('display_location') }}">View Location</a></li>
-                            <li><a href="{{ url_for('logout') }}">Logout</a></li>
-                            <h3 class="navbar-end">Ranger {{ session.ranger_id }}</h3>
-                        {% else %}
-                            <li><a href="{{ url_for('register') }}">Register</a></li>
-                            <li><a href="{{ url_for('login') }}">Login</a></li>
-                        {% endif %}
-                    </ul>
+                    {% include "navigation.html" %}
                 </div>
             </div>
             <div class="navbar-center">
@@ -43,24 +32,23 @@
             </div>
         </div>
     </div>
+    {% block section %}
+        <section class="main container-fluid">
+            <div class="map-container">
+                {% block container %}
+                    <div id="map"></div>
 
-    <main class="main container-fluid">
-        <div class="map-container">
-            {% block container%}
-                <h1>The Landing Page</h1>
-            {% endblock%}
-        </div>
-        {% block formField%}
-        <div class="col d-flex justify-content-center">
-            <form action="#" method="post"> 
-                <input type="number" max="500" id="rowId" class="p-2" placeholder="Row ID (1-500)" required>
-                <input type="text" placeholder="2hrs" class="p-2" readonly>
-                <button id="tryThisButton" class="btn btn-primary">try this</button>
-            </form>
-        </div>
-        {% endblock%}
-    </main>
-    
+                    <div class="col d-flex justify-content-center">
+                        <form method="post"> 
+                            <input type="number" max="500" id="rowId" class="p-2" placeholder="Row ID (1-500)" required>
+                            <input type="text" placeholder="2hrs" class="p-2" readonly>
+                            <button id="tryThisButton" class="btn btn-primary">try this</button>
+                        </form>
+                    </div>
+                {% endblock %}
+            </div>
+        </section>
+    {% endblock%}
     <footer class="footer">
         <span>CC</span>
         <span>Contact</span>

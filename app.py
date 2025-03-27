@@ -52,24 +52,9 @@ def get_config():
     return jsonify({"opencage_apiKey": os.environ.get("OPENCAGE_API_KEY")})
 
 @app.get('/')
-def main():
+def home():
     """view func for home"""
     return render_template('home.html')
-
-@app.get('/feedback')
-def feedback():
-    """view func for feedback"""
-    return render_template('feedbackPage.html')
-
-@app.get('/home')
-def go_home():
-    """Return to home page"""
-    return redirect(url_for('main'))
-
-@app.get('/view-map')
-def view_map():
-    """view func for viewing the map"""
-    return render_template('index.html', API_KEY = API_KEY)
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
@@ -161,7 +146,7 @@ def login():
             if message is None:
                 session.clear() # assign a new session
                 session['ranger_id'] = ranger_id
-                return redirect(url_for('main'))
+                return redirect(url_for('display_location'))
 
         return render_template('login.html')
     except Exception as e:
@@ -173,7 +158,7 @@ def login():
 def logout():
     """logout"""
     session.clear()
-    return redirect(url_for('main'))
+    return redirect(url_for('home'))
 
 @app.get('/model-report')
 def model_report():
@@ -202,15 +187,23 @@ def model_report():
     flash("You have to log in")
     return redirect(url_for('login'))
 
-@app.get('/display-location')
+@app.get('/view-map')
 def display_location():
-    """Display Tsavo map"""
+    """Display lion location google map"""
     ranger_id = session.get("ranger_id")
     if ranger_id is not None:
-        return render_template("view_map.html") # change to view map
+        return render_template("index.html", API_KEY = API_KEY)
     flash("You have to log in")
     return redirect(url_for('login'))
 
+@app.get('/feedback')
+def feedback():
+    """view func for feedback"""
+    ranger_id = session.get("ranger_id")
+    if ranger_id is not None:
+        return render_template('feedback.html')
+    flash("You have to log in.")
+    return redirect(url_for('login'))
 
 @app.get("/real-time-location/<int:coordinate_id>")
 def _get_realtime_coordinates(coordinate_id): # only for background usage

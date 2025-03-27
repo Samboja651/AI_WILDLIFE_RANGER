@@ -161,4 +161,4 @@ Ensure you have installed all dependencies in `requirements.txt` file. Do this i
 
 ## Help
 
-If you need to try the system with our development external apis or env data. Send an email to <tumaini736@gmail.com>
+If you need to try the system with our development external apis or env data. Send an email to <tumaini736@gmail.com> and get the data.
