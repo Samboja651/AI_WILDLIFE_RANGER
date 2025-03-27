@@ -321,3 +321,50 @@ def get_failed_pred_value():
     except mysql.connector.Error as e:
         print(f"Error! {e}")
         return e
+
+# validating user registration data
+def validate_auth_inputs(ranger_id: str=None, email: str=None, password: str=None, confirm_password: str=None)->str:
+    """Validate registration and login inputs."""
+    message = None
+    try:
+        while message is None:
+            # password mismatch
+            if confirm_password is not None and password != confirm_password:
+                message = "Passwords do not match!"
+                break
+
+            # include a uppercase letters
+            if not any(char.isupper() for char in password):
+                message = "Password must contain a uppercase letter."
+                break
+
+            # include a lowercase letters
+            if not any(char.islower() for char in password):
+                message = "Password must contain a lowercase letter."
+                break
+
+            # include a digit
+            if not any(char.isdigit() for char in password):
+                message = "Password must contain a numeric digit."
+                break
+
+            # include a special char
+            if not any(char in '!@#$%^&*()-_=+[]{}|;:\'",.<>?/`~' for char in password):
+                message = "Password must contain a special character."
+                break
+
+            # ranger id length
+            if ranger_id is not None and (len(ranger_id) < 5 or len(ranger_id) > 15):
+                message = "Ranger id not in range of 5-15 characters."
+                break
+
+            # valid email
+            if email is not None and ("@" not in email or "." not in email):
+                message = "Email must contain an '@' and '.'"
+                break
+            break
+        return message
+    except Exception as e:
+        print(e)
+        message = "Exception occured. Retry!"
+        return message

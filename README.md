@@ -107,7 +107,7 @@ GET /
 GET /model-report
 
 # display map on home page
-GET /display-map
+GET /display-location
 
 # get current lion location
 GET /real-time-location/<int:coordinate_id>

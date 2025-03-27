@@ -7,6 +7,9 @@
     <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="card p-4 shadow" style="width: 350px;">
             <h4 class="text-center mb-4">Ranger Login</h4>
+            {% for message in get_flashed_messages() %}
+                <div class="flash" style="text-align: center; color: crimson;">{{ message }}</div>
+            {% endfor %}
             <form method="post">
                 <div class="mb-3">
                     <label for="rangerId" class="form-label">Ranger ID</label>

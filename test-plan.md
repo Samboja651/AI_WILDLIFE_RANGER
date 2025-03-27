@@ -145,7 +145,7 @@ Verify the working of each api route in the `app.py`
 | TC_31 | `http://localhost:5000/` | 200 | home page |
 | TC_32 | `http://localhost:5000/config` | 200 | api config |
 | TC_33 | `http://localhost:5000/model-report` | 200 | model perfomance report page |
-| TC_34 | `http://localhost:5000/display-map` | 200 | display map on home page |
+| TC_34 | `http://localhost:5000/display-location` | 200 | display map on home page |
 | TC_35 | `http://localhost:5000/real-time-location/1` | 200 | get current lion location |
 | TC_36 | `http://localhost:5000/predict/location/1/time/2` | 200 | predict the location of lion |
 | TC_37 | `http://localhost:5000/send-alert` | 200 | send alert email messages |

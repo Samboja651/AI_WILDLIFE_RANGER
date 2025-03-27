@@ -18,27 +18,27 @@
             <div class="col">
                 <h1 class="h3">{% block subtitle%}Wildlife Conservation {% endblock%}</h1>
             </div>
-            <div class="col text-end">
-                <a href="{{ url_for('main') }}"><button class="btn btn-primary">View Map</button></a>
-                <a href="{{ url_for('model_report') }}"><button class="btn btn-secondary">View Reports</button></a>
-                <a href="{{ url_for('register') }}"><button class="btn btn-success">Register</button></a>
-                <a href="{{ url_for('login') }}"><button class="btn btn-danger">Login</button></a>
-                <a href="{{ url_for('logout') }}"><button class="btn btn-success">Logout</button></a>
-            </div>
+            <nav class="">
+                <ul>
+                    <li><a href="{{ url_for('main') }}">Home</a></li>
+                    {% if session.ranger_id %}
+                        <li><a href="{{ url_for('model_report') }}">View Reports</a></li>
+                        <li><a href="{{ url_for('display_location') }}">View Location</a></li>
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                        <h3>Ranger {{ session.ranger_id }}</h3>
+                    {% else %}
+                        <li><a href="{{ url_for('register') }}">Register</a></li>
+                        <li><a href="{{ url_for('login') }}">Login</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
         </div>
     </header>
 
     <main class="container-fluid">
         <div class="map-container">
             {% block container%}
-                <div id="map"></div>
-                <div class="col d-flex justify-content-center">
-                    <form action="#" method="post"> 
-                        <input type="number" max="500" id="rowId" class="p-2" placeholder="Row ID (1-500)" required>
-                        <input type="text" placeholder="2hrs" class="p-2" readonly>
-                        <button id="tryThisButton" class="btn btn-primary">try this</button>
-                    </form>
-                </div>
+                <h1>The Landing Page</h1>
             {% endblock%}
         </div>
     </main>
