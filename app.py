@@ -42,6 +42,21 @@ def register():
 @app.get('/')
 def main():
     """view func for home"""
+    return render_template('home.html')
+
+@app.get('/feedback')
+def feedback():
+    """view func for feedback"""
+    return render_template('feedbackPage.html')
+
+@app.get('/home')
+def go_home():
+    """Return to home page"""
+    return redirect(url_for('main'))
+
+@app.get('/view-map')
+def view_map():
+    """view func for viewing the map"""
     return render_template('index.html', API_KEY = API_KEY)
 
 

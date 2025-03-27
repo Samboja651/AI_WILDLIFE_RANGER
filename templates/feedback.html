@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Page</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <script>
+        function updateLocID() {
+            // Generate a random ID for demonstration (replace with actual logic)
+            document.getElementById("locID").value = ""// fetch from the server;
+        }
+    </script>
+
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+</head>
+<body class="bg-light">
+
+    <div class="nav">
+        <div class="navbar bg-base-100 shadow-sm">
+            <div class="navbar-start">
+                <div class="dropdown">
+                    <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> 
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /> 
+                        </svg>
+                    </div>
+                    <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                        <li><a href="/home">Home</a></li>
+                        <li><a href="/view-map">View Map</a></li>
+                        <li><a href="/model-report">Report</a></li>
+                        <li><a href="">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="navbar-center">
+                <a class="btn btn-ghost text-xl">HWC</a>
+            </div>
+            <div class="navbar-end">
+                <p>Ranger ID</p>
+            </div>
+        </div>
+    </div>
+    <div class="feedbankmain">
+        <div class="max-w-lg mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
+            <h2 class="text-center text-2xl font-semibold mb-6">Submit Your Feedback</h2>
+        
+            <!-- Predicted Location ID Button -->
+            <div class="flex justify-center mb-4">
+                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700" onclick="updateLocID()">Get Predicted Location ID</button>
+            </div>
+        
+            <!-- Feedback Form -->
+            <div class="p-4 border border-gray-200 rounded-lg">
+                <form>
+                    <!-- Predicted Location ID (Readonly) -->
+                    <div class="mb-4">
+                        <label for="locID" class="block text-gray-700 font-medium">Predicted Location ID (Click the button above)</label>
+                        <input type="text" id="locID" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" readonly required>
+                    </div>
+        
+                    <!-- Animal Type (Dropdown Select) -->
+                    <div class="mb-4">
+                        <label for="animalType" class="block text-gray-700 font-medium">Animal Type</label>
+                        <select id="animalType" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" required>
+                            <option value="" disabled selected>Select an animal</option>
+                            <option value="elephant">Elephant</option>
+                            <option value="lion">Lion</option>
+                            <option value="leopard">Leopard</option>
+                            <option value="cheetah">Cheetah</option>
+                            <option value="rhino">Rhino</option>
+                        </select>
+                    </div>
+        
+                    <!-- Action Taken (Feedback Box) -->
+                    <div class="mb-4">
+                        <label for="actionTaken" class="block text-gray-700 font-medium">Action Taken</label>
+                        <textarea id="actionTaken" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" rows="3" placeholder="Describe the actions taken" required></textarea>
+                    </div>
+        
+                    <!-- Conflict Avoided (Yes/No Radio Buttons) -->
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-medium">Was the conflict avoided?</label>
+                        <div class="flex items-center space-x-4 mt-2">
+                            <label class="flex items-center space-x-2">
+                                <input type="radio" name="conflictAvoided" value="yes" class="w-4 h-4">
+                                <span>Yes</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="radio" name="conflictAvoided" value="no" class="w-4 h-4">
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+        
+                    <!-- Submit Button -->
+                    <div class="text-center">
+                        <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">Submit Feedback</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+
+</body>
+</html>
