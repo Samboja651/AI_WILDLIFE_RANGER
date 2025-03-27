@@ -30,6 +30,12 @@ CREATE TABLE IF NOT EXISTS distance_record(
     distance FLOAT,
     FOREIGN KEY (rt_id) REFERENCES kibocheRTData(id)
 );
+CREATE TABLE IF NOT EXISTS users(
+    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    ranger_id VARCHAR(30) UNIQUE NOT NULL,
+    email VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(200) NOT NULL
+);
 CREATE USER IF NOT EXISTS 'wdf_conservatist'@'localhost' IDENTIFIED BY '@WildlifeTech2025'; -- create another user instead of root operations.
 GRANT ALL PRIVILEGES ON WDF_conservation.* TO 'wdf_conservatist'@'localhost';
 -- end

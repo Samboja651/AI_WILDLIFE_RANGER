@@ -1,14 +1,19 @@
 <!DOCTYPE html>
+
 {% extends "index.html" %}
 {% block subtitle %} Ranger Registration {% endblock %}
+
 {% block container %}
     <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="card p-4 shadow" style="width: 400px;">
             <h4 class="text-center mb-4">Ranger Registration</h4>
-            <form>
+            {% for message in get_flashed_messages() %}
+                <div class="flash" style="text-align: center; color: crimson;">{{ message }}</div>
+            {% endfor %}
+            <form method="post">
                 <div class="mb-3">
                     <label for="rangerId" class="form-label">Ranger ID</label>
-                    <input type="text" name="rangerId" id="rangerId" class="form-control" placeholder="Enter Ranger ID" required>
+                    <input type="text" name="rangerId" id="rangerId" minlength="5" maxlength="15" class="form-control" placeholder="Enter Ranger ID" required>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
@@ -16,11 +21,11 @@
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" name="password" id="password" class="form-control" placeholder="Enter Password" minlength="8" maxlength="16" required>
+                    <input type="password" name="password" id="password" autocomplete="new-password" class="form-control" placeholder="Enter Password" minlength="8" maxlength="16" required>
                 </div>
                 <div class="mb-3">
                     <label for="confirmPassword" class="form-label">Confirm Password</label>
-                    <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password" required>
+                    <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" placeholder="Confirm Password" required>
                 </div>
                 
                 <button type="submit" class="btn btn-success w-100">Register</button>

@@ -3,12 +3,15 @@ import os
 import smtplib
 from flask_mail import Message, Mail
 from dotenv import load_dotenv
-from flask import Flask, render_template, jsonify, redirect, url_for
+from flask import Flask, render_template, jsonify, redirect, url_for, session, request, flash
+import mysql.connector
 from tensorflow.keras.models import load_model # ignore error, for now
 from prediction import predict_location
 from server import fetch_gps_coordinates, store_predicted_locations, is_check_rtid_in_db, count_rows, calculate_correct_or_failed_predictions, \
     get_correct_pred_value, get_failed_pred_value, connect_db
 from sinch import SinchClient
+from werkzeug.security import check_password_hash, generate_password_hash
+import mysql
 
 # load variables from .env file
 load_dotenv(".env")
@@ -21,8 +24,10 @@ KEY_SECRET = os.environ.get("KEY_SECRET")
 PROJECT_ID = os.environ.get("PROJECT_ID")
 SINCH_NUMBER = os.environ.get("SINCH_NUMBER")
 RECEIVER_NUMBER = os.environ.get("RECEIVER_NUMBER")
+SESSION_SECRET_KEY = os.environ.get("SESSION_SECRET_KEY")
 
 app = Flask(__name__)
+app.secret_key = SESSION_SECRET_KEY
 
 # Flask-Mail Configuration
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Use Gmail SMTP
@@ -40,9 +45,71 @@ def get_config():
     return jsonify({"opencage_apiKey": os.environ.get("OPENCAGE_API_KEY")})
 
 
-@app.route('/register')
+@app.route('/register', methods=['POST', 'GET'])
 def register():
     """register a ranger"""
+    error = None
+    db = connect_db()
+    cursor = db.cursor()
+
+    if request.method == 'POST':
+        ranger_id = request.form['rangerId']
+        email = request.form['email']
+        password = request.form['password']
+        confirm_password = request.form['confirmPassword']
+
+        if not email:
+            error = "Email is required."
+        elif not password:
+            error = "Password is required"
+        elif not ranger_id:
+            error = "Ranger id is required"
+
+        # validation
+        if error is None:
+            try:
+                if password != confirm_password:
+                    flash('Passwords do not match!')
+                    return redirect(url_for('register'))
+                if not any(char.isupper() for char in password):
+                    flash('Password must contain a uppercase letter.')
+                    return redirect(url_for('register'))
+                
+                if not any(char.islower() for char in password):
+                    flash('Password must contain a lowercase letter.')
+                    return redirect(url_for('register'))
+                
+                if not any(char.isdigit() for char in password):
+                    flash('Password must contain a numeric digit.')
+                    return redirect(url_for('register'))
+                
+                if not any(char in '!@#$%^&*()-_=+[]{}|;:\'",.<>?/`~' for char in password):
+                    flash('Password must contain a special character.')
+                    return redirect(url_for('register'))
+
+                if len(ranger_id) < 5 or len(ranger_id) > 15:
+                    flash("Ranger Id not in range of 5-15 characters.")
+                    return redirect(url_for('register'))
+                
+                if "@" not in email or "." not in email:
+                    flash("Email must contain an '@' and '.'")
+                    return redirect(url_for('register'))
+
+                # save user in database
+                query = "INSERT INTO users (ranger_id, email, password) VALUES(%s, %s, %s)"
+                cursor.execute(query, [ranger_id, email, generate_password_hash(password)])
+                db.commit()
+                cursor.close()
+                db.close()
+                print("user created in db")
+                return redirect(url_for("login"))
+            except mysql.connector.IntegrityError:
+                error = "User is already registered."
+                flash(error)
+                cursor.close()
+                db.close()
+        else:
+            flash(error)
     return render_template('register.html')
 
 @app.route('/login')
