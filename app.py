@@ -112,10 +112,45 @@ def register():
             flash(error)
     return render_template('register.html')
 
-@app.route('/login')
+@app.route('/login', methods=["GET", "POST"])
 def login():
     """login a ranger"""
+    if request.method == 'POST':
+        try:
+            ranger_id = request.form['rangerId']
+            password = request.form['password']
+
+            error = None
+            db = connect_db()
+            cursor = db.cursor()
+            query = "SELECT password FROM users WHERE ranger_id = %s"
+            cursor.execute(query, [ranger_id])
+            user = cursor.fetchone()
+            
+            if user is None:
+                flash("Ranger id does not exist")
+                return render_template('login.html')
+            
+            if not check_password_hash(user[0], password):
+                flash('Incorrect Password')
+                return render_template('login.html')
+            
+            if error is None:
+                session.clear() # assign a new session
+                session['ranger_id'] = ranger_id
+                return redirect(url_for('main'))
+        except Exception as e:
+            print(f"{e}")
+            flash("An exception occured")
+            return render_template('login.html')
     return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    """logout"""
+    session.clear()
+
+    return redirect(url_for('main'))
 
 @app.get('/')
 def main():
