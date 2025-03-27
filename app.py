@@ -45,6 +45,11 @@ def register():
     """register a ranger"""
     return render_template('register.html')
 
+@app.route('/login')
+def login():
+    """login a ranger"""
+    return render_template('login.html')
+
 @app.get('/')
 def main():
     """view func for home"""
@@ -162,6 +167,15 @@ def send_sms():
     except Exception as e:
         err_msg = f"Sms notification Failed\n{e}"
         return err_msg
+
+
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
