@@ -85,6 +85,7 @@ def seed_db():
         return e
 # seed_db()
 
+# you'll need access rights to data
 DEFAULT_URL = "https://drive.google.com/uc?id=1N9gEm56eMsf8qcRi3JwQzn2n4cxiuDsA&export=download"
 def fetch_gps_collar_data(url = DEFAULT_URL):
     """

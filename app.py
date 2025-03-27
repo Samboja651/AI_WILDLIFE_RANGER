@@ -7,10 +7,20 @@ from flask import Flask, render_template, jsonify, redirect, url_for
 from tensorflow.keras.models import load_model # ignore error, for now
 from prediction import predict_location
 from server import fetch_gps_coordinates, store_predicted_locations, is_check_rtid_in_db, count_rows, calculate_correct_or_failed_predictions, \
-    get_correct_pred_value, get_failed_pred_value
+    get_correct_pred_value, get_failed_pred_value, connect_db
+from sinch import SinchClient
 
 # load variables from .env file
 load_dotenv(".env")
+
+API_KEY = os.environ.get('API_KEY')
+OPENCAGE_API_KEY = os.environ.get('OPENCAGE_API_KEY')
+RECEPIENT_MAIL = os.environ.get("RECIP_MAIL")
+ACCESS_KEY_ID = os.environ.get("ACCESS_KEY_ID")
+KEY_SECRET = os.environ.get("KEY_SECRET")
+PROJECT_ID = os.environ.get("PROJECT_ID")
+SINCH_NUMBER = os.environ.get("SINCH_NUMBER")
+RECEIVER_NUMBER = os.environ.get("RECEIVER_NUMBER")
 
 app = Flask(__name__)
 
@@ -21,10 +31,6 @@ app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = os.environ.get("SENDER_MAIL")
 app.config['MAIL_PASSWORD'] = os.environ.get("SENDER_PASS")
 app.config['MAIL_DEFAULT_SENDER'] = os.environ.get("SENDER_MAIL")
-recipient_mail = os.environ.get("RECIP_MAIL")
-
-API_KEY = os.environ.get('API_KEY')
-OPENCAGE_API_KEY = os.environ.get('OPENCAGE_API_KEY')
 
 mail = Mail(app)
 
@@ -116,19 +122,46 @@ def get_predicted_location(coordinate_id, time_interval):
         return jsonify({"Error!": e})
 
 # Endpoint to send alert email
-@app.route('/send-alert', methods=['POST'])
-def send_alert():
+@app.get('/send-email-notification')
+def send_email():
     """Send email to park authority"""
     try:
-        msg = Message("Alert!", recipients=[recipient_mail])
+        msg = Message("Alert!", recipients=[RECEPIENT_MAIL])
         msg.body = """
-        Model predicts that 2hrs from now, lion Kiboche would have gone out of the park.
-        Take proactive measure to reduce the chance of Human-Wildlife conflict from occuring!"""
+        System predicts that 2hrs from now, lion Kiboche would have gone out of the park.
+        Take proactive measure to mitigate the potential Human-Wildlife conflict.
+        """
         mail.send(msg)
         return jsonify({"message": "Alert email sent successfully!"})
     except (ConnectionError, smtplib.SMTPException) as e:
         return jsonify({"error": str(e)}), 500
 
+# send sms alert
+@app.get('/send-sms-notification')
+def send_sms():
+    """Send SMS to park authority"""
+    conn = connect_db()
+    cursor = conn.cursor()
+    query = "SELECT location_long, location_lat FROM predictionData ORDER BY pd_id DESC LIMIT 1"
+    cursor.execute(query)
+    location = cursor.fetchone()
+
+    message = f"""System predicts that 2hrs from now, lion Kiboche would have gone out of the park.
+        Take proactive measure to mitigate the potential Human-Wildlife conflict.
+        Exact Location {location}"""
+    try:
+        sinch_client = SinchClient(ACCESS_KEY_ID, KEY_SECRET, PROJECT_ID)
+        sinch_client.sms.batches.send(
+            body = message,
+            to = [RECEIVER_NUMBER],
+            from_ = SINCH_NUMBER,
+            delivery_report = "none"
+        )
+        # return json with status code
+        return jsonify({"message": "SMS sent successfully!"})
+    except Exception as e:
+        err_msg = f"Sms notification Failed\n{e}"
+        return err_msg
 
 if __name__ == '__main__':
     app.run(debug=True)
