@@ -22,33 +22,18 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /> 
                         </svg>
                     </div>
-                    <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                        <!-- recheck vizuri url for and template for home -->
-                        <li><a href="{{ url_for('main') }}">Home</a></li>
-                        {% if session.ranger_id %}
-                            <li><a href="{{ url_for('model_report') }}">View Reports</a></li>
-                            <li><a href="{{ url_for('display_location') }}">View Location</a></li>
-                            <li><a href="{{ url_for('logout') }}">Logout</a></li>
-                            <h3 class="navbar-end">Ranger {{ session.ranger_id }}</h3>
-                        {% else %}
-                            <li><a href="{{ url_for('register') }}">Register</a></li>
-                            <li><a href="{{ url_for('login') }}">Login</a></li>
-                        {% endif %}
-                    </ul>
+                    {% include "navigation.html" %}
                 </div>
             </div>
             <div class="navbar-center">
                 <a class="btn btn-ghost text-xl">HWC</a>
-            </div>
-            <div class="navbar-end">
-                <p>Ranger ID</p>
             </div>
         </div>
     </div>
 
     <div class="main p-3">
         <div id="start_img" class="p-5">
-            <img src="../static/img/startHWC.webp" alt="" style="justify-items: center;">
+            <img src="{{ url_for('static', filename='images/startHWC.webp')}}" alt="human wildlife conflict" style="justify-items: center;">
             
             <h5 style="font-size: 2em;">Mission</h5>
             <p>To foster harmony between human communities and wildlife by leveraging innovative technology, research, and community engagement.</p>
@@ -62,7 +47,7 @@
         </div>
         <div class="p-5">
             <p style="font-size: 1.5em;">Raid on Crop Farms</p>
-            <img src="../static/img/74q26r70s2_Elephant_herd_crop_raid.jpg" alt="">
+            <img src="{{ url_for('static', filename='images/74q26r70s2_Elephant_herd_crop_raid.jpg') }}" alt="Elephant_herd_crop_raid">
             <p class="mt-3" style="text-align: center;">
                 Wild animals, particularly elephants, often raid farms in search of food, leading to massive crop destruction. 
                 This not only threatens food security but also results in significant financial losses for farmers who rely on 
@@ -73,7 +58,7 @@
 
         <div class="p-5">
             <p style="font-size: 1.5em;">Loss of an Endangered Species</p>
-            <img src="../static/img/LION-DEAD-MOHAWK.jpg" alt="">
+            <img src="{{ url_for('static', filename='images/LION-DEAD-MOHAWK.jpg') }}" alt="A dead lion">
             <p class="mt-3" style="text-align: center;">
                 The increasing conflict between humans and wildlife has also led to the tragic loss of endangered species. 
                 Lions, among other threatened animals, often fall victim to retaliatory killings or habitat destruction. 
@@ -83,7 +68,7 @@
 
         <div class="p-5">
             <p style="font-size: 1.5em;">Destruction of Property</p>
-            <img src="../static/img/dead_house.jpeg" alt="">
+            <img src="{{ url_for('static', filename='images/damaged_house.jpeg' )}}" alt="damaged traditional house">
             <p class="mt-3" style="text-align: center;">
                 Large animals like elephants often trample homes and destroy 
                 infrastructure, displacing families in search of food and causing significant economic and emotional distress in affected communities.
@@ -94,7 +79,7 @@
             <p style="font-size: 3em;">Our Solution</p>
         </div>
         <div class="p-5">
-            <img src="../static/img/map_with_PL&CL.JPG" alt="">
+            <img src="{{ url_for('static', filename='images/map_with_PL&CL.JPG' )}}" alt="predicted and actual location of lion shown on map">
             <p class="mt-3" style="text-align: center;">
                 We have a map showing the current location of the Wildlife represented by marker (CL) and the predicted location after 2hrs represented by marker (PL)
             </p>

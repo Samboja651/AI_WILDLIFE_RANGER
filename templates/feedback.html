@@ -1,50 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feedback Page</title>
+{% extends "index.html" %}
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% block title %}Feedback - Wildlife Conservation{% endblock %}
+
+{% block script %}
     <script>
         function updateLocID() {
             // Generate a random ID for demonstration (replace with actual logic)
             document.getElementById("locID").value = ""// fetch from the server;
         }
     </script>
-
-<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+{% endblock %}
     
-</head>
-<body class="bg-light">
-
-    <div class="nav">
-        <div class="navbar bg-base-100 shadow-sm">
-            <div class="navbar-start">
-                <div class="dropdown">
-                    <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> 
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /> 
-                        </svg>
-                    </div>
-                    <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                        <li><a href="/home">Home</a></li>
-                        <li><a href="/view-map">View Map</a></li>
-                        <li><a href="/model-report">Report</a></li>
-                        <li><a href="">Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="navbar-center">
-                <a class="btn btn-ghost text-xl">HWC</a>
-            </div>
-            <div class="navbar-end">
-                <p>Ranger ID</p>
-            </div>
-        </div>
-    </div>
-    <div class="feedbankmain">
+{% block section %}
+    <div class="feedbackmain">
         <div class="max-w-lg mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
             <h2 class="text-center text-2xl font-semibold mb-6">Submit Your Feedback</h2>
         
@@ -104,7 +73,5 @@
             </div>
         </div>
     </div>
-    
+{% endblock %}
 
-</body>
-</html>

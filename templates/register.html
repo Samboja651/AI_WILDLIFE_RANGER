@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-
 {% extends "index.html" %}
-{% block subtitle %} Ranger Registration {% endblock %}
 
 {% block container %}
     <div class="container d-flex justify-content-center align-items-center vh-100">
@@ -21,7 +19,12 @@
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" name="password" id="password" autocomplete="new-password" class="form-control" placeholder="Enter Password" minlength="8" maxlength="16" required>
+                    <div class="visibility-password">
+                        <input type="password" name="password" id="password" autocomplete="current-password" class="form-control" placeholder="Enter Password" minlength="8" maxlength="16" required>
+                        <span id="visibility-icon" class="material-symbols-outlined" onclick="togglePassword()">
+                            visibility
+                        </span>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="confirmPassword" class="form-label">Confirm Password</label>
