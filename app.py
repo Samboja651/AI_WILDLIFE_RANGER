@@ -146,7 +146,7 @@ def login():
             if message is None:
                 session.clear() # assign a new session
                 session['ranger_id'] = ranger_id
-                return redirect(url_for('display_location'))
+                return redirect(url_for('home'))
 
         return render_template('login.html')
     except Exception as e:
