@@ -10,3 +10,4 @@ archives
 .learn
 .ipynb*
 *.log
+exception*
