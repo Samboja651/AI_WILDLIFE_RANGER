@@ -2,6 +2,35 @@
 
 A web prototype built with Flask that enables rangers to see the future location of a lion and get email alerts when this location is in a restricted area.
 
+## Table of Content
+
+- [Lion Movement Prediction System](#lion-movement-prediction-system)
+  - [Table of Content](#table-of-content)
+  - [Overview](#overview)
+  - [Features](#features)
+  - [System Architecture](#system-architecture)
+    - [Prediction flow](#prediction-flow)
+    - [Component Architecture](#component-architecture)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+    - [Clone the repository](#clone-the-repository)
+    - [Create virtual environment](#create-virtual-environment)
+    - [Install dependencies](#install-dependencies)
+    - [Setup Database](#setup-database)
+  - [Environment Setup](#environment-setup)
+  - [API Documentation](#api-documentation)
+  - [Run the App](#run-the-app)
+  - [Database Schema](#database-schema)
+  - [Useful links](#useful-links)
+  - [Troubleshooting tips](#troubleshooting-tips)
+    - [Checking whether the predicted location is within the park(Taita taveta county)](#checking-whether-the-predicted-location-is-within-the-parktaita-taveta-county)
+    - [Send Email alert to park authority if predicted location is outside the park(Kwale county)](#send-email-alert-to-park-authority-if-predicted-location-is-outside-the-parkkwale-county)
+    - [Dynamic change of our real-time data while fetching reponse from server](#dynamic-change-of-our-real-time-data-while-fetching-reponse-from-server)
+  - [Description of workflow](#description-of-workflow)
+  - [Directory structure](#directory-structure)
+  - [Help](#help)
+
 ## Overview
 
 AI Lion Ranger is a prototype designed to reduce human wildlife conflicts by increasing the proactive response time of rangers. Given the current location of a lion, it predicts where it will be in the next two hours.
@@ -128,6 +157,8 @@ On the terminal run `flask run --debug`.
 
 ## Database Schema
 
+![alt text](static/images/dbschema.png)
+
 ## Useful links
 
 Requires Access Rights\
@@ -161,4 +192,4 @@ Ensure you have installed all dependencies in `requirements.txt` file. Do this i
 
 ## Help
 
-If you need to try the system with our development external apis or env data. Send an email to <tumaini736@gmail.com> and get the data.
+We used **Google Maps Javascript API** and an **API from Opencage**. If you find urgent need to test the system with our **API keys** or data from env file, send an email to <tumaini736@gmail.com>.
