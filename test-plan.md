@@ -172,7 +172,7 @@ google chrome dev tools
 ## Entry/Exit Criteria
 
 Entry: `Readme.md` `requirements.txt`
-Exit: All test pass.
+Exit: All test pass
 
 ## Tools
 
