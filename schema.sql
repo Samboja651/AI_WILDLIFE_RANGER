@@ -36,6 +36,14 @@ CREATE TABLE IF NOT EXISTS users(
     email VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(200) NOT NULL
 );
+CREATE TABLE feedbackData (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    predicted_location_id TEXT NOT NULL,
+    animal_type TEXT NOT NULL,
+    action_taken TEXT NOT NULL,
+    conflict_avoided BOOLEAN NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 CREATE USER IF NOT EXISTS 'wdf_conservatist'@'localhost' IDENTIFIED BY '@WildlifeTech2025'; -- create another user instead of root operations.
 GRANT ALL PRIVILEGES ON WDF_conservation.* TO 'wdf_conservatist'@'localhost';
 -- end
