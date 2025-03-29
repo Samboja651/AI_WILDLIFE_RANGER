@@ -4,8 +4,15 @@
 {% block title %}Model Report - Wildlife Conservation{% endblock %}
 
 {% block container %}
-<div class="container mt-4">
-    
+<div class="container1 mt-4">
+    <div  style="word-wrap: break-word; width: 45%; text-align: left; align-items: flex-start; padding-left: 15px;">
+            <p>The model report shows the performance of the model <br> based on the prediction it made on unseen data. <br></p>
+            <li>Prediction made - Total number of predictions that the model has made.</li>
+            <li>Correct prediction - Number of prediction made with the least difference, that is, 400 meters from the actual location after 2 hours.</li>
+            <li>Failed predictions - Number of predictions made that had much difference, that is more than 400 meters.</li>
+            <li>Succes rate - is the ratio of correct predictons to the Predictions made expressed as a percentage.</li>
+    </div>
+
 
     <div class="row mt-4">
         <div class="col">

@@ -134,7 +134,7 @@ async function getCountyWithOpenCage(lat, lng) {
 // Function to request the backend to send an email
 async function sendAlertEmail() {
     try {
-        const response = await fetch('/send-alert', { method: 'POST' });
+        const response = await fetch('/send-email-notification');
         const result = await response.json();
         console.log(result.message);
         return "Message sent."

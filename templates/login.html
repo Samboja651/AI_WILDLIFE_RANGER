@@ -3,23 +3,21 @@
 
 {% block container %}
     <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="card p-4 shadow" style="width: 350px;">
-            <h4 class="text-center mb-4">Ranger Login</h4>
+        <div class="card p-15 shadow">
+            <p class="text-center mb-6" style="font-size: 2em;">Ranger Login</p>
             {% for message in get_flashed_messages() %}
                 <div class="flash" style="text-align: center; color: crimson;">{{ message }}</div>
             {% endfor %}
             <form method="post">
                 <div class="mb-3">
                     <label for="rangerId" class="form-label">Ranger ID</label>
-                    <input type="text" name="rangerId" id="rangerId" minlength="5" maxlength="15" class="form-control" placeholder="Enter Ranger ID" required>
+                    <input type="text" name="rangerId" id="rangerId" minlength="5" maxlength="15" class="form-control w-100 p-4 mb-3" placeholder="Enter Ranger ID" required>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
                     <div class="visibility-password">
-                        <input type="password" name="password" id="password" autocomplete="current-password" class="form-control" placeholder="Enter Password" minlength="8" maxlength="16" required>
-                        <span id="visibility-icon" class="material-symbols-outlined" onclick="togglePassword()">
-                            visibility
-                        </span>
+                        <input type="password" name="password" id="password" autocomplete="current-password" class="form-control w-100 p-4 mb-3" placeholder="Enter Password" minlength="8" maxlength="16" required>
+                        <span id="visibility-icon" class="material-symbols-outlined" onclick="togglePassword()"></span>
                     </div>
                 </div>
                 <!-- <div class="mb-3">
@@ -32,11 +30,13 @@
                     <input type="checkbox" id="agree" class="form-check-input" required>
                     <label for="agree" class="form-check-label">I agree to the terms and conditions</label>
                 </div> -->
-                <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
+                <button type="submit" class="btn btn-primary w-100 p-6 mb-3">Login</button>
                 <div>
-                    <p>Don't have an account?<a href="{{ url_for('register') }}"> register here</a></p>
+                    <p>Don't have an account?<a style="color: blue;" href="{{ url_for('register') }}"> register here</a></p>
                 </div>
             </form>
         </div>
     </div>
 {% endblock %}
+{% block footer%}
+{% endblock%}
