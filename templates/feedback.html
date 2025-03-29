@@ -5,9 +5,22 @@
 
 {% block script %}
     <script>
-        function updateLocID() {
-            // Generate a random ID for demonstration (replace with actual logic)
-            document.getElementById("locID").value = ""// fetch from the server;
+        function getLatestAlert() {
+            fetch('/get-latest-alert-id')
+                .then(response => {
+                    if (response.status === 200) {
+                        return response.json();
+                    }
+                    throw new Error(response.status);
+                })
+                .then(result => {
+                    const alertId = result.id;
+                    document.getElementById("locID").value = alertId;
+                    // locId.textContent = alertId;
+                })
+                .catch(error => {
+                    console.error("Error getting id.")
+                });
         }
     </script>
 {% endblock %}
@@ -19,22 +32,25 @@
         
             <!-- Predicted Location ID Button -->
             <div class="flex justify-center mb-4">
-                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700" onclick="updateLocID()">Get Predicted Location ID</button>
+                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700" onclick="getLatestAlert()">Get Predicted Location ID</button>
             </div>
         
             <!-- Feedback Form -->
             <div class="p-4 border border-gray-200 rounded-lg">
-                <form>
+                {% for message in get_flashed_messages() %}
+                    <div class="flash" style="text-align: center; color: green; font-weight: bold;">{{ message }}</div>
+                {% endfor %}
+                <form method="post">
                     <!-- Predicted Location ID (Readonly) -->
                     <div class="mb-4">
                         <label for="locID" class="block text-gray-700 font-medium">Predicted Location ID (Click the button above)</label>
-                        <input type="text" id="locID" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" readonly required>
+                        <input type="number" name="locID" id="locID" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" required readonly>
                     </div>
         
                     <!-- Animal Type (Dropdown Select) -->
                     <div class="mb-4">
                         <label for="animalType" class="block text-gray-700 font-medium">Animal Type</label>
-                        <select id="animalType" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" required>
+                        <select id="animalType" name="animalType" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" required>
                             <option value="" disabled selected>Select an animal</option>
                             <option value="elephant">Elephant</option>
                             <option value="lion">Lion</option>
@@ -47,7 +63,7 @@
                     <!-- Action Taken (Feedback Box) -->
                     <div class="mb-4">
                         <label for="actionTaken" class="block text-gray-700 font-medium">Action Taken</label>
-                        <textarea id="actionTaken" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" rows="3" placeholder="Describe the actions taken" required></textarea>
+                        <textarea id="actionTaken" name="actionTaken" maxlength="250" class="w-full mt-1 p-2 border border-gray-300 rounded-lg" rows="3" placeholder="Describe the actions taken" required></textarea>
                     </div>
         
                     <!-- Conflict Avoided (Yes/No Radio Buttons) -->
@@ -55,11 +71,11 @@
                         <label class="block text-gray-700 font-medium">Was the conflict avoided?</label>
                         <div class="flex items-center space-x-4 mt-2">
                             <label class="flex items-center space-x-2">
-                                <input type="radio" name="conflictAvoided" value="yes" class="w-4 h-4">
+                                <input type="radio" name="conflictAvoided" value="Yes" class="w-4 h-4" required>
                                 <span>Yes</span>
                             </label>
                             <label class="flex items-center space-x-2">
-                                <input type="radio" name="conflictAvoided" value="no" class="w-4 h-4">
+                                <input type="radio" name="conflictAvoided" value="No" class="w-4 h-4" required>
                                 <span>No</span>
                             </label>
                         </div>

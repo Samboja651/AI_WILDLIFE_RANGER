@@ -80,15 +80,17 @@ async function initMap() {
                 if (county.toLowerCase() === "kwale") {
                     console.log(`Predicted lion location is in ${county} county. Raise an alert!`);
                     sendAlertEmail();
+                    // call the function to save alert in db
+                    saveAlert(rowId);
                 } else {
                     console.log(`Predicted lion location is in ${county} county.`);
                 }
             });
-
-            document.getElementById("rowId").value = "";
-
+            document.getElementById("rowId").value = ""; //reset id
+            
         })
         .catch(error => console.error("Error:", error));
+
 }
 
 initMap();
@@ -134,11 +136,24 @@ async function getCountyWithOpenCage(lat, lng) {
 // Function to request the backend to send an email
 async function sendAlertEmail() {
     try {
-        const response = await fetch('/send-alert', { method: 'POST' });
+        const response = await fetch('/send-email-notification', { method: 'POST' });
         const result = await response.json();
         console.log(result.message);
-        return "Message sent."
+        return "Message sent.";
     } catch (error) {
         console.error("Error sending alert email:", error);
+    }
+}
+
+// function to call the api that saves alerts in db
+async function saveAlert(pd_id) {
+    try {
+        const response = await fetch(`/save-notification/${pd_id}`, {method: 'POST'});
+        const result = await response.json();
+        console.log(result.message);
+        return "Alert Saved.";
+    } catch (error) {
+        console.error("Error saving alert: ", error);
+        return "Error saving alert.";
     }
 }

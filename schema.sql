@@ -36,11 +36,15 @@ CREATE TABLE IF NOT EXISTS users(
     email VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(200) NOT NULL
 );
-CREATE TABLE feedbackData (
+CREATE TABLE IF NOT EXISTS alerts(
+    alert_id INT PRIMARY KEY AUTO_INCREMENT,
+    pd_id_alert INT UNIQUE NOT NULL
+);
+CREATE TABLE feedback (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    predicted_location_id TEXT NOT NULL,
-    animal_type TEXT NOT NULL,
-    action_taken TEXT NOT NULL,
+    pd_id INT NOT NULL,
+    animal_type VARCHAR(20) NOT NULL,
+    action_taken TEXT NULL,
     conflict_avoided BOOLEAN NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

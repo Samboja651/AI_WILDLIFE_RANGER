@@ -17,7 +17,9 @@ from server import (
     calculate_correct_or_failed_predictions,
     get_correct_pred_value,
     get_failed_pred_value, connect_db,
-    validate_auth_inputs
+    validate_auth_inputs,
+    save_alert,
+    get_latest_alert
 )
 
 # load variables from .env file
@@ -196,12 +198,41 @@ def display_location():
     flash("You have to log in")
     return redirect(url_for('login'))
 
-@app.get('/feedback')
+@app.route('/feedback', methods=['GET', 'POST'])
 def feedback():
     """view func for feedback"""
     ranger_id = session.get("ranger_id")
     if ranger_id is not None:
-        return render_template('feedback.html')
+        try:
+            if request.method == "POST":
+                location_id = request.form['locID']
+                animal_type = request.form['animalType']
+                action_taken = request.form['actionTaken']
+                conflict_avoided = request.form['conflictAvoided']
+                
+                if conflict_avoided == "Yes":
+                    conflict_avoided = True
+                else:
+                    conflict_avoided = False
+
+                # save in database
+                conn = connect_db()
+                cursor = conn.cursor()
+                query = "INSERT INTO feedback(pd_id, animal_type, action_taken, conflict_avoided) VALUES(%s, %s, %s, %s)"
+                cursor.execute(query, [location_id, animal_type, action_taken, conflict_avoided])
+                conn.commit()
+                cursor.close()
+                conn.close()
+
+                flash("Feedback was saved. Thank you Ranger 🎉.")
+                return render_template('feedback.html')
+            return render_template('feedback.html')
+        except Exception as e:
+            flash("🤔 An Error occured. Click above button & Retry")
+            print(e)
+            cursor.close()
+            conn.close()
+            return redirect(url_for('feedback'))
     flash("You have to log in.")
     return redirect(url_for('login'))
 
@@ -255,7 +286,7 @@ def _get_predicted_location(coordinate_id, time_interval): # only for background
     except TypeError as e:
         return jsonify({"Error!": e})
 
-@app.get('/send-email-notification')
+@app.post('/send-email-notification')
 def _send_email(): # only for background usage
     """Send email to park authority"""
     try:
@@ -296,10 +327,24 @@ def _send_sms(): # only for background usage
         err_msg = f"Sms notification Failed\n{e}"
         return err_msg
 
+@app.post('/save-notification/<int:pd_id>')
+def _save_notification_in_db(pd_id):
+    """save notification"""
+    save_alert(pd_id)
+    return jsonify({"message": "Alert was saved."}), 200
 
+@app.get('/get-latest-alert-id')
+def _get_latest_alert_id():
+    """get latest alert id
+    Returns
+        int: alert id
+    """
+    response = get_latest_alert()
+    if isinstance(response, int):
+        return jsonify({"id": response}), 200
 
-
-
+    response = 0
+    return jsonify({"message": "id not found", "id": response}), 500
 
 
 

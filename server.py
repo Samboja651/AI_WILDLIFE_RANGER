@@ -370,3 +370,47 @@ def validate_auth_inputs(ranger_id: str=None, email: str=None,
         print(e)
         message = "Exception occured. Retry!"
         return message
+
+# store alerts in db;
+def save_alert(alert_id: int):
+    """saves the alert into db.
+    Args:
+        alert_id: is the prediction id that raised alert.
+    """
+    # connect db
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    try:
+        query = "INSERT INTO alerts(pd_id_alert) VALUE(%s)"
+        cursor.execute(query, [int(alert_id)])
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return "Success", 200
+
+    except mysql.connector.Error as e:
+        cursor.close()
+        conn.close()
+        return e
+# print(save_alert(1503))
+
+# fetch latest alert db
+def get_latest_alert()->int:
+    """get latest alert id from db"""
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    try:
+        query = "SELECT pd_id_alert FROM alerts ORDER BY pd_id_alert ASC LIMIT 1"
+        cursor.execute(query)
+        alert_id = cursor.fetchone()
+        cursor.close()
+        conn.close()
+
+        return alert_id[0]
+    except IndexError:
+        cursor.close()
+        conn.close()
+        return "Index out of range"
+# print(get_latest_alert())
