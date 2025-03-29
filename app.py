@@ -225,7 +225,7 @@ def feedback():
                 conn.close()
 
                 flash("Feedback was saved. Thank you Ranger 🎉.")
-                return render_template('feedback.html')
+                # return redirect(url_for('feedback'))
             return render_template('feedback.html')
         except Exception as e:
             flash("🤔 An Error occured. Click above button & Retry")
@@ -293,7 +293,7 @@ def _send_email(): # only for background usage
         msg = Message("Alert!", recipients=[RECEPIENT_MAIL])
         msg.body = """
         System predicts that 2hrs from now, lion Kiboche would have gone out of the park.
-        Take proactive measure to mitigate the potential Human-Wildlife conflict.
+        Login into AI ranger to see its predicted location and Take more proactive measure.
         """
         mail.send(msg)
         return jsonify({"message": "Alert email sent successfully!"})
