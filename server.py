@@ -356,8 +356,8 @@ def validate_auth_inputs(ranger_id: str=None, email: str=None,
                 break
 
             # ranger id length
-            if ranger_id is not None and (len(ranger_id) < 5 or len(ranger_id) > 15):
-                message = "Ranger id not in range of 5-15 characters."
+            if ranger_id is not None and (len(ranger_id) < 5 or len(ranger_id) > 8):
+                message = "Ranger id not in range of 5-8 characters."
                 break
 
             # valid email
