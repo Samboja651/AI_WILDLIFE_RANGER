@@ -8,7 +8,7 @@
             <li><a href="{{ url_for('model_report') }}">View Reports</a></li>
             <li><a href="{{ url_for('feedback') }}">Feedback</a></li>
             <li><a href="{{ url_for('logout') }}">Logout</a></li>
-            <h3 class="navbar-end">Ranger {{ session.ranger_id }}</h3>
+            
         {% else %}
             <li><a href="{{ url_for('register') }}">Register</a></li>
             <li><a href="{{ url_for('login') }}">Login</a></li>

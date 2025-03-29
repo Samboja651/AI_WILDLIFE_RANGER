@@ -1,6 +1,22 @@
-.contaner {
+/* .contaner {
+    
+} */
+
+.feedbackPage { 
+    margin: 70px;
+    gap: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     height: auto;
+}
+
+@media screen and (max-width: 770px) {
+    .feedbackPage {
+        margin-top: 70px;
+        display: flex;
+        flex-direction: column;
+        
+    }
+    
 }
