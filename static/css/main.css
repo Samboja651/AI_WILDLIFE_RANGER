@@ -3,6 +3,11 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
 }
+
+.main {
+    margin-top: 70px;
+}
+
 /* Styling the map container */
 .map-container, #map {
     display: flex;
@@ -31,6 +36,17 @@ body {
     gap: 10px;
 }
 
+.reportContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    padding-top: 70px;
+    gap: 40px;
+}
+
+
 @media (max-width: 768px) {
     .mapForm,
     .map-container .container1 {
@@ -38,29 +54,7 @@ body {
     }
 }
 
-/* Style for the report table */
-.table {
-    width: 100%;
-    margin-top: 20px;
-    border-collapse: collapse;
-    font-size: 1.2em; /* Make text bigger */
-}
-.table th, .table td {
-    padding: 20px; /* Add more padding */
-    text-align: center;
-    border: 2px solid #dee2e6;
-}
-.table th {
-    background-color: #007bff;
-    color: #fff;
-    font-weight: bold;
-}
-.table tbody tr:nth-child(odd) {
-    background-color: #f8f9fa;
-}
-.table tbody tr:nth-child(even) {
-    background-color: #e9ecef;
-}
+
 
 /* Footer styling */
 .footer {
