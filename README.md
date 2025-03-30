@@ -1,10 +1,10 @@
-# Lion Movement Prediction System
+# AI WILDLIFE RANGER
 
-A web prototype built with Flask that enables rangers to see the future location of a lion and get email alerts when this location is in a restricted area.
+A web based prototype built with Flask that enables rangers to see the future location of a lion and get email alerts when this location is in a restricted area.
 
 ## Table of Content
 
-- [Lion Movement Prediction System](#lion-movement-prediction-system)
+- [AI WILDLIFE RANGER](#ai-wildlife-ranger)
   - [Table of Content](#table-of-content)
   - [Overview](#overview)
   - [Features](#features)
@@ -17,32 +17,32 @@ A web prototype built with Flask that enables rangers to see the future location
     - [Clone the repository](#clone-the-repository)
     - [Create virtual environment](#create-virtual-environment)
     - [Install dependencies](#install-dependencies)
+    - [Environment Setup](#environment-setup)
     - [Setup Database](#setup-database)
-  - [Environment Setup](#environment-setup)
   - [API Documentation](#api-documentation)
   - [Run the App](#run-the-app)
   - [Database Schema](#database-schema)
   - [Useful links](#useful-links)
   - [Troubleshooting tips](#troubleshooting-tips)
-    - [Checking whether the predicted location is within the park(Taita taveta county)](#checking-whether-the-predicted-location-is-within-the-parktaita-taveta-county)
     - [Send Email alert to park authority if predicted location is outside the park(Kwale county)](#send-email-alert-to-park-authority-if-predicted-location-is-outside-the-parkkwale-county)
-    - [Dynamic change of our real-time data while fetching reponse from server](#dynamic-change-of-our-real-time-data-while-fetching-reponse-from-server)
-  - [Description of workflow](#description-of-workflow)
+  - [Basic workflow](#basic-workflow)
   - [Directory structure](#directory-structure)
   - [Help](#help)
 
 ## Overview
 
-AI Lion Ranger is a prototype designed to reduce human wildlife conflicts by increasing the proactive response time of rangers. Given the current location of a lion, it predicts where it will be in the next two hours.
+AI Lion Ranger is a prototype designed to reduce human wildlife conflicts by increasing the response time of rangers. Given the current location of a lion, it predicts where it will be in the next two hours.
 
 ![system-overview](./static/images/system-overview.png)
 
 ## Features
 
-- Map display
-- Predict locations
-- Model performance report
-- Email alerts
+- 📍 Predict Locations
+- 📍 View Location on Map
+- 💬 Feedback
+- 📑 Model Performance Report
+- 📨 Email Alerts
+- 👩‍💻 Authentication
 
 ## System Architecture
 
@@ -61,6 +61,7 @@ AI Lion Ranger is a prototype designed to reduce human wildlife conflicts by inc
 - Python3
 - Mysql
 - vscode
+- Internet connection
 
 ## Installation
 
@@ -95,13 +96,7 @@ python3 -m venv .venv
 pip install requirements.txt
 ```
 
-### Setup Database
-
-Paste the content of `schema.sql` into your mysql and execute.\
-Add the portion of the real_time data to the database by the running command below.\
-Run the `main.py` file or `python3 main.py` to seed the database.
-
-## Environment Setup
+### Environment Setup
 
 Create a `.env` file with following variables
 
@@ -112,6 +107,7 @@ PASSWORD = "@WildlifeTech2025"
 HOST = "localhost"
 DATABASE = "WDF_conservation"
 
+# scroll to useful links below to download data
 GPS_COLLAR_DATA = "Kiboche_last_500_rows_data.csv"
 
 # google maps javasript api key
@@ -124,7 +120,23 @@ OPENCAGE_API_KEY = "YOUR_OPENCAGE_API_KEY"
 SENDER_EMAIL = "YOUR_GMAIL"
 SENDER_PASS = "YOUR_GMAIL_APP_PASSWORD"
 RECIP_MAIL = "RECEIVER_EMAIL"
+
+# session secret key
+SESSION_SECRET_KEY = "YOUR_SELF_GENERATED_KEY"
+
+# sinch sms service - search sinch on internet & follow guides
+ACCESS_KEY_ID = "YOUR_SINCH_ACCESS_KEY"
+KEY_SECRET = "YOUR_SINCH_KEY_SECRET"
+PROJECT_ID = "YOUR_SINCH_PROJECT_ID"
+SINCH_NUMBER = "YOUR_SINCH_NUMBER"
+RECEIVER_NUMBER = "NUMBER_USED_TO_CREATE_SINCH_ACC"
 ```
+
+### Setup Database
+
+Paste the content of the `schema.sql` into your mysql and execute.\
+Add the portion of the real_time data to the database by the running command below.\
+Run the `main.py` file or `python3 main.py` to seed the database.
 
 ## API Documentation
 
@@ -136,7 +148,7 @@ GET /
 GET /model-report
 
 # display map on home page
-GET /display-location
+GET /view-map
 
 # get current lion location
 GET /real-time-location/<int:coordinate_id>
@@ -146,7 +158,17 @@ GET /real-time-location/<int:coordinate_id>
 GET /predict/location/<int:coordinate_id>/time/<int:time_interval>
 
 # send email alert
-POST /send-alert
+POST /send-email-notification
+
+# create account
+GET/POST /register
+
+# login
+GET/POST /login
+
+GET /logout
+GET/POST /feedback
+
 
 # replace the part inside <...> with a value e.g /predict/location/1/time/2"
 ```
@@ -157,12 +179,10 @@ On the terminal run `flask run --debug`.
 
 ## Database Schema
 
-![alt text](static/images/dbschema.png)
+![database-schema](static/images/dbschema.png)
 
 ## Useful links
 
-Requires Access Rights\
-[Project documentation](https://onedrive.live.com/view?id=43505624473455EF!3340&resid=43505624473455EF!3340&authkey=!ArLn6xbCh_7MAEs&wdo=2&cid=43505624473455ef)\
 [Download Lion Kiboche real-time data](https://drive.google.com/uc?id=1N9gEm56eMsf8qcRi3JwQzn2n4cxiuDsA&export=download)\
 [Code to ML prediction model](https://colab.research.google.com/drive/1eLzl6sPXAiUuNLhWkPMxFJgJbLa70__4?usp=sharing)
 
@@ -170,26 +190,26 @@ Requires Access Rights\
 
 Ensure you have installed all dependencies in `requirements.txt` file. Do this in a virtual environment.
 
-### Checking whether the predicted location is within the park(Taita taveta county)
+Try loading the app on a different browser.
 
-- Try different real time location that we have.
-- While changing the real time data we get a predicted location for that real time coodinate. so check message being displayed in the console.
+Ensure all env variables are correctly assigned.
 
 ### Send Email alert to park authority if predicted location is outside the park(Kwale county)
 
 - first run `pip install Flask-Mail` to install flask_mail lib.
 - when the predicted loc coordinate is outside the park, an email sent to park authority informing then so as to take a proactive measure in mitigating HWC.
 
-### Dynamic change of our real-time data while fetching reponse from server
+## Basic workflow
 
-- Added an input tag in the `index.html` file for accepting row ids from 1 through 500.
-- When `try this` button is clicked, the given row id value will be used during fetch from a server endpoint.
-- By default if no value is given, we just use row id 1.
-
-## Description of workflow
+When you pass the current coordinates of a Lion, a prediction is made. If the predicted location crosses Taita Taveta border into Kwale county. An alert by email is sent.
 
 ## Directory structure
 
 ## Help
 
-We used **Google Maps Javascript API** and an **API from Opencage**. If you find urgent need to test the system with our **API keys** or data from env file, send an email to <tumaini736@gmail.com>.
+We used **Google Maps Javascript API** , **sinch sms service** and an **API from Opencage**. If you find urgent need to test the application with our development **API keys** or values on env file, send an email to <waribekihiko651@gmail.com>.
+
+---
+Developed by:\
+[Granton Waribe](https://ke.linkedin.com/in/grantonwaribe) as **Full Stack Engineer**.\
+[Ezekiah Nyagwaya](https://github.com/Ezekiah3854) as **Full Stack Engineer**.
