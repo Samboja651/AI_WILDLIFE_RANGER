@@ -2,7 +2,7 @@
 {% extends "index.html" %}
 
 {% block container %}
-    <div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="container d-flex justify-content-center align-items-center vh-100" style="margin: 70px;">
         <div class="card p-15 shadow">
             <p class="text-center mb-6" style="font-size: 2em;">Ranger Login</p>
             {% for message in get_flashed_messages() %}
@@ -38,5 +38,5 @@
         </div>
     </div>
 {% endblock %}
-{% block footer%}
+{% block formField%}
 {% endblock%}

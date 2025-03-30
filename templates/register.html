@@ -2,7 +2,7 @@
 {% extends "index.html" %}
 
 {% block container %}
-    <div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="container d-flex justify-content-center align-items-center vh-100" style="margin-top: 70px;">
         <div class="card p-15 shadow">
             <p class="text-center" style="font-size: 2em;">Ranger Registration</p>
             {% for message in get_flashed_messages() %}
@@ -27,11 +27,11 @@
                 
                 <button type="submit" class="btn btn-success w-100 p-6">Register</button>
                 <div>
-                    <p>Already have an account?<a style="color: blue;" href="{{ url_for('login') }}"> Login</a></p>
+                    <p>Already have an account?<a style="color: blue;" href="{{ url_for('login') }}"> login</a></p>
                 </div>
             </form>
         </div>
     </div>
 {% endblock %}
-{% block footer%}
+{% block formField%}
 {% endblock%}
