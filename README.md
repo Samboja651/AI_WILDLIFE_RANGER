@@ -199,6 +199,57 @@ When you pass the current coordinates of a Lion, a prediction is made. If the pr
 
 ## Directory structure
 
+```bash
+AI_WILDLIFE_RANGER
+├── app.py
+├── ethics
+│   ├── phase-1-System-doc-flow_and_ethical_considerations.md
+│   ├── Phase-2-System-Design-RCC.md
+│   ├── Phase-3-Prototype-Developmen-and-Ethical Evaluation.md
+│   └── Phase-4-System-Testing-RCC.md
+├── LICENSE
+├── main.py
+├── models
+│   ├── gps_data_scaler.pkl
+│   ├── gps_location_prediction_model.h5
+│   └── gps_location_prediction_model.keras
+├── prediction.py
+├── README.md
+├── requirements.txt
+├── schema.sql
+├── server.py
+├── static
+│   ├── css
+│   │   ├── feedback.css
+│   │   ├── home.css
+│   │   └── main.css
+│   ├── images
+│   │   ├── 74q26r70s2_Elephant_herd_crop_raid.jpg
+│   │   ├── component-architecture.png
+│   │   ├── damaged_house.jpeg
+│   │   ├── damaged_house.jpg
+│   │   ├── dbschema.png
+│   │   ├── images.jpeg
+│   │   ├── LION-DEAD-MOHAWK.jpg
+│   │   ├── map_with_PL&CL.JPG
+│   │   ├── prediction-flow.png
+│   │   ├── startHWC.webp
+│   │   └── system-overview.png
+│   └── js
+│       └── script.js
+├── templates
+│   ├── exception.html
+│   ├── feedback.html
+│   ├── home.html
+│   ├── index.html
+│   ├── login.html
+│   ├── navigation.html
+│   ├── register.html
+│   └── report.html
+├── test_model_perfomance.py
+└── test-plan.md
+```
+
 ## Help
 
 We used **Google Maps Javascript API** , **sinch sms service** and an **API from Opencage**. If you find urgent need to test the application with our development **API keys** or values on env file, send an email to <waribekihiko651@gmail.com>.
