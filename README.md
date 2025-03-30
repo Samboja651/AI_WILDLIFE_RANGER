@@ -24,7 +24,6 @@ A web based prototype built with Flask that enables rangers to see the future lo
   - [Database Schema](#database-schema)
   - [Useful links](#useful-links)
   - [Troubleshooting tips](#troubleshooting-tips)
-    - [Send Email alert to park authority if predicted location is outside the park(Kwale county)](#send-email-alert-to-park-authority-if-predicted-location-is-outside-the-parkkwale-county)
   - [Basic workflow](#basic-workflow)
   - [Directory structure](#directory-structure)
   - [Help](#help)
@@ -193,11 +192,6 @@ Ensure you have installed all dependencies in `requirements.txt` file. Do this i
 Try loading the app on a different browser.
 
 Ensure all env variables are correctly assigned.
-
-### Send Email alert to park authority if predicted location is outside the park(Kwale county)
-
-- first run `pip install Flask-Mail` to install flask_mail lib.
-- when the predicted loc coordinate is outside the park, an email sent to park authority informing then so as to take a proactive measure in mitigating HWC.
 
 ## Basic workflow
 
