@@ -1,13 +1,13 @@
 """"application"""
+import os
+import smtplib
 from flask import Flask, render_template, jsonify, redirect, url_for, session, request, flash
 from werkzeug.security import check_password_hash, generate_password_hash
 from tensorflow.keras.models import load_model # ignore error, for now
 from flask_mail import Message, Mail
 from sinch import SinchClient
 from dotenv import load_dotenv
-import smtplib
 import mysql
-import os
 from prediction import predict_location
 from server import (
     fetch_gps_coordinates,
