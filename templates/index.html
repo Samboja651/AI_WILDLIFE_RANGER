@@ -3,7 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title%}Wildlife Conservation{% endblock%}</title>
+    <!-- Primary Meta Tags -->
+    <title>{% block title%}AI Wildlife Ranger{% endblock%}</title>
+    <meta name="title" content="Advancing Human Wildlife Coexistence" />
+    <meta name="description" content="Using AI/ML the application learns lion movement patterns, predicts where it will be and notifies Rangers whenever the lion's predicted location is in a restricted area. Leads to more proactive action against potential human wildlife conflicts." />
+
+    <!-- favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ai-wildlife-ranger.onrender.com/" />
+    <meta property="og:title" content="Advancing Human Wildlife Coexistence" />
+    <meta property="og:description" content="Using AI/ML the application learns lion movement patterns, predicts where it will be and notifies Rangers whenever the lion's predicted location is in a restricted area. Leads to more proactive action against potential human wildlife conflicts." />
+    <meta property="og:image" content="{{url_for('static', filename='images/meta-tag.png')}}" />
+
+    <!-- test whatsapp metatag -->
+    <meta property="og:image" content="{{url_for('static', filename='images/meta-tag.png')}}">
+    <meta property="og:image:width" content="300">
+    <meta property="og:image:height" content="300">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://ai-wildlife-ranger.onrender.com/" />
+    <meta property="twitter:title" content="Advancing Human Wildlife Coexistence" />
+    <meta property="twitter:description" content="Using AI/ML the application learns lion movement patterns, predicts where it will be and notifies Rangers whenever the lion's predicted location is in a restricted area. Leads to more proactive action against potential human wildlife conflicts." />
+    <meta property="twitter:image" content="{{url_for('static', filename='images/meta-tag.png')}}" />
+
+    <!-- Meta Tags Generated with https://metatags.io -->
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
