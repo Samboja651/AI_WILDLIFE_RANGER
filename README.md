@@ -184,7 +184,7 @@ On the terminal run `flask run --debug`.
 
 ## Useful links
 
-[Download Lion Kiboche real-time data](https://drive.google.com/uc?id=1N9gEm56eMsf8qcRi3JwQzn2n4cxiuDsA&export=download)\
+[Download Lion Kiboche real-time data](https://drive.google.com/uc?export=download&id=1N9gEm56eMsf8qcRi3JwQzn2n4cxiuDsA)\
 [ML prediction model codebase](https://colab.research.google.com/drive/1eLzl6sPXAiUuNLhWkPMxFJgJbLa70__4?usp=sharing)
 
 ## Troubleshooting tips
