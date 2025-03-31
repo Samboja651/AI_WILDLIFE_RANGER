@@ -7,7 +7,7 @@ from tensorflow.keras.models import load_model # ignore error, for now
 from flask_mail import Message, Mail
 from sinch import SinchClient
 from dotenv import load_dotenv
-import mysql
+import psycopg2
 from prediction import predict_location
 from server import (
     fetch_gps_coordinates,
@@ -103,7 +103,7 @@ def register():
             print("user created in db")
             return redirect(url_for("login"))
         return render_template('register.html')
-    except mysql.connector.IntegrityError:
+    except psycopg2.Error:
         error = "User is already registered."
         flash(error)
         cursor.close()
@@ -352,4 +352,4 @@ def _get_latest_alert_id():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

@@ -1,18 +1,22 @@
 """config database and app helper functions"""
+from flask import jsonify
 import os
 import urllib.error
 import urllib.request
-import mysql.connector
+from urllib.parse import urlparse
+import psycopg2
 from dotenv import load_dotenv
 from geopy.distance import geodesic
 
 # load variables from .env file
 load_dotenv(".env")
 
-USER = os.environ.get('USER')
-PASSWORD = os.environ.get('PASSWORD')
-HOST = os.environ.get('HOST')
-DATABASE = os.environ.get('DATABASE')
+# USER = os.environ.get('USER')
+# PASSWORD = os.environ.get('PASSWORD')
+# HOST = os.environ.get('HOST')
+# DATABASE = os.environ.get('DATABASE')
+# PORT = os.environ.get('PORT')
+DATABASE_URL_INT = os.environ.get('DATABASE_URL_INT')
 GPS_COLLAR_DATA = os.environ.get('GPS_COLLAR_DATA')
 
 def connect_db():
@@ -20,15 +24,21 @@ def connect_db():
     function to connect db
     :returns connection string
     """
+    result = urlparse(DATABASE_URL_INT)
     try:
-        connection = mysql.connector.connect(
-            user = USER, password = PASSWORD, host = HOST, database = DATABASE)
+        connection = psycopg2.connect(
+            host=result.hostname,
+            port=result.port,
+            dbname=result.path[1:],
+            user=result.username,
+            password=result.password,
+        )
         print("db connected")
         return connection
-    except mysql.connector.Error as e:
-        print(f"Connection failed! Error: {e}")
-        return f"Connection failed! Error: {e}"
-# print(connect_db())
+    except psycopg2.Error as e:
+        print(f"Error connecting to database: {e}")
+        return None
+
 def read_gps_collar_data(file):
     """
     reads gps collar data from file.
@@ -72,7 +82,7 @@ def seed_db():
         query = """
         INSERT INTO kibocheRTData(
         timestamp, location_long, location_lat, local_identifier, time_interval_hours)
-        VALUES(%s, %s, %s, %s, %s)"""
+        VALUES(%s, %s, %s, %s, %s);"""
         # execute query
         cursor.executemany(query, values)
         cursor.close()
@@ -80,8 +90,10 @@ def seed_db():
         db.close()
         print("seeding was successful")
         return "seeding was successful"
-    except mysql.connector.Error as e:
+    except psycopg2.Error as e:
         print(f"Seeding failed, Error! {e}")
+        cursor.close()
+        db.close()
         return e
 # seed_db()
 
@@ -121,17 +133,19 @@ def fetch_gps_coordinates(coordinate_id):
     conn = connect_db()
     cursor = conn.cursor()
     try:
-        query = "SELECT location_long, location_lat FROM kibocheRTData WHERE id = %s"
+        query = "SELECT location_long, location_lat FROM kibocheRTData WHERE id = %s;"
         cursor.execute(query, [int(coordinate_id)])
         coordinates = cursor.fetchone()
         # close connection
         cursor.close()
         conn.close()
         return coordinates
-    except mysql.connector.Error as e:
+    except psycopg2.Error as e:
         print(f"Error! {e}")
+        cursor.close()
+        conn.close()
         return e
-# print(fetch_gps_coordinates(2.9))
+# print(fetch_gps_coordinates("2"))
 
 def store_predicted_locations(long:str, lat:str, curr_loc_id:int):
     """
@@ -148,7 +162,7 @@ def store_predicted_locations(long:str, lat:str, curr_loc_id:int):
     conn = connect_db()
     cursor = conn.cursor()
     try:
-        query = "INSERT INTO predictionData(rt_id, location_long, location_lat) VALUES(%s,%s,%s)"
+        query = "INSERT INTO predictionData(rt_id, location_long, location_lat) VALUES(%s,%s,%s);"
         cursor.execute(query, [int(curr_loc_id), long, lat])
         conn.commit()
 
@@ -157,8 +171,10 @@ def store_predicted_locations(long:str, lat:str, curr_loc_id:int):
         conn.close()
         print("Predictions saved to Db")
         return "Predictions saved to Db"
-    except mysql.connector.Error as e:
+    except psycopg2.Error as e:
         print(f"Error! {e}")
+        cursor.close()
+        conn.close()
         return e
 
 
@@ -173,7 +189,7 @@ def fetch_rtid_from_predicton_data():
     cursor = conn.cursor()
 
     try:
-        query = "SELECT rt_id FROM predictionData"
+        query = "SELECT rt_id FROM predictionData;"
         cursor.execute(query)
         rt_ids = cursor.fetchall()
 
@@ -181,8 +197,10 @@ def fetch_rtid_from_predicton_data():
         cursor.close()
         conn.close()
         return rt_ids
-    except mysql.connector.Error as e:
+    except psycopg2.Error as e:
         print(f"Error! {e}")
+        cursor.close()
+        conn.close()
         return e
 # print(fetch_rtid_from_predicton_data())
 
@@ -220,7 +238,7 @@ def count_rows():
     conn = connect_db()
     cursor = conn.cursor()
     try:
-        query = "SELECT COUNT(pd_id) FROM predictionData"
+        query = "SELECT COUNT(pd_id) FROM predictionData;"
         cursor.execute(query)
         count = cursor.fetchall()
 
@@ -228,11 +246,12 @@ def count_rows():
         cursor.close()
         conn.close()
         return count[0][0]
-    except mysql.connector.Error as e:
+    except psycopg2.Error as e:
         print(f"Error! {e}")
+        cursor.close()
+        conn.close()
         return e
 # print(count_rows())
-
 
 def calculate_correct_or_failed_predictions(pred_long, pred_lat, row_id):
     """
@@ -273,7 +292,7 @@ def calculate_correct_or_failed_predictions(pred_long, pred_lat, row_id):
             conn.commit()
             print("This is a failed pred and we have updated report table.")
             return None
-    except mysql.connector.Error as e:
+    except psycopg2.Error as e:
         print(f"Error, {e}")
         return e
     finally:
@@ -290,15 +309,17 @@ def get_correct_pred_value():
     conn = connect_db()
     cursor = conn.cursor()
     try:
-        query = "SELECT correct_predictions FROM reportData WHERE id = 1"
+        query = "SELECT correct_predictions FROM reportData WHERE id = 1;"
         cursor.execute(query)
         correct_pred_val = cursor.fetchone()
         # close conn
         cursor.close()
         conn.close()
         return correct_pred_val[0]
-    except mysql.connector.Error as e:
+    except psycopg2.Error as e:
         print(f"Error! {e}")
+        cursor.close()
+        conn.close()
         return e
 
 
@@ -310,7 +331,7 @@ def get_failed_pred_value():
     conn = connect_db()
     cursor = conn.cursor()
     try:
-        query = "SELECT failed_predictions FROM reportData WHERE id = 1"
+        query = "SELECT failed_predictions FROM reportData WHERE id = 1;"
         cursor.execute(query)
         failed_pred_val = cursor.fetchone()
 
@@ -318,8 +339,10 @@ def get_failed_pred_value():
         cursor.close()
         conn.close()
         return failed_pred_val[0]
-    except mysql.connector.Error as e:
+    except psycopg2.Error as e:
         print(f"Error! {e}")
+        cursor.close()
+        conn.close()
         return e
 
 # validating user registration data
@@ -382,14 +405,14 @@ def save_alert(alert_id: int):
     cursor = conn.cursor()
 
     try:
-        query = "INSERT INTO alerts(pd_id_alert) VALUE(%s)"
+        query = "INSERT INTO alerts(pd_id_alert) VALUES(%s);"
         cursor.execute(query, [int(alert_id)])
         conn.commit()
         cursor.close()
         conn.close()
         return "Success", 200
 
-    except mysql.connector.Error as e:
+    except psycopg2.Error as e:
         cursor.close()
         conn.close()
         return e
@@ -409,8 +432,14 @@ def get_latest_alert()->int:
         conn.close()
 
         return alert_id[0]
-    except IndexError:
+    except IndexError as e:
         cursor.close()
         conn.close()
-        return "Index out of range"
+        print(f"Error: Index out of range {e}")
+        return 0
+    except TypeError as e:
+        cursor.close()
+        conn.close()
+        print(f"TypeError: {e}")
+        return 0
 # print(get_latest_alert())

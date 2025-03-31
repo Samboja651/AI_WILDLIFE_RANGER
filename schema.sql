@@ -1,5 +1,5 @@
 -- dbms = postgresql
-CREATE DATABASE WDF_conservation;
+-- CREATE DATABASE WDF_conservation;
 -- realtime data for lion named kiboche
 -- we preserve the datatypes as obtained from data source. 
 CREATE TABLE IF NOT EXISTS kibocheRTData(
@@ -48,6 +48,6 @@ CREATE TABLE IF NOT EXISTS feedback (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 -- create another user instead of root operations.
-CREATE USER wdf_conservatist WITH PASSWORD '@WildlifeTech2025';
-GRANT ALL ON DATABASE WDF_conservation TO wdf_conservatist;
-GRANT CONNECT ON DATABASE WDF_conservation TO wdf_conservatist;
+-- CREATE USER wdf_conservatist WITH PASSWORD '@WildlifeTech2025';
+-- GRANT ALL ON DATABASE WDF_conservation TO wdf_conservatist;
+-- GRANT CONNECT ON DATABASE WDF_conservation TO wdf_conservatist;
