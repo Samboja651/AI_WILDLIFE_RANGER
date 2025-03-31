@@ -3,40 +3,54 @@
 
 {% block title %}Model Report - Wildlife Conservation{% endblock %}
 
-{% block container %}
-<div class="container1 mt-4">
-    <div  style="word-wrap: break-word; width: 45%; text-align: left; align-items: flex-start; padding-left: 15px;">
-            <p>The model report shows the performance of the model <br> based on the prediction it made on unseen data. <br></p>
-            <li>Prediction made - Total number of predictions that the model has made.</li>
-            <li>Correct prediction - Number of prediction made with the least difference, that is, 400 meters from the actual location after 2 hours.</li>
-            <li>Failed predictions - Number of predictions made that had much difference, that is more than 400 meters.</li>
-            <li>Succes rate - is the ratio of correct predictons to the Predictions made expressed as a percentage.</li>
-    </div>
 
+{% block section %}
 
-    <div class="row mt-4">
-        <div class="col">
-            <table class="table table-bordered table-striped">
-                <thead class="table-dark">
+<div class="container mx-auto px-4 py-6 ">
+    <!-- Parent container for responsiveness -->
+    <div class="reportContainer flex flex-col lg:flex-row gap-6">
+        
+        <!-- Description Section -->
+        <div class="bg-white p-6 shadow-lg rounded-lg lg:w-1/2 w-full">
+            <p class="text-lg text-gray-700 font-semibold mb-4">
+                The model report table presents an evaluation of the model's performance based on its predictions for unseen data, highlighting key metrics such as total predictions and the success rate.
+            </p>
+            <ul class="list-disc list-inside text-gray-600">
+                <li><strong>Prediction made</strong> - Total number of predictions the model has made upto the present moment.</li>
+                <li><strong>Correct predictions</strong> - The number of predictions where the model's estimated location is  <i>within 400 meters or less</i> of the actual location..</li>
+                <li><strong>Failed predictions</strong> - The number of predictions where the model's estimated location <i>deviates by more than 400 meters</i> from the actual location.</li>
+                <li><strong>Success rate</strong> - The percentage of correct predictions out of the total predictions made by the model.</li>
+            </ul>
+        </div>
+
+        <!-- Table Section -->
+         <p style="font-size: 2em;">Report Table</p>
+        <div class="bg-white p-6 shadow-lg rounded-lg lg:w-1/2 w-full overflow-x-auto">
+            <table class="w-full border-collapse border border-gray-300">
+                <thead class="bg-gray-800 text-white">
                     <tr>
-                        <th>Predictions made</th>
-                        <th>Correct predictions</th>
-                        <th>Failed predictions</th>
-                        <th>Success Rate %</th>
+                        <th class="border border-gray-300 p-3">Predictions Made</th>
+                        <th class="border border-gray-300 p-3">Correct Predictions</th>
+                        <th class="border border-gray-300 p-3">Failed Predictions</th>
+                        <th class="border border-gray-300 p-3">Success Rate (%)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>{{ predictions_made }}</td>
-                        <td>{{ correct_predictions }}</td>
-                        <td>{{ failed_predictions }}</td>
-                        <td>{{ success_rate }}%</td>
+                    <tr class="bg-gray-100 text-center">
+                        <td class="border border-gray-300 p-3">{{ predictions_made }}</td>
+                        <td class="border border-gray-300 p-3">{{ correct_predictions }}</td>
+                        <td class="border border-gray-300 p-3">{{ failed_predictions }}</td>
+                        <td class="border border-gray-300 p-3">{{ success_rate }}%</td>
                     </tr>
                 </tbody>
             </table>
         </div>
+
     </div>
 </div>
+
+
+
 {% endblock %}
 {% block formField%}{% endblock%}
 
