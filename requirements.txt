@@ -7,3 +7,11 @@ sinch
 psycopg2-binary
 Gunicorn
 joblib
+numpy
+matplotlib
+pandas
+scipy
+seaborn
+scikit-learn
+jupyterlab
+notebook
