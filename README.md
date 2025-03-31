@@ -1,6 +1,7 @@
 # AI WILDLIFE RANGER
 
-A web based prototype built with Flask that enables rangers to see the future location of a lion and get email alerts when this location is in a restricted area.
+A web based prototype built with Flask that enables rangers to see the future
+location of a lion and get email alerts when this location is in a restricted area.
 
 ## Table of Content
 
@@ -30,7 +31,8 @@ A web based prototype built with Flask that enables rangers to see the future lo
 
 ## Overview
 
-AI Lion Ranger is a prototype designed to reduce human wildlife conflicts by increasing the response time of rangers. Given the current location of a lion, it predicts where it will be in the next two hours.
+AI Lion Ranger is a prototype designed to reduce human wildlife conflicts by increasing
+the response time of rangers. Given the current location of a lion, it predicts where it will be in the next two hours.
 
 ![system-overview](./static/images/system-overview.png)
 
@@ -183,7 +185,7 @@ On the terminal run `flask run --debug`.
 ## Useful links
 
 [Download Lion Kiboche real-time data](https://drive.google.com/uc?id=1N9gEm56eMsf8qcRi3JwQzn2n4cxiuDsA&export=download)\
-[Code to ML prediction model](https://colab.research.google.com/drive/1eLzl6sPXAiUuNLhWkPMxFJgJbLa70__4?usp=sharing)
+[ML prediction model codebase](https://colab.research.google.com/drive/1eLzl6sPXAiUuNLhWkPMxFJgJbLa70__4?usp=sharing)
 
 ## Troubleshooting tips
 
@@ -195,7 +197,8 @@ Ensure all env variables are correctly assigned.
 
 ## Basic workflow
 
-When you pass the current coordinates of a Lion, a prediction is made. If the predicted location crosses Taita Taveta border into Kwale county. An alert by email is sent.
+When you pass the current coordinates of a Lion, a prediction is made. If the predicted location
+crosses Taita Taveta border into Kwale county. An alert by email is sent.
 
 ## Directory structure
 
@@ -203,10 +206,8 @@ When you pass the current coordinates of a Lion, a prediction is made. If the pr
 AI_WILDLIFE_RANGER
 ├── app.py
 ├── ethics
-│   ├── phase-1-System-doc-flow_and_ethical_considerations.md
-│   ├── Phase-2-System-Design-RCC.md
-│   ├── Phase-3-Prototype-Developmen-and-Ethical Evaluation.md
-│   └── Phase-4-System-Testing-RCC.md
+│   ├── Prototype-Developmen-and-Ethical Evaluation.md
+│   └── Responsible-Computing.md
 ├── LICENSE
 ├── main.py
 ├── models
@@ -220,39 +221,18 @@ AI_WILDLIFE_RANGER
 ├── server.py
 ├── static
 │   ├── css
-│   │   ├── feedback.css
-│   │   ├── home.css
-│   │   └── main.css
 │   ├── images
-│   │   ├── 74q26r70s2_Elephant_herd_crop_raid.jpg
-│   │   ├── component-architecture.png
-│   │   ├── damaged_house.jpeg
-│   │   ├── damaged_house.jpg
-│   │   ├── dbschema.png
-│   │   ├── images.jpeg
-│   │   ├── LION-DEAD-MOHAWK.jpg
-│   │   ├── map_with_PL&CL.JPG
-│   │   ├── prediction-flow.png
-│   │   ├── startHWC.webp
-│   │   └── system-overview.png
 │   └── js
-│       └── script.js
 ├── templates
-│   ├── exception.html
-│   ├── feedback.html
-│   ├── home.html
-│   ├── index.html
-│   ├── login.html
-│   ├── navigation.html
-│   ├── register.html
-│   └── report.html
 ├── test_model_perfomance.py
 └── test-plan.md
 ```
 
 ## Help
 
-We used **Google Maps Javascript API** , **sinch sms service** and an **API from Opencage**. If you find urgent need to test the application with our development **API keys** or values on env file, send an email to <waribekihiko651@gmail.com>.
+We used **Google Maps Javascript API** , **sinch sms service** and an **API from Opencage**.
+If you find urgent need to setup & test the application with our development **API keys** or values on env file,
+send an email to <waribekihiko651@gmail.com>.
 
 ---
 Developed by:\

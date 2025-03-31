@@ -1,5 +1,9 @@
 # System Design with Responsible Computing
 
+We explain the ethical principles and how we implemented them in the development of the ML prediction model.
+
+[ML prediction model codebase](https://colab.research.google.com/drive/1eLzl6sPXAiUuNLhWkPMxFJgJbLa70__4?usp=sharing)
+
 ## 1. Privacy by Design
 
 ```python3
