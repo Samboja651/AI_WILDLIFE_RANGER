@@ -36,7 +36,7 @@ Some parts of the dataset had very wide gaps of time interval 721 hours and most
 
 ### Limitations
 
-1. Interporation was done at a consistency of two hours time interval. Therefore the model predicts locations to the next two hours.
+1. Interporation was done at a consistency of two hours time interval. Therefore the model predicts locations to the next two hours only.
 
 2. The dataset focuses on one Lion named `Kiboche` in Tsavo National Park. Therefore the model can neither work well for other Lions nor Lion Kiboche in another park.
 
