@@ -6,3 +6,4 @@ geopy
 sinch
 psycopg2-binary
 Gunicorn
+joblib
