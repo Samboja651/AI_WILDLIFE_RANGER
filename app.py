@@ -48,15 +48,16 @@ app.config['MAIL_DEFAULT_SENDER'] = os.environ.get("SENDER_MAIL")
 
 mail = Mail(app)
 
+
+@app.route('/')
+def home():
+    """view func for home"""
+    return render_template('home.html')
+
 @app.route('/config')
 def get_config():
     """sends opencage API to the frontend"""
     return jsonify({"opencage_apiKey": os.environ.get("OPENCAGE_API_KEY")})
-
-@app.get('/')
-def home():
-    """view func for home"""
-    return render_template('home.html')
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
