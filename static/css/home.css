@@ -13,9 +13,9 @@ main {
 /* Ensure images and paragraphs are the same width */
 .main img,
 .main p {
-    width: 80%; /* Large but not full-width on big screens */
-    max-width: 900px; /* Prevents excessive width on large screens */
-    height: auto; /* Maintain aspect ratio */
+    width: 80%; 
+    max-width: 900px; /* Prevent excessive width on large screens */
+    height: auto; 
 }
 
 /* Ensure paragraphs align well with images */
@@ -25,9 +25,9 @@ main {
 }
 
 .menu li a {
-    font-size: 1.1rem; /* Adjust this value as needed */
-    font-weight: 500; /* Optional: Makes text slightly bolder */
-    padding: 0.5rem 1rem; /* Adds spacing for better readability */
+    font-size: 1.1rem;
+    font-weight: 500; 
+    padding: 0.5rem 1rem;
 }
 
 .nav {
@@ -44,6 +44,22 @@ main {
     margin-top: 70px;
 }
 
+footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+footer aside, footer nav {
+    flex: 1 1 200px; /* Allow flexible resizing with a minimum width */
+    margin: 0.5rem;
+}
+p {
+    line-height: 1.6;
+}
+
 /* Adjustments for smaller screens */
 @media (max-width: 768px) {
     .main div {
@@ -52,7 +68,22 @@ main {
 
     .main img,
     .main p {
-        width: 95%; /* Almost full width but with small margins */
+        width: 95%;
         max-width: none; /* Remove large-screen constraints */
+    }
+
+    footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    footer aside, footer nav {
+        flex: 1 1 auto; /* Allow full width for each section */
+        margin: 0.5rem 0;
+    }
+
+    footer .grid {
+        justify-content: center;
     }
 }

@@ -79,3 +79,25 @@ div .text-end{
     justify-content: flex-end;
 }
 
+/* Responsive styles for login and register pages */
+/* .container {
+    padding: 15px;
+}
+
+.card {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .container {
+        margin: 0 auto;
+    }
+
+    .card {
+        padding: 15px;
+    }
+} */
+

@@ -58,9 +58,10 @@
         #visibility-icon {
             position: absolute;
             left: calc(100% - 35px);
-            top: 0rem;
+            top: 50%;
+            transform: translateY(-50%); /* Center vertically */
+            cursor: pointer; /* Add pointer cursor for better UX */
         }
-
     </style>
     
 </head>
@@ -100,7 +101,7 @@
 
           <form method="post" style="display: flex; flex-direction: row;"> 
             <div class="mapForm p-4">
-              <p>Zoom-in the map to see the Currect Location(CL) and the Predicted Location(PL) of the Lion clearly. <br>
+              <p>Zoom-in-out of the map to see the Currect Location(CL) and the Predicted Location(PL) of the Lion clearly. <br>
               In the below field you can try any given real time ID within the range specified and get the predicted location interval 2 hours.</p>
                 <input type="number" max="500" id="rowId" class="p-2" placeholder="Row ID (1-500)" required>
                 <input type="text" placeholder="2hrs" class="p-2" readonly>
@@ -115,9 +116,9 @@
       <aside>
           <i class="fa-solid fa-hashtag" style="font-size: 60px;"></i>
         <p>
-          Tafiti Softwares Ltd.
+          Tafiti Softwares
           <br />
-          Providing reliable tech solutions
+          Building sustainable tech solutions
         </p>
       </aside>
       <nav>
@@ -130,9 +131,7 @@
       </nav>
       <nav>
         <h6 class="footer-title">Contacts</h6>
-        <p>Reach us via call on  -  0797210158</p>
-        <h5>OR</h5>
-        <p>Email via - <a href="mailto:tafitisoftwares@gmail.com" style="color: blue;">waribekihiko651@gmail.com</a></p>
+        <p><a href="mailto:waribekihiko651@gmail.com" style="color: blue;">waribekihiko651@gmail.com</a></p><span>+254797210158</span>
       </nav>
     </footer>
       {% endblock%}
@@ -149,12 +148,10 @@
     </script>
     <script>
         // toggle password
-        const passwordInput = document.getElementById('password');
-        const visibilityIcon = document.querySelector('span#visibility-icon');
-
-
         function togglePassword() {
-            
+            const passwordInput = document.getElementById('password');
+            const visibilityIcon = document.getElementById('visibility-icon');
+
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
                 visibilityIcon.textContent = 'visibility_off';
@@ -162,7 +159,7 @@
                 passwordInput.type = 'password';
                 visibilityIcon.textContent = 'visibility';
             }
-        }   
+        }
     </script>
 </body>
 </html>
