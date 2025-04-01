@@ -225,7 +225,7 @@ def feedback():
                 conn.close()
 
                 flash("Feedback was saved. Thank you Ranger 🎉.")
-                # return redirect(url_for('feedback'))
+                return redirect(url_for('feedback'))
             return render_template('feedback.html')
         except Exception as e:
             flash("🤔 An Error occured. Click above button & Retry")
