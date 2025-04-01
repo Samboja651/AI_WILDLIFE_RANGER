@@ -80,7 +80,7 @@ div .text-end{
 }
 
 /* Responsive styles for login and register pages */
-/* .container {
+.container {
     padding: 15px;
 }
 
@@ -99,5 +99,5 @@ div .text-end{
     .card {
         padding: 15px;
     }
-} */
+}
 
