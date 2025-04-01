@@ -98,7 +98,7 @@ def seed_db():
 # seed_db()
 
 # you'll need access rights to data
-DEFAULT_URL = "https://drive.google.com/uc?id=1N9gEm56eMsf8qcRi3JwQzn2n4cxiuDsA&export=download"
+DEFAULT_URL = "https://drive.google.com/uc?export=download&id=1N9gEm56eMsf8qcRi3JwQzn2n4cxiuDsA"
 def fetch_gps_collar_data(url = DEFAULT_URL):
     """
     downloads gps collar data of the lions.
