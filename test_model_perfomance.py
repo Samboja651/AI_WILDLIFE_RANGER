@@ -1,8 +1,9 @@
 """automated test """
+import time
 import requests
 
 
-def model_perfomance(row_id):
+def model_perfomance():
     """
     testing the model performance\n
     function moves through each row on realtime data\n 
@@ -12,6 +13,7 @@ def model_perfomance(row_id):
     Args: 
         int: row_id of the coordinates of realtime data in db.
     """
+    start_time = time.time()
     for row_id in range(1, 501, 1):
         url = f"http://127.0.0.1:5000/predict/location/{row_id}/time/2"
 
@@ -26,4 +28,7 @@ def model_perfomance(row_id):
             continue
         finally:
             continue
-    return
+    end_time = time.time()
+    print(f"Total time taken: {end_time - start_time} seconds")
+
+model_perfomance()

@@ -1,180 +1,127 @@
-# Test Plan for the Lion Movement Prediction System
+# Test Plan for AI Wildlife Ranger
 
-The goal is to test the functionality of each module
+A test plan for the AI Wildlife Ranger Flask application. The goal is to ensure the application meets functional, performance, and usability requirements.
 
-## Test Objectives
+## Types of Testing
 
-1. Verify the working of each module in the `server.py` and `prediction.py` files.
-2. Verify the working of each api route in the `app.py`.
-3. Evaluate the performance of the prediction model.
-4. Evaluate the responsive of the UI.
+### 1. **Functional Testing**
 
-## Test Scope
+- Verify that all features work as expected.
+- Test the following functionalities:
+  - User registration and login.
+  - Prediction of lion locations.
+  - Display of real-time and predicted locations on the map.
+  - Sending email and SMS alerts.
+  - Feedback submission.
+  - Model performance reporting.
 
-- The UI pages loads and all components work without errors.
-- The code is formatted, well organized and without errors.
+### 2. **Performance Testing**
 
-## Test Strategy
+- Measure the application's response time and resource usage under different loads.
+- Test scenarios:
+  - Predicting locations for 500 rows of real-time data.
+  - Handling multiple simultaneous user requests.
 
-Unit testing with `pytest`.
+### 3. **Usability Testing**
 
-### Objective 1
+- Assess the user interface for ease of use and accessibility.
+- Test cases:
+  - Verify that navigation is intuitive.
+  - Ensure error messages are clear and helpful.
 
-**Verify the working of each module in the `server.py` and `prediction.py` files.**
+### 4. **Automation Testing**
 
-`server.py` modules:
+- Automate repetitive test cases to save time and improve accuracy.
+- Focus on:
+  - API endpoint testing.
+  - Model performance testing.
 
-- `connect_db`
-- `read_gps_collar_data`
-- `seed_db`
-- `fetch_gps_collar_data`
-- `fetch_gps_coordinates`
-- `store_predicted_locations`
-- `fetch_rt_id_from_prediction_data`
-- `is_check_rtid_in_db`
-- `count_rows`
-- `calculate_correct_or_failed_predictions`
-- `get_correct_pred_value`
-- `get_failed_pred_value`
+---
 
-#### Test Cases
+## Test Strategey
 
-```1. server.connect_db```
+- unit tests
+- manual testing
 
-| Test Case id | Input | Expected Output | Remarks |
-| -------- | -------- | -------- | -------- |
-| TC_1 | None | mysql connection object | connection to db |
-| TC_2 | Incorrect Host - `Jupiter` | Error | db connection Error handling |
+## Test Objectives and Test Cases
 
-```server.read_gps_collar_data```
+### Objective 1: Verify User Registration and Login
 
-| Test Case id | Input | Expected Output | Remarks |
-| -------- | -------- | -------- | -------- |
-| TC_3 | file path - `archives/Kiboche_last_500_rows_data.csv` | list of rows - `[(), ()]` | conversion of csv data to a list |
-| TC_4 | Incorrect file path | `Error! FileExistError` | file path |
-| TC_5 | Incorrect file path | `Error! FileNotFoundError`| file exists |
-| TC_6 | empty file | `Error! Empty file.` | no data in the file. |
+| **Test Case** | **Inputs**                                                                                     | **Expected Result**                                                                 |
+|---------------|-----------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| 1.1           | `rangerId="RNG12345"`, `email="testuser@gmail.com"`, `password="Password@123"`, `confirmPassword="Password@123"` | User is successfully registered and redirected to the login page.                  |
+| 1.2           | `rangerId="RNG12345"`, `email="testuser@gmail.com"`, `password="Password@123"`, `confirmPassword="Password@123"` | Error message "User is already registered."                                        |
+| 1.3           | `rangerId="RNG12345"`, `password="Password@123"`                                               | User is logged in and redirected to the home page.                                 |
+| 1.4           | `rangerId="RNG12345"`, `password="WrongPassword"`                                              | Error message "Incorrect Password" or "Ranger ID does not exist."                  |
 
-```server.seed_db```
+### Objective 2: Validate Prediction Functionality
 
-| Test Case id | Input | Expected Output | Remarks |
-| -------- | -------- | -------- | -------- |
-| TC_7 | None | `seeding was successful` | populate db with gps collar data |
-| TC_8 | `Kiboche_last_500_rows_data.csv` | `mysql error` | existense of correct data and format |
+| **Test Case** | **Inputs**                     | **Expected Result**                                                                 |
+|---------------|-------------------------------|-------------------------------------------------------------------------------------|
+| 2.1           | `[38.799088  -3.8896475]`                        | Returns the correct longitude and latitude                       |
 
-```server.fetch_gps_collar_data```
+### Objective 3: Test Notification System
 
-***works if the you have access rights to the data.***
+| **Test Case** | **Inputs**                     | **Expected Result**                                                                 |
+|---------------|-------------------------------|-------------------------------------------------------------------------------------|
+| 3.1           | None (triggered automatically when a condition is met). | Email is sent successfully to `tumaini736@gmail.com`.                               |
+| 3.2           | None (triggered automatically when a condition is met). | SMS is sent successfully to `254769659301`.                                         |
 
-| Test Case id | Input | Expected Output | Remarks |
-| -------- | -------- | -------- | -------- |
-| TC_9 | `https://drive.google.com/uc?id=1N9gEm56eMsf8qcRi3JwQzn2n4cxiuDsA&export=download` | `data downloaded successfully` | download gps collar data |
-| TC_10 | `incorrect path` | `urlerror` | download gps collar data |
+### Objective 4: Evaluate Model Performance Reporting
 
-```server.fetch_gps_coordinates```
+| **Test Case** | **Inputs**                     | **Expected Result**                                                                 |
+|---------------|-------------------------------|-------------------------------------------------------------------------------------|
+| 4.1           | None (access the `/model-report` endpoint). | Displays the total predictions, correct predictions, failed predictions, and success rate. |
 
-| Test Case id | Input | Expected Output | Remarks |
-| -------- | -------- | -------- | -------- |
-| TC_11 | 2 | `('38.79582624285714', '-3.8786255285714284')` | ability to fetch coordinates from db. |
-| TC_12 | '2' | `('38.79582624285714', '-3.8786255285714284')` | ability to fetch coordinates from db. |
-| TC_13 | 2.2 | `('38.79582624285714', '-3.8786255285714284')` | ability to fetch coordinates from db. |
-| TC_14 | two | `mysql error` | ability to fetch coordinates from db. |
+### Objective 5: Assess Feedback Submission
 
-```server.store_predicted_locations```
+| **Test Case** | **Inputs**                                                                                     | **Expected Result**                                                                 |
+|---------------|-----------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| 5.1           | `locID=autogenerated`, `animalType="Lion"`, `actionTaken="Alerted rangers"`, `conflictAvoided="Yes"` | Feedback is saved in the database, and a success message is displayed.             |
+| 5.2           | `locID=autogenerated`, `animalType=""`, `actionTaken=""`, `conflictAvoided=""`                  | Error message "All fields are required."                                           |
 
-| Test Case id | Input | Expected Output | Remarks |
-| -------- | -------- | -------- | -------- |
-| TC_15 | `'38.79582624285714', '-3.8786255285714284', 2` | `Predictions saved to Db` | Store predicted location in the database |
-| TC_16 | `None, None, None` | `mysql error` | Handle missing input gracefully |
+### Objective 6: Test System Performance
 
-```server.fetch_rt_id_from_prediction_data```
+| **Test Case** | **Inputs**                     | **Expected Result**                                                                 |
+|---------------|-------------------------------|-------------------------------------------------------------------------------------|
+| 6.1           | None (run the automated script `test_model_perfomance.py`). | All 500 predictions are completed within 5 minutes |
+| 6.2           | Simulate 50 concurrent requests to `/predict/location/<id>/time/<interval>`. | The system remains responsive, and no requests fail.                               |
 
-| Test Case id | Input | Expected Output | Remarks |
-| -------- | -------- | -------- | -------- |
-| TC_17 | None | List of tuples: `[(),()]` | Fetch real-time location IDs from the prediction table |
+### Objective 7: Verify Usability
 
-```server.is_check_rtid_in_db```
+| **Test Case** | **Inputs**                     | **Expected Result**                                                                 |
+|---------------|-------------------------------|-------------------------------------------------------------------------------------|
+| 7.1           | None (manual navigation through the UI). | All pages load correctly, and navigation is intuitive.                              |
 
-| Test Case id | Input | Expected Output | Remarks |
-| -------- | -------- | -------- | -------- |
-| TC_18 | `1` | `True` | Check if the real-time location ID exists in the database |
-| TC_19 | `999` | `False` | Handle non-existent IDs gracefully |
-| TC_20 | `one` | `Type Error! id must be integer` | Handle invalid ID types gracefully |
-| TC_21 | None | `Value Error! need to pass id` | Handle missing ID gracefully |
+---
 
-```server.count_rows```
+## Security Testing
 
-| Test Case id | Input | Expected Output | Remarks |
-| -------- | -------- | -------- | -------- |
-| TC_22 | None | `int` | Count the number of rows in the prediction table |
+### Objective: Validate the security of sensitive data and application endpoints
 
-```server.calculate_correct_or_failed_predictions```
+| **Test Case** | **Inputs**                                                                                     | **Expected Result**                                                                 |
+|---------------|-----------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| S1            | Attempt SQL injection on login form (`rangerId="1' OR '1'='1"`).                              | Login is denied, and no sensitive data is exposed.                                 |
+| S2            | Access restricted endpoints without logging in (e.g., `/model-report`).                       | Access is denied, and the user is redirected to the login page.                    |
+| S3            | Test password storage by inspecting the database.                                             | Passwords are hashed and not stored in plaintext.                                  |
 
-| Test Case id | Input | Expected Output | Remarks |
-| -------- | -------- | -------- | -------- |
-| TC_23 | `pred_long=38.799088, pred_lat=-3.8896475, row_id=1` | None | Update the report table with correct or failed predictions |
-| TC_24 | Invalid `row_id=one` | `mysql error` | Handle invalid row IDs gracefully |
+---
 
-```server.get_correct_pred_value```
+## Bug Reporting
 
-| Test Case id | Input | Expected Output | Remarks |
-| -------- | -------- | -------- | -------- |
-| TC_25 | None | `int` | Fetch the correct prediction count from the report table |
+### Identified Bugs
 
-```server.get_failed_pred_value```
+| **Bug ID** | **Description**                                                                                  | **Steps to Reproduce**                                                                 | **Severity** | **Status** |
+|------------|--------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|--------------|------------|
+| B1         | Incorrect error message when registering with an existing email.                                 | 1. Go to the registration page. <br> 2. Enter an already registered email. <br> 3. Submit the form. | Medium       | closed       |
+| B2         | SMS notification fails when Sinch API credentials are invalid.                                   | 1. Configure invalid Sinch API credentials in `.env`. <br> 2. Trigger an SMS alert.   | High         | Open       |
+| B3         | Feedback form allows submission with empty optional fields but no confirmation message is shown. | 1. Go to the feedback page. <br> 2. Leave optional fields empty. <br> 3. Submit the form. | Low          | closed       |
 
-| Test Case id | Input | Expected Output | Remarks |
-| -------- | -------- | -------- | -------- |
-| TC_26 | None | `int` | Fetch the failed prediction count from the report table |
-
-```prediction.predict_location```
-
-| Test Case id | Input | Expected Output | Remarks |
-| -------- | -------- | -------- | -------- |
-| TC_27 | `(38.79894688571429, -3.8889102571428573), 2, models/gps_location_prediction_model.h5` | `(38.799088, -3.8896475)` | predicting the next location |
-| TC_28 | `(38.79894688571429, -3.8889102571428573), 2, Noinput` | `ValueError` | predicting the next location |
-| TC_29 | `[38.79894688571429, -3.8889102571428573], 2, models/gps_location_prediction_model.h5` | `TypeError` | predicting the next location |
-| TC_30 | `[38.79894688571429, -3.8889102571428573], None, models/gps_location_prediction_model.h5` | `Error! InvalidTime` | predicting the next location |
-
-### Objective 2
-
-Verify the working of each api route in the `app.py`
-
-| Test Case id | Input | Expected Output | Remarks |
-| -------- | -------- | -------- | -------- |
-| TC_31 | `http://localhost:5000/` | 200 | home page |
-| TC_32 | `http://localhost:5000/config` | 200 | api config |
-| TC_33 | `http://localhost:5000/model-report` | 200 | model perfomance report page |
-| TC_34 | `http://localhost:5000/display-location` | 200 | display map on home page |
-| TC_35 | `http://localhost:5000/real-time-location/1` | 200 | get current lion location |
-| TC_36 | `http://localhost:5000/predict/location/1/time/2` | 200 | predict the location of lion |
-| TC_37 | `http://localhost:5000/send-alert` | 200 | send alert email messages |
-
-### Objective 3
-
-[Test model performance](test_model_perfomance.py)
-
-### Objective 4
-
-Manual usability testing using google chrome dev tools.
-
-## Risk Analysis
-
-??
-
-## Test Environment
-
-python3
-venv
-pytest
-google chrome dev tools
-
-## Entry/Exit Criteria
-
-Entry: `Readme.md` `requirements.txt`
-Exit: All test pass
+---
 
 ## Tools
 
-Vscode Testing extension
-pylint
+- unittest framework
+- chrome dev tools
+- vscode
+- postman
