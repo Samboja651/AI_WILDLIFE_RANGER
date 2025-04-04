@@ -1,6 +1,10 @@
 """"application"""
 import os
 import smtplib
+import threading
+import time
+from datetime import datetime
+import requests
 from flask import Flask, render_template, jsonify, redirect, url_for, session, request, flash
 from werkzeug.security import check_password_hash, generate_password_hash
 from tensorflow.keras.models import load_model # ignore error, for now
@@ -34,6 +38,10 @@ PROJECT_ID = os.environ.get("PROJECT_ID")
 SINCH_NUMBER = os.environ.get("SINCH_NUMBER")
 RECEIVER_NUMBER = os.environ.get("RECEIVER_NUMBER")
 SESSION_SECRET_KEY = os.environ.get("SESSION_SECRET_KEY")
+
+KEEP_ALIVE_WORKER_URL = "https://keep-alive-worker.onrender.com/ping"
+
+LOG_FILE = "app_keep_alive_log.txt"
 
 app = Flask(__name__)
 app.secret_key = SESSION_SECRET_KEY
@@ -347,9 +355,41 @@ def _get_latest_alert_id():
     response = 0
     return jsonify({"message": "id not found", "id": response}), 500
 
+@app.route('/ping', methods=['GET'])
+def handle_ping():
+    """Handle ping requests from keep_alive_worker.py."""
+    print("Received ping from Keep Alive Worker")
+    return jsonify({"message": "App is active"}), 200
 
+def log_message(message):
+    """Log a message with a timestamp to a file."""
+    with open(LOG_FILE, "a", encoding="utf-8") as log_file:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        log_file.write(f"[{timestamp}] {message}\n")
 
+def ping_keep_alive_worker():
+    """Send a request to the keep_alive_worker.py server to keep it alive."""
+    while True:
+        try:
+            response = requests.get(KEEP_ALIVE_WORKER_URL, timeout=300)
+            if response.status_code == 200:
+                message = f"Ping to Keep Alive Worker successful. Response: {response.json().get('message')}"
+                log_message(message)
+            else:
+                message = f"Unexpected response from Keep Alive Worker: {response.status_code}"
+                log_message(message)
+        except requests.RequestException as e:
+            message = f"Failed to reach Keep Alive Worker. Network Issue: {e}"
+            log_message(message)
+        
+        # Wait for 10 minutes before sending the next request
+        time.sleep(600)
 
+# Start the ping loop to communicate with keep_alive_worker.py
+ping_thread = threading.Thread(target=ping_keep_alive_worker)
+ping_thread.daemon = True
+ping_thread.start()
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    # Start the Flask app
+    app.run(debug=False, port=5000)
