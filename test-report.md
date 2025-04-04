@@ -93,13 +93,13 @@ A detailed report of the testing process, results, and analysis for the AI Wildl
 - **Overall Status**: Pass
 - **Key Findings**:
   - if my free sinch api key runs out of usage, no sms are sent.
-  - High Latency up to 50 sec. Render freemium service causes this. I noticed that the server shuts down when there is no activity thus takes time to restart when a request is sent.
+  - High Latency up to 50 sec. Render freemium service causes this. I noticed that the server shuts down when there is no activity therefore takes time to restart when a request is sent.
   - The register/login page are not responsive on small screens <600px
   - The map is poorly displayed on small screens
 - **Recommendations**:
   - Since there is limited money, remoeve the sms notification feature when free api calls run out.
   - Use css media queries to make register/login & map mobile responsive
-  - Create a python background worker that will run 24/7 sending one request every five minute to the render servive where the application is hosted. This will keep the server active preventing it from shutting down thus increasing response time.
+  - Create a python background worker that will run 24/7 sending one request every ten minutes to the render servive where the application is hosted. This will keep the server active preventing it from shutting down thus increasing response time. `From research: Render spins down a free web service that goes 15 minutes without receiving inbound traffic.`
 
 ---
 
