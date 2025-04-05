@@ -44,7 +44,6 @@ A detailed report of the testing process, results, and analysis for the AI Wildl
 | 1.3              | Verify user login with valid credentials.    | Passed | successful               |
 | 1.4              | Verify error message for invalid credentials.| Passed | successful               |
 
-
 ### 3.2 Performance Testing
 
 | **Test Case ID** | **Description**                              | **Status** | **Comments**                     |

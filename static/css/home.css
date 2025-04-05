@@ -1,5 +1,5 @@
 main {
-    padding-top: 90px; /* Adjust based on navbar height */
+    margin-top: 70px; /* Use margin-top to push content below the navbar */
 }
 
 .main div {

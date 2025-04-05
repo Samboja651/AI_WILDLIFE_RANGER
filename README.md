@@ -27,9 +27,10 @@ location of a lion and get email alerts when this location is in a restricted ar
   - [API Documentation](#api-documentation)
   - [Run the App](#run-the-app)
   - [Database Schema](#database-schema)
+  - [Basic workflow](#basic-workflow)
+  - [Keep Alive Worker](#keep-alive-worker)
   - [Useful links](#useful-links)
   - [Troubleshooting tips](#troubleshooting-tips)
-  - [Basic workflow](#basic-workflow)
   - [Directory structure](#directory-structure)
   - [Help](#help)
 
@@ -186,6 +187,17 @@ On the terminal run `flask run --debug`.
 
 ![database-schema](static/images/dbschema.png)
 
+## Basic workflow
+
+When you pass the current coordinates of a Lion, a prediction is made. If the predicted location
+crosses Taita Taveta border into Kwale county. An alert by email is sent.
+
+## Keep Alive Worker
+
+I made a small flask application to be sending req to this app every 10 minutes. This acts as a keep alive. The keep alive app is also hosted on Render.com on a freemium tier. Meaning it also needs to be kept alive. Upon sending a request to this main app, the main app sends back a request to the keep alive worker to keep it alive. This forms a mutual relationship of keeping each other alive on freemium service.
+
+![keep alive worker](static/images/solving-high-latency-freemium.png)
+
 ## Useful links
 
 [Download Lion Kiboche real-time data](https://drive.google.com/uc?export=download&id=1N9gEm56eMsf8qcRi3JwQzn2n4cxiuDsA)\
@@ -198,11 +210,6 @@ Ensure you have installed all dependencies in `requirements.txt` file. Do this i
 Try loading the app on a different browser.
 
 Ensure all env variables are correctly assigned.
-
-## Basic workflow
-
-When you pass the current coordinates of a Lion, a prediction is made. If the predicted location
-crosses Taita Taveta border into Kwale county. An alert by email is sent.
 
 ## Directory structure
 

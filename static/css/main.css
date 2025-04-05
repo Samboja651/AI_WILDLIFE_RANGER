@@ -19,21 +19,17 @@ body {
     border: 1px solid #cccccc;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
+
 .map-container p {
     color: #333333;
     font-size: 18px;
 }
 
-.map-container .container1 {
-    display: flex;
-    flex-direction: row;
-    gap: 30px;
-}
-
+.map-container .container1,
 .mapForm {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 30px;
 }
 
 .reportContainer {
@@ -41,11 +37,9 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: auto;
     padding-top: 70px;
     gap: 40px;
 }
-
 
 @media (max-width: 768px) {
     .mapForm,
@@ -54,7 +48,59 @@ body {
     }
 }
 
+@media (max-width: 576px) {
+    .container {
+        padding: 10px;
+        width: 100%;
+    }
 
+    .card {
+        width: 90%;
+        padding: 10px;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    .form-control,
+    .btn {
+        font-size: 0.9em;
+        padding: 8px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .visibility-password {
+        position: relative;
+    }
+
+    #visibility-icon {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}
+
+form input, form button {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 1em;
+}
+
+form input {
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+
+form button {
+    margin-top: 10px;
+}
+
+form .visibility-password input {
+    padding-right: 40px; /* Add space for the visibility icon */
+}
 
 /* Footer styling */
 .footer {
@@ -67,37 +113,10 @@ body {
     bottom: 3em;
 }
 
-form input{
-    border: 1px solid grey;
-    border-radius: 5px;
-}
-/* navbar */
-div .text-end{
+/* Navbar */
+div .text-end {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5em;
     justify-content: flex-end;
 }
-
-/* Responsive styles for login and register pages */
-.container {
-    padding: 15px;
-}
-
-.card {
-    width: 100%;
-    max-width: 400px;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-@media (max-width: 768px) {
-    .container {
-        margin: 0 auto;
-    }
-
-    .card {
-        padding: 15px;
-    }
-}
-
