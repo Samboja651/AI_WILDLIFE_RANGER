@@ -11,3 +11,4 @@ archives
 .ipynb*
 *.log
 exception*
+keep_alive_worker.py
