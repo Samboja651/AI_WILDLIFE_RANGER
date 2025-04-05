@@ -402,7 +402,7 @@ def get_latest_alert()->int:
     cursor = conn.cursor()
 
     try:
-        query = "SELECT pd_id_alert FROM alerts ORDER BY pd_id_alert ASC LIMIT 1"
+        query = "SELECT pd_id_alert FROM alerts ORDER BY alert_id DESC LIMIT 1;"
         cursor.execute(query)
         alert_id = cursor.fetchone()
         cursor.close()
