@@ -31,7 +31,7 @@
         #visibility-icon {
             position: absolute;
             left: calc(100% - 35px);
-            top: 50%;
+            top: 40%;
             transform: translateY(-50%); /* Center vertically */
             cursor: pointer; /* Add pointer cursor for better UX */
         }
@@ -54,7 +54,7 @@
         </div>
         <div>
             {% if session.ranger_id %}
-            <h3 class="text-gray-700">Ranger {{ session.ranger_id }}</h3>
+              <h3 class="text-gray-700">Ranger {{ session.ranger_id }}</h3>
             {% endif %}
         </div>
     </div>
@@ -64,9 +64,7 @@
         <section class="main container-fluid">
             <div class="map-container">
                 {% block container %}
-                    <div id="map"></div>
-
-                    
+                    <div id="map"></div>                  
                 {% endblock %}
             </div>
           </section>

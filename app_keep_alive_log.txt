@@ -1,0 +1,14 @@
+[2025-04-05 09:54:46] Failed to reach Keep Alive Worker. Network Issue: HTTPSConnectionPool(host='keep-alive-worker.onrender.com', port=443): Max retries exceeded with url: /ping (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7068b37af710>: Failed to resolve 'keep-alive-worker.onrender.com' ([Errno -3] Temporary failure in name resolution)"))
+[2025-04-05 09:54:50] Failed to reach Keep Alive Worker. Network Issue: HTTPSConnectionPool(host='keep-alive-worker.onrender.com', port=443): Max retries exceeded with url: /ping (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7ee52f78dfd0>: Failed to resolve 'keep-alive-worker.onrender.com' ([Errno -3] Temporary failure in name resolution)"))
+[2025-04-05 10:04:52] Either the server is busy or is restarting: 503
+[2025-04-05 10:04:55] Either the server is busy or is restarting: 503
+[2025-04-05 10:14:53] Either the server is busy or is restarting: 503
+[2025-04-05 10:14:56] Either the server is busy or is restarting: 503
+[2025-04-05 10:24:54] Either the server is busy or is restarting: 503
+[2025-04-05 10:24:56] Either the server is busy or is restarting: 503
+[2025-04-05 10:34:55] Either the server is busy or is restarting: 503
+[2025-04-05 10:34:57] Either the server is busy or is restarting: 503
+[2025-04-05 10:44:58] Either the server is busy or is restarting: 503
+[2025-04-05 10:44:58] Either the server is busy or is restarting: 503
+[2025-04-05 10:54:58] Either the server is busy or is restarting: 503
+[2025-04-05 10:54:58] Either the server is busy or is restarting: 503
