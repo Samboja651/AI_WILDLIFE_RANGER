@@ -88,7 +88,7 @@
 </div>
     
     {% block section %}
-        <section class="main container-fluid">
+          <section class="main container-fluid">
             <div class="map-container">
                 {% block container %}
                     <div id="map"></div>                  
@@ -97,10 +97,10 @@
           </section>
           {% block formField%}
 
-          <form method="post" style="display: flex; flex-direction: row;"> 
+          <form method="post" id="mapform" style="display: flex; flex-direction: row;"> 
+            <p>Zoom-in-out of the map to see the Currect Location(CL) and the Predicted Location(PL) of the Lion clearly.
+            In the below field you can try any given real time ID within the range specified and get the predicted location interval 2 hours.</p>
             <div class="mapForm p-4">
-              <p>Zoom-in-out of the map to see the Currect Location(CL) and the Predicted Location(PL) of the Lion clearly. <br>
-              In the below field you can try any given real time ID within the range specified and get the predicted location interval 2 hours.</p>
                 <input type="number" max="500" id="rowId" class="p-2" placeholder="Row ID (1-500)" required>
                 <input type="text" placeholder="2hrs" class="p-2" readonly>
                 <button id="tryThisButton" class="btn btn-primary">try this</button>
@@ -129,7 +129,7 @@
       </nav>
       <nav>
         <h6 class="footer-title">Contacts</h6>
-        <p><a href="mailto:waribekihiko651@gmail.com" style="color: blue;">waribekihiko651@gmail.com</a></p><span>+254797210158</span>
+        <p><a href="mailto:waribekihiko651@gmail.com" style="color: blue; width: fit-content;">waribekihiko651@gmail.com</a></p><span>+254797210158</span>
       </nav>
     </footer>
       {% endblock%}

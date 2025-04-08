@@ -25,11 +25,27 @@ body {
     font-size: 18px;
 }
 
-.map-container .container1,
-.mapForm {
+.map-container .container1{
     display: flex;
     flex-direction: row;
     gap: 30px;
+}
+
+#mapform {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%; /* Ensure form takes full width */
+    max-width: 600px; /* Limit the maximum width */
+    margin: 0 auto; /* Center the form */
+}
+
+#mapform p{
+    max-width: auto;
+    text-align: justify;
+    margin: 2%;
 }
 
 .reportContainer {
@@ -41,48 +57,8 @@ body {
     gap: 40px;
 }
 
-@media (max-width: 768px) {
-    .mapForm,
-    .map-container .container1 {
-        flex-direction: column;
-    }
-}
-
-@media (max-width: 576px) {
-    .container {
-        padding: 10px;
-        width: 100%;
-    }
-
-    .card {
-        width: 90%;
-        padding: 10px;
-        margin: 0 auto;
-        box-sizing: border-box;
-    }
-
-    .form-control,
-    .btn {
-        font-size: 0.9em;
-        padding: 8px;
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    .visibility-password {
-        position: relative;
-    }
-
-    #visibility-icon {
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-    }
-}
-
 form input, form button {
-    width: 100%;
+    width: fit-content;
     max-width: 100%;
     box-sizing: border-box;
     padding: 10px;
@@ -119,4 +95,53 @@ div .text-end {
     flex-wrap: wrap;
     gap: 0.5em;
     justify-content: flex-end;
+}
+
+@media (max-width: 768px) { 
+    .map-container .container1 {
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+
+    #mapform {
+        width: 90%; /* Adjust form width for smaller screens */
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding: 10px;
+        width: 100%;
+    }
+
+    .card {
+        width: 90%;
+        padding: 10px;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    .form-control,
+    .btn {
+        font-size: 0.9em;
+        padding: 8px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .visibility-password {
+        position: relative;
+    }
+
+    #visibility-icon {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    #mapform {
+        width: 100%; /* Ensure form fits smaller screens */
+        padding: 10px; /* Add padding for better spacing */
+    }
 }
