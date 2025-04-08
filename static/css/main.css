@@ -31,7 +31,7 @@ body {
     gap: 30px;
 }
 
-form {
+#mapform {
     display: flex;
     justify-content: center;
     flex-direction: row;
@@ -42,7 +42,7 @@ form {
     margin: 0 auto; /* Center the form */
 }
 
-form p{
+#mapform p{
     max-width: auto;
     text-align: justify;
     margin: 2%;
@@ -103,7 +103,7 @@ div .text-end {
         flex-wrap: wrap;
     }
 
-    form {
+    #mapform {
         width: 90%; /* Adjust form width for smaller screens */
     }
 }
@@ -140,7 +140,7 @@ div .text-end {
         transform: translateY(-50%);
     }
 
-    form {
+    #mapform {
         width: 100%; /* Ensure form fits smaller screens */
         padding: 10px; /* Add padding for better spacing */
     }
