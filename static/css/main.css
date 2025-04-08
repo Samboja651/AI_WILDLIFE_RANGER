@@ -45,6 +45,10 @@ body {
     .mapForm,
     .map-container .container1 {
         flex-direction: column;
+        flex-wrap: wrap;
+    }
+    .mapForm{
+        width: auto;
     }
 }
 

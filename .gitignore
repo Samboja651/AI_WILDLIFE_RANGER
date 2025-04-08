@@ -12,3 +12,4 @@ archives
 *.log
 exception*
 keep_alive_worker.py
+*log*
