@@ -10,18 +10,22 @@
             {% endfor %}
             <form method="post">
                 <div class="mb-3">
+                    <label for="rangerId" class="form-label">Ranger ID</label>
                     <input type="text" name="rangerId" id="rangerId" minlength="5" maxlength="8" class="form-control w-100 p-4 mb-3" placeholder="e.g. TSV1022" required>
                 </div>
                 <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
                     <input type="email" name="email" id="email" minlength="5" maxlength="50" class="form-control w-100 p-4 mb-3" placeholder="Enter Email" required>
                 </div>
                 <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
                     <div class="visibility-password">
                         <input type="password" name="password" id="password" autocomplete="new-password" class="form-control w-100 p-4 mb-3" placeholder="alphanumeric" minlength="8" maxlength="16" required>
                         <span id="visibility-icon" class="material-symbols-outlined" onclick="togglePassword()">visibility</span>
                     </div>
                 </div>
                 <div class="mb-3">
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
                     <input type="password" name="confirmPassword" id="confirmPassword" class="form-control w-100 p-4 mb-3" placeholder="Confirm Password" minlength="8" maxlength="16" required>
                 </div>
                 
