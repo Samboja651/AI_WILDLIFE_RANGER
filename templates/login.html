@@ -1,42 +1,51 @@
 <!DOCTYPE html>
-{% extends "index.html" %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranger Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    {% block container %}
+    <div class="h-screen md:flex">
+        <div
+            class="relative overflow-hidden md:flex w-1/2 bg-gradient-to-tr from-blue-800 to-purple-700 i justify-around items-center hidden">
+            <div>
+                <h1 class="text-white font-bold text-4xl font-sans">AI Wildlife Ranger</h1>
+                <p class="text-white mt-1">Aider for Human Wildlife Conflicts</p>
+            </div>
+            <div class="absolute -top-40 -right-0 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
+		    <div class="absolute -top-20 -right-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
+            
+        </div>
+        <div class="flex md:w-1/2 justify-center py-10 items-center bg-white">
+            <form class="bg-white" method="post">
+                <h1 class="text-gray-800 font-bold text-2xl mb-1">Hello Ranger!</h1>
+                <p class="text-sm font-normal text-gray-600 mb-7">Welcome to the Login page</p>
 
-{% block container %}
-    <div class="container d-flex justify-content-center align-items-center vh-100" style="margin: 70px;">
-        <div class="card p-15 shadow">
-            <p class="text-center mb-6" style="font-size: 2em;">Ranger Login</p>
-            {% for message in get_flashed_messages() %}
-                <div class="flash" style="text-align: center; color: crimson;">{{ message }}</div>
-            {% endfor %}
-            <form method="post">
-                <div class="mb-3">
-                    <label for="rangerId" class="form-label">Ranger ID</label>
-                    <input type="text" name="rangerId" id="rangerId" minlength="5" maxlength="8" class="form-control w-100 p-4 mb-3" placeholder="Enter Ranger ID" required>
+                {% for message in get_flashed_messages() %}
+                    <div class="flash mb-3" style="text-align: center; color: crimson;">{{ message }}</div>
+                {% endfor %}
+                
+                <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-5">
+                    <i class="fa-solid fa-circle-user"></i>
+                    <input class="pl-2 w-80 outline-none border-none" type="text" name="rangerId" minlength="5" maxlength="8" placeholder="Ranger ID" required />
                 </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <div class="visibility-password">
-                        <input type="password" name="password" id="password" autocomplete="current-password" class="form-control w-100 p-4 mb-3" placeholder="Enter Password" minlength="8" maxlength="16" required>
-                        <span id="visibility-icon" class="material-symbols-outlined" onclick="togglePassword()">visibility</span>
-                    </div>
+                
+                <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-5">
+                    <i class="fa-solid fa-lock"></i>
+                    <input class="pl-2 w-80 outline-none border-none" type="password" name="password" id="password" id="password" placeholder="Password" required />
                 </div>
-                <!-- <div class="mb-3">
-                    <label for="terms" class="form-label">Terms and Conditions</label>
-                    <textarea class="form-control" id="terms" rows="3" readonly>
-                        
-                    </textarea>
-                </div>
-                <div class="form-check mb-3">
-                    <input type="checkbox" id="agree" class="form-check-input" required>
-                    <label for="agree" class="form-check-label">I agree to the terms and conditions</label>
-                </div> -->
-                <button type="submit" class="btn btn-primary w-100 p-6 mb-3">Login</button>
-                <div>
-                    <p>Don't have an account?<a style="color: blue;" href="{{ url_for('register') }}"> register here</a></p>
-                </div>
+                
+                <button type="submit" class="block w-full bg-indigo-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-4">Login</button>
+                <span class="text-sm ml-2 cursor-pointer">Don't have an account?  <a href="{{ url_for('register') }}" style="color: blue;">register</a></span>
             </form>
         </div>
     </div>
-{% endblock %}
-{% block formField%}
-{% endblock%}
+    {% endblock %}
+</body>
+</html>
