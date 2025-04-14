@@ -13,7 +13,7 @@
             
         </div>
         <div class="flex md:w-1/2 justify-center py-10 items-center bg-white">
-            <form class="bg-white" method="post">
+            <form class="bg-white py-5 w-2/3" method="post">
                 <h1 class="text-gray-800 font-bold text-2xl mb-1">Hello Ranger!</h1>
                 <p class="text-sm font-normal text-gray-600 mb-7">Welcome to the Register page</p>
 
@@ -23,19 +23,19 @@
                 
                 <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-5">
                     <i class="fa-solid fa-at"></i>
-                    <input class="pl-2 w-80 outline-none border-none" type="text" name="email" id="email" placeholder="Email Address" />
+                    <input class="pl-2 w-full outline-none border-none" type="text" name="email" id="email" placeholder="Email Address" />
                 </div>
                 <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-5">
                     <i class="fa-solid fa-circle-user"></i>
-                    <input class="pl-2 w-80 outline-none border-none" type="text" name="rangerId" placeholder="Ranger ID" />
+                    <input class="pl-2 w-full outline-none border-none" type="text" name="rangerId" placeholder="Ranger ID" />
                 </div>
                 <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-5">
                     <i class="fa-solid fa-lock"></i>
-                    <input class="pl-2 w-80 outline-none border-none" type="password" name="password" id="password" placeholder="Password" />
+                    <input class="pl-2 w-full outline-none border-none" type="password" name="password" id="password" placeholder="Password" />
                 </div>
                 <div class="flex items-center border-2 py-2 px-3 rounded-2xl">
                     <i class="fa-solid fa-lock"></i>
-                    <input class="pl-2 w-80 outline-none border-none" type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" />
+                    <input class="pl-2 w-full outline-none border-none" type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" />
                 </div>
                 <button type="submit" class="block w-full bg-indigo-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-4">Register</button>
                 <span class="text-sm ml-2 cursor-pointer">Already have an account?  <a href="{{ url_for('login') }}" style="color: blue;">login</a></span>
