@@ -1,5 +1,7 @@
 {% extends "login.html" %}
 
+{% block title%}Ranger Registration{% endblock%}
+
 {% block container %}
     <div class="h-screen md:flex">
         <div
@@ -32,6 +34,10 @@
                 <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-5">
                     <i class="fa-solid fa-lock"></i>
                     <input class="pl-2 w-full outline-none border-none" type="password" name="password" id="password" placeholder="Password" />
+                    <div class="ml-2 cursor-pointer" id="visibility">
+                        <i class="fa-regular fa-eye-slash ml-2" id="v_slash" style="display: none;"></i>
+                        <i class="fa-regular fa-eye" id="v_plain" style="display: block;"></i>
+                    </div>
                 </div>
                 <div class="flex items-center border-2 py-2 px-3 rounded-2xl">
                     <i class="fa-solid fa-lock"></i>
