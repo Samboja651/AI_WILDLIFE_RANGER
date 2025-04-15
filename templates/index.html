@@ -52,16 +52,7 @@
           'GRAD' 0,
           'opsz' 24;         
         }
-        .visibility-password {
-            position: relative;
-        }
-        #visibility-icon {
-            position: absolute;
-            left: calc(100% - 35px);
-            top: 40%;
-            transform: translateY(-50%); /* Center vertically */
-            cursor: pointer; /* Add pointer cursor for better UX */
-        }
+        
     </style>
     
 </head>
@@ -143,21 +134,6 @@
           // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
           // Add other bootstrap parameters as needed, using camel case.
         });
-    </script>
-    <script>
-        // toggle password
-        function togglePassword() {
-            const passwordInput = document.getElementById('password');
-            const visibilityIcon = document.getElementById('visibility-icon');
-
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                visibilityIcon.textContent = 'visibility_off';
-            } else {
-                passwordInput.type = 'password';
-                visibilityIcon.textContent = 'visibility';
-            }
-        }
     </script>
 </body>
 </html>

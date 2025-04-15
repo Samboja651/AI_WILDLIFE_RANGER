@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ranger Login</title>
+    <title>{% block title%}Ranger Login{% endblock%}</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
 <body>
     {% block container %}
@@ -39,6 +40,10 @@
                 <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-5">
                     <i class="fa-solid fa-lock"></i>
                     <input class="pl-2 w-full outline-none border-none" type="password" name="password" id="password" id="password" placeholder="Password" required />
+                    <div class="ml-2 cursor-pointer" id="visibility">
+                        <i class="fa-regular fa-eye-slash ml-2" id="v_slash" style="display: none;"></i>
+                        <i class="fa-regular fa-eye" id="v_plain" style="display: block;"></i>
+                    </div>
                 </div>
                 
                 <button type="submit" class="block w-full bg-indigo-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-4">Login</button>
@@ -48,4 +53,21 @@
     </div>
     {% endblock %}
 </body>
+<script>
+    document.getElementById("visibility").addEventListener("click", function () {
+        const passwordField = document.getElementById("password");
+        const vPlain = document.getElementById("v_plain");
+        const vSlash = document.getElementById("v_slash");
+
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            vPlain.style.display = "none";
+            vSlash.style.display = "block"; 
+        } else {
+            passwordField.type = "password";
+            vPlain.style.display = "block"; 
+            vSlash.style.display = "none"; 
+        }
+    });
+</script>
 </html>
