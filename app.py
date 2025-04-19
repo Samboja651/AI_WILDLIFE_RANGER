@@ -1,5 +1,6 @@
 """"application"""
 import os
+import random
 import smtplib
 import threading
 import time
@@ -101,9 +102,13 @@ def register():
                 flash(message)
                 return redirect(url_for("register"))
 
+            # generate auth_code
+            auth_code = random.randint(10000000, 99999999)
+            # by default acc verification is set to false, no need to update here
+
             # save user in database
-            query = "INSERT INTO users (ranger_id, email, password) VALUES(%s, %s, %s)"
-            cursor.execute(query, [ranger_id, email, generate_password_hash(password)])
+            query = "INSERT INTO users (ranger_id, email, password, auth_code) VALUES(%s, %s, %s, %s)"
+            cursor.execute(query, [ranger_id, email, generate_password_hash(password), auth_code])
             db.commit()
             cursor.close()
             db.close()
@@ -139,9 +144,13 @@ def login():
 
             db = connect_db()
             cursor = db.cursor()
-            query = "SELECT password FROM users WHERE ranger_id = %s"
+            query = "SELECT password, isverified, auth_code, email FROM users WHERE ranger_id = %s"
             cursor.execute(query, [ranger_id])
             user = cursor.fetchone()
+
+            acc_verification = user[1]
+            auth_code = user[2]
+            user_email = user[3]
 
             if user is None:
                 message = "Ranger id does not exist"
@@ -152,6 +161,17 @@ def login():
                 message = "Incorrect Password"
                 flash(message)
                 return render_template('login.html')
+
+            # check account verification
+            if acc_verification == 0 or acc_verification is False:
+                message = "Verify email, code was sent."
+                # TODO:
+                # send an email with auth code to the user_email
+                # You can optionally create another page where user enter only the code and submit or...
+                # add an input field for auth code to current login page. this field should show only to unverified accounts.
+                flash(message)
+                return render_template('login.html')
+
 
             if message is None:
                 session.clear() # assign a new session
