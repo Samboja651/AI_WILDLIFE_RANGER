@@ -26,7 +26,7 @@
         <div class="flex md:w-1/2 justify-center py-10 items-center bg-white">
             <form class="bg-white py-5 w-2/3" method="post">
                 <h1 class="text-gray-800 font-bold text-2xl mb-1">Hello Ranger!</h1>
-                <p class="text-sm font-normal text-gray-600 mb-7">Welcome to the Login page</p>
+                <p class="text-sm font-normal text-gray-600 mb-7">Login</p>
 
                 {% for message in get_flashed_messages() %}
                     <div class="flash mb-3" style="text-align: center; color: crimson;">{{ message }}</div>
@@ -34,12 +34,12 @@
                 
                 <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-5">
                     <i class="fa-solid fa-circle-user"></i>
-                    <input class="pl-2 w-full outline-none border-none" type="text" name="rangerId" minlength="5" maxlength="" placeholder="Ranger ID" required />
+                    <input class="pl-2 w-full outline-none border-none" type="text" name="rangerId" minlength="5" maxlength="7" placeholder="Ranger ID" required />
                 </div>
                 
                 <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-5">
                     <i class="fa-solid fa-lock"></i>
-                    <input class="pl-2 w-full outline-none border-none" type="password" name="password" id="password" id="password" placeholder="Password" required />
+                    <input class="pl-2 w-full outline-none border-none" type="password" autocomplete="current-password" name="password" id="password" placeholder="Password" maxlength="16" required />
                     <div class="ml-2 cursor-pointer" id="visibility">
                         <i class="fa-regular fa-eye-slash ml-2" id="v_slash" style="display: none;"></i>
                         <i class="fa-regular fa-eye" id="v_plain" style="display: block;"></i>
