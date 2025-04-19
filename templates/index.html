@@ -33,7 +33,7 @@
   <div class="nav">
     <div class="navbar bg-white shadow-md p-4 flex justify-between items-center">
         <div class="dropdown relative">
-            <button class="btn btn-ghost btn-circle">
+            <button class="btn btn-ghost btn-circle" id="menuIcon">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"> 
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /> 
                 </svg>
@@ -45,7 +45,12 @@
         </div>
         <div>
             {% if session.ranger_id %}
-              <h3 class="text-gray-700">Ranger {{ session.ranger_id }}</h3>
+            <div class="dropdown dropdown-end">
+              <div tabindex="0" class="p-2 cursor-pointer">Ranger {{ session.ranger_id }}</div>
+              <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+                <li><a style="color: red;" href="{{ url_for('logout') }}">Logout</a></li>
+              </ul>
+            </div>
             {% endif %}
         </div>
     </div>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 {% block nav %}
+<div id="smallScreen">
     <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
         <li><a href="{{ url_for('home') }}">Home</a></li>
         {% if session.ranger_id %}
@@ -14,4 +15,22 @@
             <li><a href="{{ url_for('login') }}">Login</a></li>
         {% endif %}
     </ul>
+</div>
+
+<div id="largeScreen">
+    <div class="hidden sm:flex space-x-5 text-xl">
+        <div role="tablist" class="tabs tabs-border">
+            <a role="tab" class="tab" href="{{ url_for('home') }}">Home</a>
+            {% if session.ranger_id %}
+                <a role="tab" class="tab" href="{{ url_for('display_location') }}">View Location</a>
+                <a role="tab" class="tab" href="{{ url_for('model_report') }}">View Reports</a>
+                <a role="tab" class="tab" href="{{ url_for('feedback') }}">Feedback</a>
+            {% else %}
+                <a role="tab" class="tab" href="{{ url_for('register') }}">Register</a>
+                <a role="tab" class="tab" href="{{ url_for('login') }}">Login</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
 {% endblock%}
