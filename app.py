@@ -163,14 +163,14 @@ def login():
                 return render_template('login.html')
 
             # check account verification
-            if acc_verification == 0 or acc_verification is False:
-                message = "Verify email, code was sent."
-                # TODO:
-                # send an email with auth code to the user_email
-                # You can optionally create another page where user enter only the code and submit or...
-                # add an input field for auth code to current login page. this field should show only to unverified accounts.
-                flash(message)
-                return render_template('login.html')
+            # if acc_verification == 0 or acc_verification is False:
+            #     message = "Verify email, code was sent."
+            #     # TODO:
+            #     # send an email with auth code to the user_email
+            #     # You can optionally create another page where user enter only the code and submit or...
+            #     # add an input field for auth code to current login page. this field should show only to unverified accounts.
+            #     flash(message)
+            #     return render_template('login.html')
 
 
             if message is None:
