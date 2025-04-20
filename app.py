@@ -45,6 +45,7 @@ KEEP_ALIVE_WORKER_URL = "https://keep-alive-worker.onrender.com/ping"
 LOG_FILE = "app_keep_alive_log.txt"
 
 app = Flask(__name__)
+
 app.secret_key = SESSION_SECRET_KEY
 
 # Flask-Mail Configuration
@@ -55,7 +56,9 @@ app.config['MAIL_USERNAME'] = os.environ.get("SENDER_MAIL")
 app.config['MAIL_PASSWORD'] = os.environ.get("SENDER_PASS")
 app.config['MAIL_DEFAULT_SENDER'] = os.environ.get("SENDER_MAIL")
 
+
 mail = Mail(app)
+
 
 @app.route('/config')
 def get_config():
@@ -103,7 +106,7 @@ def register():
                 return redirect(url_for("register"))
 
             # generate auth_code
-            auth_code = random.randint(10000000, 99999999)
+            auth_code = random.randint(100000, 999999)
             # by default acc verification is set to false, no need to update here
 
             # save user in database
@@ -124,7 +127,7 @@ def register():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    """login a ranger"""
+    """Login a ranger and handle 2FA verification via email code."""
     try:
         if request.method == 'POST':
             message = None
@@ -132,13 +135,13 @@ def login():
             ranger_id = request.form['rangerId']
             password = request.form['password']
 
-            # validate inputs
+            # Validate inputs
             message = validate_auth_inputs(
                 ranger_id=ranger_id,
                 password=password
             )
 
-            if message is not None:
+            if message:
                 flash(message)
                 return redirect(url_for("login"))
 
@@ -148,41 +151,76 @@ def login():
             cursor.execute(query, [ranger_id])
             user = cursor.fetchone()
 
-            acc_verification = user[1]
-            auth_code = user[2]
-            user_email = user[3]
-
             if user is None:
-                message = "Ranger id does not exist"
-                flash(message)
+                flash("Ranger ID does not exist.")
                 return render_template('login.html')
 
-            if not check_password_hash(user[0], password):
-                message = "Incorrect Password"
-                flash(message)
+            hashed_password, acc_verification, auth_code, user_email = user
+
+            if not check_password_hash(hashed_password, password):
+                flash("Incorrect password.")
                 return render_template('login.html')
 
-            # check account verification
-            if acc_verification == 0 or acc_verification is False:
-                message = "Verify email, code was sent."
-                # TODO:
-                # send an email with auth code to the user_email
-                # You can optionally create another page where user enter only the code and submit or...
-                # add an input field for auth code to current login page. this field should show only to unverified accounts.
-                flash(message)
-                return render_template('login.html')
-
-
-            if message is None:
-                session.clear() # assign a new session
+            # If account not verified, send code and show modal
+            if not acc_verification:  # same as (acc_verification == 0 or acc_verification is False)
+                send_auth_code(user_email, auth_code)
+                flash("Verification code sent to your email.")
+                session.clear()
                 session['ranger_id'] = ranger_id
-                return redirect(url_for('home'))
+                return render_template('login.html', show_modal=True, ranger_id=ranger_id)
 
+            # Account is verified and credentials are correct
+            session.clear()
+            session['ranger_id'] = ranger_id
+            return redirect(url_for('home'))
+
+        # GET request
         return render_template('login.html')
+
     except Exception as e:
-        print(f"{e}")
-        flash("An exception occured")
+        print(f"Exception occurred: {e}")
+        flash("An exception occurred. Please try again.")
         return redirect(url_for("login"))
+
+@app.route('/verify-code', methods=['POST'])
+def verify_code():
+    """Verify code"""
+    try:
+        ranger_id = session.get('ranger_id')
+        if not ranger_id:
+            return jsonify({'success': False, 'message': 'Session expired. Please login again.'})
+
+        code = int(request.form.get('code'))
+
+        db = connect_db()
+        cursor = db.cursor()
+
+        # Get user's auth code
+        cursor.execute("SELECT auth_code FROM users WHERE ranger_id = %s", (ranger_id,))
+        result = cursor.fetchone()
+
+        print(code)
+        print(result[0])
+
+        if not result:
+            return jsonify({'success': False, 'message': 'User not found. Please login again.'})
+
+        stored_code = int(result[0])
+        print(code)
+        print(stored_code)
+
+        if code == stored_code:
+            # Mark user as verified
+            cursor.execute("UPDATE users SET isverified = 1 WHERE ranger_id = %s", (ranger_id,))
+            db.commit()
+            return jsonify({'success': True})
+        else:
+            return jsonify({'success': False, 'message': 'Incorrect code. Please try again.'})
+
+    except Exception as e:
+        print(f"Verification error: {e}")
+        return jsonify({'success': False, 'message': 'An error occurred. Please try again later.'})
+
 
 @app.route('/logout')
 def logout():
@@ -417,6 +455,16 @@ def ping_keep_alive_worker():
 ping_thread = threading.Thread(target=ping_keep_alive_worker)
 ping_thread.daemon = True
 ping_thread.start()
+
+def send_auth_code(receipcode_email, code):
+    """pass"""
+    try:
+        msg = Message("Auth Code", recipients=[receipcode_email])
+        msg.body = f"Greetings Ranger, your verification code is {code}"
+        mail.send(msg)
+        return jsonify({"message": "auth code sent!"})
+    except (ConnectionError, smtplib.SMTPException) as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     # Start the Flask app
