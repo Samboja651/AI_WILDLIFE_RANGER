@@ -243,7 +243,7 @@ AI_WILDLIFE_RANGER
 
 We used **Google Maps Javascript API** , **sinch sms service** and an **API from Opencage**.
 If you find urgent need to setup & test the application with our development **API keys** or values on env file,
-send an email to <waribekihiko651@gmail.com>.
+send an email to <aiwildliferanger@gmail.com>.
 
 ---
 Developed by:\
