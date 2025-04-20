@@ -33,7 +33,9 @@ CREATE TABLE IF NOT EXISTS users(
     user_id SERIAL PRIMARY KEY,
     ranger_id VARCHAR(8) UNIQUE NOT NULL,
     email VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(200) NOT NULL
+    password VARCHAR(200) NOT NULL,
+    auth_code INT NOT NULL,
+    isverified BOOLEAN NOT NULL DEFAULT FALSE
 );
 CREATE TABLE IF NOT EXISTS alerts(
     alert_id SERIAL PRIMARY KEY,

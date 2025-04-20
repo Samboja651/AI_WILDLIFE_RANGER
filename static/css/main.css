@@ -106,6 +106,35 @@ div .text-end {
     #mapform {
         width: 90%; /* Adjust form width for smaller screens */
     }
+
+    #largeScreen {
+        display: none;
+    }
+    
+    #smallScreen {
+        display: block;
+    }
+    
+    #menuIcon {
+        display: block;
+    }
+
+    
+}
+
+
+@media (min-width: 768px) {
+    #largeScreen {
+        display: block;
+    }
+
+    #smallScreen {
+        display: none;
+    }
+
+    #menuIcon {
+        display: none;
+    }
 }
 
 @media (max-width: 576px) {

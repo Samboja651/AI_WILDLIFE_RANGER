@@ -1,0 +1,66 @@
+Features
+
+--------Teamup------
+1. privacy-> 2fa - registration- validate email address - zach and granton
+3. data protection-> 
+	- pitch the project to conservation organization - show impact, implementability - granton and zach
+
+--------unassigned---
+4. send notification both by email and sms to only the office - unassigned
+10. forgot password - unassigned 🆕
+
+---------Zach-------
+6. ensure nav links unfold on large screens and fold on mobile devices - zach ✅
+9. notification is sent once and should state the animal tracked. - zach
+
+----------Granton----------
+2. usability-> educate/guide new users how to use the application - think about tooltips, video - granton 
+8. inform user, the kind of password expected - granton ✅
+
+--------not-ready-------
+7. use a diversed dataset inclusive of different wildlife(lions, elephants, hyena) - not ready
+5. monitor all lions and elephants by finding a mathematical relationship between those tagged from the untagged. - not ready
+
+
+progress
+-------
+I created an email account "aiwildliferanger@gmail.com", use it for sending auth emails or alerts.
+I updated the env to accomodate the new email. Also added the app password. 
+I sent Zach the env file. App should work right with this env without modification.
+I updated the db.users schema
+Updated the route "/register" to store auth_code and status alongside credentials. line 105-110 of app.py
+Updated the route "/login" to also fetch the auth_code, status and email. line 147, 151-154 of app.py
+check the TODO on line 165 of app.py, thats your starting point, also refer to pseudocode 7.3.2
+check spam if emails don't show up.
+
+
+user story -> Forgot password
+-----------------------------
+registered user tries to login.
+Login fails.
+user has forgotten their password
+user clicks the forgot password link.
+----the forgot password link workflow----
+onclick redirects to another page(the page may or maynot extend the login page-developer view)
+user is prompted for their email
+user submits
+the route /forgot-password validates email
+if email exist, a random 8 digit code is generated.
+the code is saved in db.users table to replace the auth_code but keeps account verification status unchanged.
+A link "http://127.0.0.5000/forgot-password/<8digitcode> is sent to the user's email.
+on the forgot password page, user is notified that the email was sent.
+user goes to their email account, clicks the link
+The link opens on a page and user is prompted to enter a new password.
+user submits
+use the code to find user in db and replace password.
+The new password is hashed and replaces the old password in db.
+user is redirected to login page.
+user enters their rangeid and the new password
+user submits and login is successful if credentials are correct.
+
+---the forgot password page---
+has two input fields, the email and new password.
+the email field is displayed if the 8 digit code is none
+the new password field is displayed if the 8 digit code is password.
+the above concept is similar to sessions.
+the page handles both GET & post requests.

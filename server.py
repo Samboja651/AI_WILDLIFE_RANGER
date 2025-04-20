@@ -391,7 +391,7 @@ def validate_auth_inputs(ranger_id: str=None, email: str=None,
         return message
     except Exception as e:
         print(e)
-        message = "Exception occured. Retry!"
+        message = "Invalid input. Retry!"
         return message
 
 # store alerts in db;

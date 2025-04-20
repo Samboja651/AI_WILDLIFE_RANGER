@@ -1,5 +1,6 @@
 """"application"""
 import os
+import random
 import smtplib
 import threading
 import time
@@ -44,6 +45,7 @@ KEEP_ALIVE_WORKER_URL = "https://ai-wildlife-ranger-keep-alive.onrender.com/ping
 LOG_FILE = "app_keep_alive_log.txt"
 
 app = Flask(__name__)
+
 app.secret_key = SESSION_SECRET_KEY
 
 # Flask-Mail Configuration
@@ -53,6 +55,7 @@ app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = os.environ.get("SENDER_MAIL")
 app.config['MAIL_PASSWORD'] = os.environ.get("SENDER_PASS")
 app.config['MAIL_DEFAULT_SENDER'] = os.environ.get("SENDER_MAIL")
+
 
 mail = Mail(app)
 
@@ -102,9 +105,13 @@ def register():
                 flash(message)
                 return redirect(url_for("register"))
 
+            # generate auth_code
+            auth_code = random.randint(100000, 999999)
+            # by default acc verification is set to false, no need to update here
+
             # save user in database
-            query = "INSERT INTO users (ranger_id, email, password) VALUES(%s, %s, %s)"
-            cursor.execute(query, [ranger_id, email, generate_password_hash(password)])
+            query = "INSERT INTO users (ranger_id, email, password, auth_code) VALUES(%s, %s, %s, %s)"
+            cursor.execute(query, [ranger_id, email, generate_password_hash(password), auth_code])
             db.commit()
             cursor.close()
             db.close()
@@ -120,7 +127,7 @@ def register():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    """login a ranger"""
+    """Login a ranger and handle 2FA verification via email."""
     try:
         if request.method == 'POST':
             message = None
@@ -128,42 +135,91 @@ def login():
             ranger_id = request.form['rangerId']
             password = request.form['password']
 
-            # validate inputs
+            # Validate inputs
             message = validate_auth_inputs(
                 ranger_id=ranger_id,
                 password=password
             )
 
-            if message is not None:
+            if message:
                 flash(message)
                 return redirect(url_for("login"))
 
             db = connect_db()
             cursor = db.cursor()
-            query = "SELECT password FROM users WHERE ranger_id = %s"
+            query = "SELECT password, isverified, auth_code, email FROM users WHERE ranger_id = %s"
             cursor.execute(query, [ranger_id])
             user = cursor.fetchone()
 
             if user is None:
-                message = "Ranger id does not exist"
-                flash(message)
+                flash("Ranger ID does not exist.")
                 return render_template('login.html')
 
-            if not check_password_hash(user[0], password):
-                message = "Incorrect Password"
-                flash(message)
+            hashed_password, acc_verification, auth_code, user_email = user
+
+            if not check_password_hash(hashed_password, password):
+                flash("Incorrect password.")
                 return render_template('login.html')
 
-            if message is None:
-                session.clear() # assign a new session
+            # If account not verified, send code and show modal
+            # In production we use postgresql where booleans are true or false whereas in mysql its 0 or 1
+            # mysql resolves 0 to false while postgresql maintains the false. No resolving.
+            if not acc_verification:  # same as (acc_verification == 0 or acc_verification is False)
+                send_auth_code(user_email, auth_code)
+                flash("Verification code sent to your email.")
+                session.clear()
                 session['ranger_id'] = ranger_id
-                return redirect(url_for('home'))
+                return render_template('login.html', show_modal=True, ranger_id=ranger_id)
 
+            # Account is verified and credentials are correct
+            session.clear()
+            session['ranger_id'] = ranger_id
+            return redirect(url_for('home'))
+
+        # GET request
         return render_template('login.html')
+
     except Exception as e:
-        print(f"{e}")
-        flash("An exception occured")
+        print(f"Exception occurred: {e}")
+        flash("Invalid login. Please try again.")
         return redirect(url_for("login"))
+
+@app.route('/verify-code', methods=['POST'])
+def verify_code():
+    """Verify auth_code entered by user."""
+    try:
+        ranger_id = session.get('ranger_id')
+        if not ranger_id:
+            return jsonify({'success': False, 'message': 'Session expired. Please login again.'})
+
+        code = int(request.form.get('code'))
+
+        db = connect_db()
+        cursor = db.cursor()
+
+        # Get user's auth code
+        cursor.execute("SELECT auth_code FROM users WHERE ranger_id = %s", (ranger_id,))
+        result = cursor.fetchone()
+
+        if not result:
+            return jsonify({'success': False, 'message': 'User not found. Please login again.'})
+
+        stored_code = int(result[0])
+
+        if code == stored_code:
+            # Mark user as verified
+            # In production we use postgresql where booleans are true or false whereas in mysql its 0 or 1
+            cursor.execute("UPDATE users SET isverified = 'true' WHERE ranger_id = %s", (ranger_id,))
+            db.commit()
+            return jsonify({'success': True})
+        else:
+            return jsonify({'success': False, 'message': 'Incorrect code. Please try again.'})
+    except ValueError:
+        return jsonify({'success': False, 'message': 'Invalid! Code must be numeric.'})
+    except Exception as e:
+        print(f"Verification error: {e}")
+        return jsonify({'success': False, 'message': 'Verification failed. Please try again later.'})
+
 
 @app.route('/logout')
 def logout():
@@ -398,6 +454,16 @@ def ping_keep_alive_worker():
 ping_thread = threading.Thread(target=ping_keep_alive_worker)
 ping_thread.daemon = True
 ping_thread.start()
+
+def send_auth_code(receipcode_email, code):
+    """pass"""
+    try:
+        msg = Message("Auth Code", recipients=[receipcode_email])
+        msg.body = f"Greetings Ranger, your verification code is {code}"
+        mail.send(msg)
+        return jsonify({"message": "auth code sent!"})
+    except (ConnectionError, smtplib.SMTPException) as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     # Start the Flask app

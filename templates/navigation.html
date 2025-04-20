@@ -1,17 +1,38 @@
 <!DOCTYPE html>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
 {% block nav %}
+<div id="smallScreen">
     <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i>Home</a></li>
         {% if session.ranger_id %}
-            <li><a href="{{ url_for('display_location') }}">View Location</a></li>
-            <li><a href="{{ url_for('model_report') }}">View Reports</a></li>
-            <li><a href="{{ url_for('feedback') }}">Feedback</a></li>
-            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            <li><a href="{{ url_for('display_location') }}"><i class="fa-solid fa-location-dot"></i>View Location</a></li>
+            <li><a href="{{ url_for('model_report') }}"><i class="fa-solid fa-arrow-trend-up"></i>View Reports</a></li>
+            <li><a href="{{ url_for('feedback') }}"><i class="fa-regular fa-comment"></i>Feedback</a></li>
             
         {% else %}
-            <li><a href="{{ url_for('register') }}">Register</a></li>
-            <li><a href="{{ url_for('login') }}">Login</a></li>
+            <li><a href="{{ url_for('register') }}"><i class="fa-solid fa-arrow-down-wide-short"></i>Register</a></li>
+            <li><a href="{{ url_for('login') }}"><i class="fa-solid fa-right-to-bracket"></i>Login</a></li>
         {% endif %}
     </ul>
+</div>
+
+<div id="largeScreen">
+    <div class="hidden sm:flex space-x-5 text-xl">
+        <div role="tablist" class="tabs tabs-border">
+            <a role="tab" class="tab" href="{{ url_for('home') }}">Home</a>
+            {% if session.ranger_id %}
+                <a role="tab" class="tab" href="{{ url_for('display_location') }}">View Location</a>
+                <a role="tab" class="tab" href="{{ url_for('model_report') }}">View Reports</a>
+                <a role="tab" class="tab" href="{{ url_for('feedback') }}">Feedback</a>
+            {% else %}
+                <a role="tab" class="tab" href="{{ url_for('register') }}">Register</a>
+                <a role="tab" class="tab" href="{{ url_for('login') }}">Login</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
 {% endblock%}
