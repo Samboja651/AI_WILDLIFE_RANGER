@@ -127,7 +127,7 @@ def register():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    """Login a ranger and handle 2FA verification via email code."""
+    """Login a ranger and handle 2FA verification via email."""
     try:
         if request.method == 'POST':
             message = None
@@ -162,6 +162,7 @@ def login():
                 return render_template('login.html')
 
             # If account not verified, send code and show modal
+            # MIGHT FAIL ON PRODUCTION WITH POSTGRES WHICH USES BOOLEAN AS True & False WHEREAS MYSQL USES 1 & 0
             if not acc_verification:  # same as (acc_verification == 0 or acc_verification is False)
                 send_auth_code(user_email, auth_code)
                 flash("Verification code sent to your email.")
@@ -179,12 +180,12 @@ def login():
 
     except Exception as e:
         print(f"Exception occurred: {e}")
-        flash("An exception occurred. Please try again.")
+        flash("Invalid login. Please try again.")
         return redirect(url_for("login"))
 
 @app.route('/verify-code', methods=['POST'])
 def verify_code():
-    """Verify code"""
+    """Verify auth_code entered by user."""
     try:
         ranger_id = session.get('ranger_id')
         if not ranger_id:
@@ -199,27 +200,24 @@ def verify_code():
         cursor.execute("SELECT auth_code FROM users WHERE ranger_id = %s", (ranger_id,))
         result = cursor.fetchone()
 
-        print(code)
-        print(result[0])
-
         if not result:
             return jsonify({'success': False, 'message': 'User not found. Please login again.'})
 
         stored_code = int(result[0])
-        print(code)
-        print(stored_code)
 
         if code == stored_code:
             # Mark user as verified
+            # MIGHT FAIL ON PRODUCTION WITH POSTGRES WHICH USES BOOLEAN AS True & False WHEREAS MYSQL USES 1 & 0
             cursor.execute("UPDATE users SET isverified = 1 WHERE ranger_id = %s", (ranger_id,))
             db.commit()
             return jsonify({'success': True})
         else:
             return jsonify({'success': False, 'message': 'Incorrect code. Please try again.'})
-
+    except ValueError:
+        return jsonify({'success': False, 'message': 'Invalid! Code must numeric.'})
     except Exception as e:
         print(f"Verification error: {e}")
-        return jsonify({'success': False, 'message': 'An error occurred. Please try again later.'})
+        return jsonify({'success': False, 'message': 'Verification failed. Please try again later.'})
 
 
 @app.route('/logout')
