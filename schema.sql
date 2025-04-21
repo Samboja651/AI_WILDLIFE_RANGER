@@ -34,8 +34,9 @@ CREATE TABLE IF NOT EXISTS users(
     user_id INT PRIMARY KEY AUTO_INCREMENT,
     ranger_id VARCHAR(8) UNIQUE NOT NULL,
     email VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(200) NOT NULL,
+    password VARCHAR(300) NOT NULL,
     auth_code INT NOT NULL,
+    hashed_ranger_id VARCHAR(300) NOT NULL,
     isverified BOOLEAN NOT NULL DEFAULT FALSE
 );
 CREATE TABLE IF NOT EXISTS alerts(

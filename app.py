@@ -110,8 +110,8 @@ def register():
             # by default acc verification is set to false, no need to update here
 
             # save user in database
-            query = "INSERT INTO users (ranger_id, email, password, auth_code) VALUES(%s, %s, %s, %s)"
-            cursor.execute(query, [ranger_id, email, generate_password_hash(password), auth_code])
+            query = "INSERT INTO users (ranger_id, email, password, auth_code, hashed_ranger_id) VALUES(%s, %s, %s, %s, %s)"
+            cursor.execute(query, [ranger_id, email, generate_password_hash(password), auth_code, generate_password_hash(ranger_id)])
             db.commit()
             cursor.close()
             db.close()
@@ -226,6 +226,72 @@ def logout():
     session.clear()
     return redirect(url_for('home'))
 
+@app.route('/forget_pass')
+def forget_pass():
+    """view forget pass page"""
+    return render_template('rangerID.html')
+
+@app.route('/verify_username', methods=["POST"])
+def verify_username():
+    """vefify username"""
+    try:
+        if request.method == 'POST':
+            
+            ranger_id = request.form['rangerId']
+
+            db = connect_db()
+            cursor = db.cursor()
+            query = "SELECT email, hashed_ranger_id FROM users WHERE ranger_id = %s"
+            cursor.execute(query, [ranger_id])
+            user = cursor.fetchone()
+
+            if user is None:
+                flash("Ranger ID does not exist or incorrect")
+                return render_template('rangerID.html')
+
+            user_email, hashed_ranger_id = user
+
+            send_change_pass_email(user_email, hashed_ranger_id)
+            
+            return render_template('rangerID.html', show_modal=True, email = user_email)
+
+        # GET request
+        return render_template('login.html')
+
+    except Exception as e:
+        print(f"Exception occurred: {e}")
+        flash("Invalid login. Please try again.")
+        return redirect(url_for("login"))
+
+@app.route("/forget_password/<hashed_ranger_id>", methods=["GET"])
+def render_forget_password_form(hashed_ranger_id):
+    """Render forgetpassword.html with hashed_ranger_id"""
+    return render_template("forgetpassword.html", hashed_ranger_id=hashed_ranger_id)
+
+@app.route("/forget_password", methods=["POST"])
+def confirm_change_password():
+    """Handles password reset process"""
+
+    password = request.form["password"]
+    confirm_password = request.form["confirmPassword"]
+    hashed_ranger_id = request.form["hashed_ranger_id"]
+
+    if password != confirm_password:
+        flash("Passwords do not match!", "error")
+        return redirect(url_for("render_forget_password_form", hashed_ranger_id=hashed_ranger_id))
+
+    new_password = generate_password_hash(password)
+
+    db = connect_db()
+    cursor = db.cursor()
+    query = "UPDATE users SET password = %s WHERE hashed_ranger_id = %s"
+    cursor.execute(query, [new_password, hashed_ranger_id])
+    db.commit()
+
+    flash("Your password has been updated successfully!", "success")
+    return redirect(url_for("login"))
+
+
 @app.get('/model-report')
 def model_report():
     """function for model reports"""
@@ -235,7 +301,7 @@ def model_report():
     if ranger_id is not None:
         predictions_made = count_rows()
         correct_predictions = get_correct_pred_value()
-        failed_predictions = get_failed_pred_value()
+        failed_predictions = get_failed_pred_value() 
 
         # escape zerodivison error
         if int(correct_predictions) == 0:
@@ -463,6 +529,17 @@ def send_auth_code(receipcode_email, code):
         return jsonify({"message": "auth code sent!"})
     except (ConnectionError, smtplib.SMTPException) as e:
         return jsonify({"error": str(e)}), 500
+    
+def send_change_pass_email(receip_email, hashed_ranger_id):
+    """pass"""
+    try:
+        msg = Message("Change password", recipients=[receip_email])
+        msg.body = f"Greetings Ranger, click the link http://localhost:5000/forget_password/{hashed_ranger_id} to change password."
+        mail.send(msg)
+        return jsonify({"message": "Check your email for the change password link!"})
+    except (ConnectionError, smtplib.SMTPException) as e:
+        return jsonify({"error": str(e)}), 500
+      
 
 if __name__ == '__main__':
     # Start the Flask app
