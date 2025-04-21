@@ -70,3 +70,4 @@ the page handles both GET & post requests.
 - create 2 other pages. 
      * rangerID.html - confirms ranger ID
 	 * forgetpassword - provides form for password change
+testing
