@@ -117,7 +117,7 @@ def fetch_gps_collar_data(url = DEFAULT_URL):
     except urllib.error.URLError as e:
         print(f"Error! : {e}")
         return e
-# fetch_gps_collar_data("url")
+# fetch_gps_collar_data(DEFAULT_URL)
 
 
 def fetch_gps_coordinates(coordinate_id):

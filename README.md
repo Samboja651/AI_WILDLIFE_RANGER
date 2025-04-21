@@ -3,7 +3,7 @@
 A web based prototype built with Flask that enables rangers to see the future
 location of a lion and get email alerts when this location is in a restricted area.
 
-[Visit Live App](https://ai-wildlife-ranger.onrender.com/) 🌐
+[Visit Live App](https://ai-wildlife-ranger-2.onrender.com/) 🌐
 
 [Watch the Pitch-Deck](https://www.loom.com/share/8683e6490ddd4dcda695afa9a0cc4367)
 
