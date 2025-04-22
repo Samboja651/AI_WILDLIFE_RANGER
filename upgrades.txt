@@ -64,3 +64,11 @@ the email field is displayed if the 8 digit code is none
 the new password field is displayed if the 8 digit code is password.
 the above concept is similar to sessions.
 the page handles both GET & post requests.
+
+--for testing--- 
+truncate 4 tables
+-alerts
+-distance_record
+-feedback
+-predictionData
+-reportData

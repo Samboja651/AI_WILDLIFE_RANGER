@@ -40,7 +40,7 @@ SINCH_NUMBER = os.environ.get("SINCH_NUMBER")
 RECEIVER_NUMBER = os.environ.get("RECEIVER_NUMBER")
 SESSION_SECRET_KEY = os.environ.get("SESSION_SECRET_KEY")
 
-KEEP_ALIVE_WORKER_URL = "https://ai-wildlife-ranger-keep-alive-96yf.onrender.com/ping"
+KEEP_ALIVE_WORKER_URL = "https://ai-wildlife-ranger-keep-alive-2.onrender.com/ping"
 
 LOG_FILE = "app_keep_alive_log.txt"
 
