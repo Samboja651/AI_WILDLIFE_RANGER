@@ -9,12 +9,13 @@ def model_perfomance():
     function moves through each row on realtime data\n 
     passes it to the prediction api path and records the results in db.\n
     This results concurrently display in the reports page.
-
+    Only for local development & testing
     Args: 
         int: row_id of the coordinates of realtime data in db.
     """
     start_time = time.time()
     for row_id in range(1, 501, 1):
+        # ensure the port is correct as that of running app
         url = f"http://127.0.0.1:5000/predict/location/{row_id}/time/2"
 
         # make api get requests
