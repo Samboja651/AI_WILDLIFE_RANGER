@@ -1,4 +1,4 @@
-"""automated test """
+"""model performance test"""
 import time
 import requests
 
@@ -14,8 +14,8 @@ def model_perfomance():
         int: row_id of the coordinates of realtime data in db.
     """
     start_time = time.time()
-    for row_id in range(1, 501, 1):
-        url = f"http://127.0.0.1:5000/predict/location/{row_id}/time/2"
+    for row_id in range(1, 92, 1):
+        url = f"http://127.0.0.1:3000/predict/location/{row_id}/time/2"
 
         # make api get requests
         try:
