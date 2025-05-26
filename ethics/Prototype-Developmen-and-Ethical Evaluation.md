@@ -30,7 +30,7 @@ Show cased system to Instructors and fellow students.
 ### Recommendations made
 
 Add an Authentication mechanism.\
-Incorporate a way for system users to give feedback.\
+Incorporate a way for system ranger_app_users to give feedback.\
 Add alerts through sms and emailing.\
 Enhance UI Layouts and text understandable by non techies.
   

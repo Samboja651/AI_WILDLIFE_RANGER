@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS distance_record(
     distance FLOAT,
     FOREIGN KEY (rt_id) REFERENCES kibocheRTData(id)
 );
-CREATE TABLE IF NOT EXISTS users(
+CREATE TABLE IF NOT EXISTS ranger_app_users(
     user_id SERIAL PRIMARY KEY,
     ranger_id VARCHAR(8) UNIQUE NOT NULL,
     email VARCHAR(50) UNIQUE NOT NULL,

@@ -110,7 +110,7 @@ def register():
             # by default acc verification is set to false, no need to update here
 
             # save user in database
-            query = "INSERT INTO users (ranger_id, email, password, auth_code) VALUES(%s, %s, %s, %s)"
+            query = "INSERT INTO ranger_app_users (ranger_id, email, password, auth_code) VALUES(%s, %s, %s, %s)"
             cursor.execute(query, [ranger_id, email, generate_password_hash(password), auth_code])
             db.commit()
             cursor.close()
@@ -147,7 +147,7 @@ def login():
 
             db = connect_db()
             cursor = db.cursor()
-            query = "SELECT password, isverified, auth_code, email FROM users WHERE ranger_id = %s"
+            query = "SELECT password, isverified, auth_code, email FROM ranger_app_users WHERE ranger_id = %s"
             cursor.execute(query, [ranger_id])
             user = cursor.fetchone()
 
@@ -198,7 +198,7 @@ def verify_code():
         cursor = db.cursor()
 
         # Get user's auth code
-        cursor.execute("SELECT auth_code FROM users WHERE ranger_id = %s", (ranger_id,))
+        cursor.execute("SELECT auth_code FROM ranger_app_users WHERE ranger_id = %s", (ranger_id,))
         result = cursor.fetchone()
 
         if not result:
@@ -209,7 +209,7 @@ def verify_code():
         if code == stored_code:
             # Mark user as verified
             # In production we use postgresql where booleans are true or false whereas in mysql its 0 or 1
-            cursor.execute("UPDATE users SET isverified = 'true' WHERE ranger_id = %s", (ranger_id,))
+            cursor.execute("UPDATE ranger_app_users SET isverified = 'true' WHERE ranger_id = %s", (ranger_id,))
             db.commit()
             return jsonify({'success': True})
         else:

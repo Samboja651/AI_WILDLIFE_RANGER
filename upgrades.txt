@@ -14,7 +14,7 @@ Features
 9. notification is sent once and should state the animal tracked. - zach
 
 ----------Granton----------
-2. usability-> educate/guide new users how to use the application - think about tooltips, video - granton 
+2. usability-> educate/guide new ranger_app_users how to use the application - think about tooltips, video - granton 
 8. inform user, the kind of password expected - granton ✅
 
 --------not-ready-------
@@ -27,7 +27,7 @@ progress
 I created an email account "aiwildliferanger@gmail.com", use it for sending auth emails or alerts.
 I updated the env to accomodate the new email. Also added the app password. 
 I sent Zach the env file. App should work right with this env without modification.
-I updated the db.users schema
+I updated the db.ranger_app_users schema
 Updated the route "/register" to store auth_code and status alongside credentials. line 105-110 of app.py
 Updated the route "/login" to also fetch the auth_code, status and email. line 147, 151-154 of app.py
 check the TODO on line 165 of app.py, thats your starting point, also refer to pseudocode 7.3.2
@@ -46,7 +46,7 @@ user is prompted for their email
 user submits
 the route /forgot-password validates email
 if email exist, a random 8 digit code is generated.
-the code is saved in db.users table to replace the auth_code but keeps account verification status unchanged.
+the code is saved in db.ranger_app_users table to replace the auth_code but keeps account verification status unchanged.
 A link "http://127.0.0.5000/forgot-password/<8digitcode> is sent to the user's email.
 on the forgot password page, user is notified that the email was sent.
 user goes to their email account, clicks the link

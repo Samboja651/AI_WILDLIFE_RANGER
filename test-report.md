@@ -40,7 +40,7 @@ A detailed report of the testing process, results, and analysis for the AI Wildl
 | **Test Case ID** | **Description**                              | **Status** | **Comments**                     |
 |------------------|----------------------------------------------|------------|----------------------------------|
 | 1.1              | Verify user registration with valid inputs.  | Passed | successful               |
-| 1.2              | Verify error message for duplicate users.    | Passed | successful               |
+| 1.2              | Verify error message for duplicate ranger_app_users.    | Passed | successful               |
 | 1.3              | Verify user login with valid credentials.    | Passed | successful               |
 | 1.4              | Verify error message for invalid credentials.| Passed | successful               |
 

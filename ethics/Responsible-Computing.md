@@ -21,7 +21,7 @@ Bias detection - Refers to identifying and mitigating unfair outcomes in computi
 ```
 
 ```python3
-Fairness - Ensures that software and systems do not favor one group over another and treat all users equitably.
+Fairness - Ensures that software and systems do not favor one group over another and treat all ranger_app_users equitably.
 ```
 
 Implementation
@@ -44,13 +44,13 @@ Some parts of the dataset had very wide gaps of time interval 721 hours and most
 
 ## 4. Accountability
 
-Model Performance is displayed to the users on the application performance page.\
+Model Performance is displayed to the ranger_app_users on the application performance page.\
 Documentation - To the best of our ability, we have documented our model and application.
   
 ## 5. Safety
 
 **Protecting the lion** - The application with the embedded model is only accessible to rangers through their government ranger ids.\
-**Model Performance** - This influences how users use it.
+**Model Performance** - This influences how ranger_app_users use it.
 
 ## 6. Reliability
 
