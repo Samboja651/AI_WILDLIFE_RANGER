@@ -142,7 +142,7 @@ RECEIVER_NUMBER = "NUMBER_USED_TO_CREATE_SINCH_ACC"
 
 Paste the content of the `schema.sql` into your mysql and execute.\
 Add the portion of the real_time data to the database by the running command below.\
-Run the `main.py` file or `python3 main.py` to seed the database.
+Run the `seed.py` file or `python3 seed.py` to seed the database.
 
 ## API Documentation
 
@@ -220,7 +220,7 @@ AI_WILDLIFE_RANGER
 │   ├── Prototype-Developmen-and-Ethical Evaluation.md
 │   └── Responsible-Computing.md
 ├── LICENSE
-├── main.py
+├── seed.py
 ├── models
 │   ├── gps_data_scaler.pkl
 │   ├── gps_location_prediction_model.h5

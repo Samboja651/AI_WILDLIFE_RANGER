@@ -16,7 +16,7 @@ load_dotenv(".env")
 # HOST = os.environ.get('HOST')
 # DATABASE = os.environ.get('DATABASE')
 # PORT = os.environ.get('PORT')
-DATABASE_URL_INT = os.environ.get('DATABASE_URL_INT')
+DATABASE_URL = os.environ.get('DATABASE_URL')
 GPS_COLLAR_DATA = os.environ.get('GPS_COLLAR_DATA')
 
 def connect_db():
@@ -24,7 +24,7 @@ def connect_db():
     function to connect db
     :returns connection string
     """
-    result = urlparse(DATABASE_URL_INT)
+    result = urlparse(DATABASE_URL)
     try:
         connection = psycopg2.connect(
             host=result.hostname,
